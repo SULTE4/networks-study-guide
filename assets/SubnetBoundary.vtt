@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:08.000
+/26 leaves six host bits: 64 total address combinations.
+
+00:00:08.000 --> 00:00:14.000
+77 AND 192 in the final octet gives binary 01000000: decimal 64.
+
+00:00:14.000 --> 00:00:23.000
+77 belongs to the aligned block 64 through 127.
+
+00:00:23.000 --> 00:00:32.500
+Network .64, broadcast .127, usable .65-.126: 62 assignments.

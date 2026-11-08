@@ -1,0 +1,1338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Short notes for the whole Computer Networks course, a trainer for the 11 endterm task types, and a mixed quiz.">
+<title>Networks Juice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23167566%22/%3E%3Ctext x=%228%22 y=%2225%22 font-size=%2224%22 fill=%22%23fff%22%3EJ%3C/text%3E%3C/svg%3E">
+<style>.chapter-quiz{margin:44px 0 12px;padding:26px 28px 28px;background:var(--quiz-bg,#f0f3ed);border:1px solid var(--quiz-line,#cbd7ce);border-top:3px solid var(--teal);scroll-margin-top:26px}
+.quiz-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.quiz-head .eyebrow{margin:0 0 4px;color:var(--teal);font:bold 11px/1.5 'DejaVu Sans',Arial,sans-serif;letter-spacing:.14em}
+.quiz-title{margin:0;font:700 19px/1.3 'DejaVu Sans',Arial,sans-serif;letter-spacing:-.01em}
+.quiz-best{margin:2px 0 0;white-space:nowrap;font:12px/1.5 var(--mono);color:var(--muted)}
+.quiz-meter{height:4px;background:var(--quiz-line,#cbd7ce);margin:20px 0 10px}
+.quiz-meter span{display:block;height:100%;background:var(--teal);transition:width .25s ease}
+.quiz-count{margin:0 0 12px;font:12px/1.5 'DejaVu Sans',Arial,sans-serif;color:var(--muted)}
+.quiz-question{margin:0 0 18px;font:600 18px/1.5 'DejaVu Sans',Arial,sans-serif;outline:none}
+.quiz-question code,.quiz-text code,.quiz-why code{font-size:.9em}
+.quiz-options{display:grid;gap:9px}
+.quiz-option{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:10px 14px;text-align:left;font:15px/1.45 'DejaVu Sans',Arial,sans-serif;color:var(--ink);background:var(--page);border:1px solid var(--quiz-line,#cbd7ce);transition:border-color .12s ease,background-color .12s ease}
+.quiz-option:hover:not(:disabled){border-color:var(--teal)}
+.quiz-option:disabled{cursor:default;color:var(--ink)}
+.quiz-letter{flex:0 0 auto;width:24px;font:bold 12px/1.5 var(--mono);color:var(--muted)}
+.quiz-text{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.quiz-mark{flex:0 0 auto;font:bold 11px/1.5 'DejaVu Sans',Arial,sans-serif}
+.quiz-option.is-correct{border-color:var(--ok);background:var(--ok-bg)}
+.quiz-option.is-correct .quiz-mark{color:var(--ok)}
+.quiz-option.is-wrong{border-color:var(--bad);background:var(--bad-bg)}
+.quiz-option.is-wrong .quiz-mark{color:var(--bad)}
+.quiz-feedback:empty{display:none}
+.quiz-feedback{margin-top:16px;padding:12px 16px;border-left:3px solid var(--teal);font:15px/1.6 'DejaVu Sans',Arial,sans-serif}
+.quiz-feedback p{margin:0}
+.quiz-right{font-weight:700;color:var(--ok)}
+.quiz-wrong{font-weight:700;color:var(--bad)}
+.quiz-why{margin-top:4px!important}
+.quiz-feedback a{display:inline-block;margin-top:6px;font-size:13px}
+.quiz-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.quiz-actions:empty{display:none}
+.quiz-primary,.quiz-ghost{min-height:44px;padding:10px 18px;font:bold 13px/1.4 'DejaVu Sans',Arial,sans-serif;border:1px solid var(--teal)}
+.quiz-primary{background:var(--teal);color:var(--on-teal,#fff)}
+.quiz-ghost{background:transparent;color:var(--ink)}
+.quiz-primary:hover{filter:brightness(.92)}
+.quiz-ghost:hover{background:var(--quiz-line,#cbd7ce)}
+.quiz-result{margin-top:18px}
+.quiz-score{margin:0;font:600 44px/1.1 Georgia,'DejaVu Serif',serif}
+.quiz-verdict{margin:8px 0 0;font:15px/1.6 'DejaVu Sans',Arial,sans-serif}
+.juice-link{display:block;margin-top:12px;font-weight:bold}
+:root{--ok:#15704a;--ok-bg:#e2f1e8;--bad:#a33b45;--bad-bg:#f8e7e6}
+@media(max-width:760px){.chapter-quiz{padding:20px 16px;margin:32px -3px 8px}.quiz-question{font-size:17px}.quiz-option{font-size:14px;padding:10px 12px}}
+@media print{.chapter-quiz{display:none}}
+@media(prefers-reduced-motion:reduce){.quiz-meter span,.quiz-option{transition:none}}
+:root{color-scheme:light dark;--paper:#fbf8f1;--page:#fffefb;--ink:#243447;--heading:#153e51;--muted:#5d6a72;--blue:#2563a6;--orange:#ad501f;--teal:#167566;--on-teal:#fff;--line:#d9ddd8;--soft:#f1ede2;--quiz-bg:#f0f3ed;--quiz-line:#cbd7ce;--code-bg:#e9ede6;--mono:'DejaVu Sans Mono',ui-monospace,Menlo,Consolas,monospace;--sans:'DejaVu Sans',system-ui,Arial,sans-serif;--serif:Georgia,'DejaVu Serif',serif}
+@media(prefers-color-scheme:dark){:root{--paper:#14191f;--page:#1c232b;--ink:#e6e2d8;--heading:#f0ead9;--muted:#a3adb4;--blue:#8dbdea;--orange:#e9a77a;--teal:#58bda9;--on-teal:#0e1f1b;--line:#2f3943;--soft:#232b34;--quiz-bg:#1a2129;--quiz-line:#35424c;--code-bg:#27313a;--ok:#74d6a4;--ok-bg:#163629;--bad:#f2979c;--bad-bg:#3d2125}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:68px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--sans)}
+a{color:var(--blue);text-underline-offset:3px}
+a:hover{color:var(--orange)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border-radius:0}
+:focus-visible{outline:3px solid #9366b4;outline-offset:2px}
+code{font:.88em/1.4 var(--mono);background:var(--code-bg);padding:1px 5px;overflow-wrap:anywhere}
+pre{margin:12px 0;padding:14px 16px;background:var(--code-bg);border-left:3px solid var(--teal);font:13px/1.65 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+pre code{background:none;padding:0;font:inherit}
+.skip{position:fixed;left:12px;top:-60px;z-index:20;padding:10px 14px;background:var(--ink);color:var(--paper)}
+.skip:focus{top:8px}
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:6px 22px;padding:10px max(16px,calc(50% - 490px));background:var(--paper);border-bottom:1px solid var(--line);font-size:13px}
+.topbar strong{letter-spacing:.09em;color:var(--heading);white-space:nowrap}
+.topbar nav{display:flex;gap:4px 18px;min-width:0;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.topbar nav::-webkit-scrollbar{display:none}
+.topbar a{white-space:nowrap;text-decoration:none;padding:4px 0}
+main{max-width:980px;margin:0 auto;padding:0 16px 80px}
+.hero{padding:56px 0 34px;border-bottom:2px solid var(--ink)}
+.eyebrow{margin:0;font:bold 11px/1.6 var(--sans);letter-spacing:.14em;color:var(--orange)}
+h1,h2{font-family:var(--serif);font-weight:500;color:var(--heading);letter-spacing:-.03em}
+h1{font-size:clamp(46px,8vw,76px);line-height:1.05;margin:14px 0 14px}
+.lead{max-width:640px;margin:0 0 26px;font:21px/1.45 var(--serif);color:var(--heading)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:0}
+.facts div{background:var(--page);padding:12px 16px}
+.facts dt{font:bold 11px/1.5 var(--sans);letter-spacing:.08em;color:var(--muted)}
+.facts dd{margin:2px 0 0;font-size:15px;line-height:1.45}
+.part{padding-top:52px}
+.part>h2{font-size:clamp(32px,5vw,44px);line-height:1.12;margin:6px 0 10px}
+.part-intro{max-width:680px;margin:0 0 22px}
+.note{padding:12px 16px;border-left:3px solid var(--orange);background:var(--soft);font-size:14px;line-height:1.6;margin:0 0 22px}
+.method{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:start;margin-bottom:26px}
+.method h3,.juice-block h3{font:700 19px/1.3 var(--sans);margin:0 0 10px;color:var(--heading)}
+.method ol{margin:0;padding-left:1.3em}
+.method li{margin:8px 0}
+.formulas{margin:16px 0 0;padding:12px 16px;background:var(--page);border:1px solid var(--line);font-size:14px}
+.formulas p{margin:4px 0}
+.table-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:700;background:var(--soft);color:var(--heading);white-space:nowrap}
+td code{white-space:nowrap}
+.num{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.progress{display:flex;align-items:center;gap:14px;margin:6px 0 20px;font-size:13px;color:var(--muted)}
+.progress-track{flex:1 1 auto;height:6px;background:var(--line)}
+.progress-track span{display:block;height:100%;width:0;background:var(--teal);transition:width .25s ease}
+.task-list{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.task{background:var(--page);border:1px solid var(--line);padding:22px 24px}
+.task-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.task-num{margin:0;font:bold 11px/1.5 var(--sans);letter-spacing:.12em;color:var(--orange)}
+.task-title{margin:2px 0 0;font:700 19px/1.3 var(--sans);color:var(--heading)}
+.task-done{flex:0 0 auto;padding:2px 9px;font:bold 11px/1.6 var(--sans);color:var(--ok);background:var(--ok-bg)}
+.task-done[hidden]{display:none}
+.task-recipe{margin:6px 0 12px;font-size:14px;color:var(--muted)}
+.worked{margin:0 0 14px;font-size:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.worked summary{cursor:pointer;padding:9px 0;font-weight:700;font-size:13px;color:var(--blue)}
+.worked-prompt{margin:2px 0 10px;overflow-wrap:anywhere}
+.task-source{margin:0 0 2px;font:bold 11px/1.5 var(--sans);letter-spacing:.06em;color:var(--teal)}
+.task-prompt{margin:0 0 14px;font-size:16px;overflow-wrap:anywhere}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.rows{display:grid;gap:14px}
+.row-head{margin:0 0 6px;font-weight:700;font-size:14px}
+.row-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field-label{font-size:12px;line-height:1.4;color:var(--muted)}
+.field input{width:100%;min-height:42px;padding:8px 10px;background:var(--paper);border:1px solid var(--quiz-line);font:14px/1.4 var(--mono)}
+.field input::placeholder{color:var(--muted);opacity:.7}
+.field-note{min-height:0;font-size:12px;line-height:1.4;overflow-wrap:anywhere}
+.field-note:empty{display:none}
+.field[data-state=ok] input{border-color:var(--ok);background:var(--ok-bg)}
+.field[data-state=ok] .field-note{color:var(--ok)}
+.field[data-state=bad] input{border-color:var(--bad);background:var(--bad-bg)}
+.field[data-state=bad] .field-note{color:var(--bad)}
+.task-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.task-actions:empty{display:none}
+.btn-primary,.btn-ghost,.quiz-primary,.quiz-ghost{min-height:42px;padding:9px 16px;font:bold 13px/1.4 var(--sans);border:1px solid var(--teal)}
+.btn-primary,.quiz-primary{background:var(--teal);color:var(--on-teal)}
+.btn-ghost,.quiz-ghost{background:transparent;color:var(--ink)}
+.btn-primary:hover,.quiz-primary:hover{filter:brightness(.92)}
+.btn-ghost:hover,.quiz-ghost:hover{background:var(--soft)}
+.task-feedback{margin:10px 0 0;font-size:14px;font-weight:700}
+.task-feedback:empty{display:none}
+.task-feedback[data-state=ok]{color:var(--ok)}
+.task-feedback[data-state=bad]{color:var(--bad)}
+.task-solution{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:14px}
+.solution-steps{margin:0;padding-left:1.4em}
+.solution-steps li{margin:8px 0;overflow-wrap:anywhere}
+.solution-steps strong{display:block;font-size:13px;color:var(--heading)}
+.solution-answer{margin:12px 0 0;padding:10px 14px;background:var(--ok-bg);overflow-wrap:anywhere}
+.solution-answer strong{margin-right:6px;color:var(--ok)}
+.topo{display:flex;align-items:center;margin:14px 0 4px;font-size:12px}
+.topo-lans{flex:1 1 0;display:grid;gap:8px;min-width:0}
+.topo-lan{padding:7px 9px;background:var(--paper);border:1px solid var(--quiz-line)}
+.topo-lan strong{display:block}
+.topo-lan code{background:none;padding:0;font-size:11px}
+.topo-router{flex:0 0 auto;display:grid;place-items:center;width:46px;height:46px;margin:0 8px;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:700}
+.topo-link{flex:0 1 150px;display:flex;flex-direction:column;align-items:center;border-top:2px solid var(--muted);margin-top:18px;padding-top:4px;text-align:center}
+.topo-link code{background:none;padding:0;font-size:11px}
+.mock-intro p{margin:0 0 12px;max-width:620px}
+.mock-bar{position:sticky;top:48px;z-index:5;display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:10px 16px;background:var(--page);border:1px solid var(--line)}
+.mock-label{font-weight:700}
+.mock-clock{margin-right:auto;font:16px/1 var(--mono)}
+.mock-summary{margin-bottom:18px;padding:18px 22px;background:var(--page);border:1px solid var(--line);border-top:3px solid var(--teal);scroll-margin-top:60px}
+.mock-summary p{margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px 8px;margin:0 0 8px;padding:0;list-style:none;font-size:13px}
+.chips a{display:inline-block;padding:4px 10px;background:var(--page);border:1px solid var(--line);text-decoration:none}
+.chips a:hover{border-color:var(--teal)}
+.juice-block{padding:30px 0 24px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.juice-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.juice-head h3{font:500 26px/1.2 var(--serif);letter-spacing:-.02em;margin:0 0 12px}
+.juice-head a{flex:0 0 auto;font-size:12px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px}
+.juice-block h4{font:700 14px/1.4 var(--sans);margin:0 0 6px;color:var(--teal)}
+.juice-block p{margin:0 0 10px;font-size:15px}
+.juice-block ul,.juice-block ol{margin:0 0 10px;padding-left:1.25em;font-size:15px}
+.juice-block li{margin:4px 0}
+.key{padding:10px 14px;background:var(--soft);border-left:3px solid var(--teal);font-weight:600}
+.journey{counter-reset:s;list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.journey li{counter-increment:s;margin:0;padding:12px 14px;background:var(--page);font-size:14px;line-height:1.5}
+.journey li:before{content:counter(s);display:block;font:bold 12px/1.4 var(--mono);color:var(--orange)}
+.journey strong{display:block}
+.traps{counter-reset:t;list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px}
+.traps li{counter-increment:t;position:relative;padding:8px 0 8px 32px;margin:0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.5}
+.traps li:before{content:counter(t);position:absolute;left:0;top:9px;font:bold 12px/1.5 var(--mono);color:var(--orange)}
+.foot{margin-top:46px;font-size:12px;color:var(--muted)}
+.chapter-quiz{margin:0;scroll-margin-top:60px}
+@media(max-width:760px){.method,.cols,.traps{grid-template-columns:minmax(0,1fr)}.method th,.method td{padding:6px 6px}.method .num{font-size:12px}.row-cells{grid-template-columns:repeat(2,minmax(0,1fr))}.task{padding:16px}.hero{padding-top:34px}.lead{font-size:19px}.field input{font-size:16px}.topbar strong{display:none}.topbar nav{margin-left:0}.topo{flex-direction:column;align-items:stretch}.topo-router{margin:8px auto}.topo-link{flex:none;border-top:0;border-left:2px solid var(--muted);align-self:center;margin:0;padding:2px 0 2px 10px;align-items:flex-start}.mock-bar{flex-wrap:wrap;gap:8px 14px}.juice-head{flex-direction:column;gap:0}.juice-head h3{margin-bottom:6px}.juice-head a{margin-bottom:10px}}
+@media(max-width:400px){.row-cells{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress-track span{transition:none}}
+@media print{.topbar,.task-form,.task-actions,#mock,#mixed,.progress,.chips,.skip{display:none!important}body{background:#fff;font-size:10pt}.task{break-inside:avoid}.juice-block{break-inside:avoid}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <strong>NETWORKS JUICE</strong>
+  <nav aria-label="Page sections">
+    <a href="#endterm">Endterm tasks</a>
+    <a href="#mock">Mock endterm</a>
+    <a href="#juice">Short notes</a>
+    <a href="#mixed">Mixed quiz</a>
+    <a href="index.html">Full guide</a>
+  </nav>
+</header>
+<main id="main">
+<section class="hero">
+  <p class="eyebrow">COMPUTER NETWORKS / SHORT NOTES AND DRILLS</p>
+  <h1>The juice.</h1>
+  <p class="lead">The whole course cut down to what you have to recall, and a trainer for the endterm calculations.</p>
+  <dl class="facts"><div><dt>CALCULATION DRILLS</dt><dd>11 task types, with endless new numbers</dd></div><div><dt>QUIZZES</dt><dd>16 chapters, plus a mixed quiz</dd></div><div><dt>YOUR PROGRESS</dt><dd>Saved on this device only</dd></div></dl>
+</section>
+
+<section class="part" id="endterm">
+  <p class="eyebrow">PART 1</p>
+  <h2>Endterm: 11 task types</h2>
+  <p class="part-intro">Each task type starts with fresh numbers. Type your answer and check it, then press New numbers to repeat the same type until it is automatic.</p>
+
+  <div class="method">
+    <div>
+      <h3>One method solves tasks 1 to 8</h3>
+      <ol>
+        <li><strong>Interesting octet.</strong> Split the prefix into 8s. /20 = 8 + 8 + 4, so the 3rd octet.</li>
+        <li><strong>Block size.</strong> 256 minus the mask value in that octet.</li>
+        <li><strong>Network.</strong> Largest multiple of the block that is not above the host's value. Octets to the right become 0.</li>
+        <li><strong>Broadcast.</strong> Next network minus 1. Octets to the right become 255.</li>
+        <li><strong>Range.</strong> Network + 1 to broadcast - 1.</li>
+      </ol>
+      <div class="formulas">
+        <p><strong>Hosts:</strong> 2^h - 2, where h = 32 - prefix</p>
+        <p><strong>Subnets:</strong> 2^borrowed, with no minus 2</p>
+        <p><strong>VLSM:</strong> largest first, a router link is a /30</p>
+        <p><strong>IPv6 /64 subnets:</strong> 2^(64 - prefix), counted in hex</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Prefix</th><th>Mask</th><th>Block</th><th>Usable</th></tr></thead>
+        <tbody>
+          <tr><td class="num">/18</td><td class="num">255.255.192.0</td><td class="num">64 (3rd)</td><td class="num">16,382</td></tr>
+          <tr><td class="num">/19</td><td class="num">255.255.224.0</td><td class="num">32 (3rd)</td><td class="num">8,190</td></tr>
+          <tr><td class="num">/20</td><td class="num">255.255.240.0</td><td class="num">16 (3rd)</td><td class="num">4,094</td></tr>
+          <tr><td class="num">/21</td><td class="num">255.255.248.0</td><td class="num">8 (3rd)</td><td class="num">2,046</td></tr>
+          <tr><td class="num">/22</td><td class="num">255.255.252.0</td><td class="num">4 (3rd)</td><td class="num">1,022</td></tr>
+          <tr><td class="num">/23</td><td class="num">255.255.254.0</td><td class="num">2 (3rd)</td><td class="num">510</td></tr>
+          <tr><td class="num">/24</td><td class="num">255.255.255.0</td><td class="num">1 (3rd)</td><td class="num">254</td></tr>
+          <tr><td class="num">/25</td><td class="num">255.255.255.128</td><td class="num">128 (4th)</td><td class="num">126</td></tr>
+          <tr><td class="num">/26</td><td class="num">255.255.255.192</td><td class="num">64 (4th)</td><td class="num">62</td></tr>
+          <tr><td class="num">/27</td><td class="num">255.255.255.224</td><td class="num">32 (4th)</td><td class="num">30</td></tr>
+          <tr><td class="num">/28</td><td class="num">255.255.255.240</td><td class="num">16 (4th)</td><td class="num">14</td></tr>
+          <tr><td class="num">/29</td><td class="num">255.255.255.248</td><td class="num">8 (4th)</td><td class="num">6</td></tr>
+          <tr><td class="num">/30</td><td class="num">255.255.255.252</td><td class="num">4 (4th)</td><td class="num">2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="progress"><span id="progress-label">0 of 11 task types solved</span><div class="progress-track" aria-hidden="true"><span id="progress-fill"></span></div></div>
+  <div class="task-list" id="task-list"></div>
+
+  <h3 style="font:700 19px/1.3 var(--sans);margin:34px 0 4px;color:var(--heading)">Bonus drills</h3>
+  <p style="margin:0 0 14px;font-size:14px;color:var(--muted)">Three more calculations worth having in your hands.</p>
+  <div class="task-list" id="bonus-list"></div>
+</section>
+
+<section class="part" id="mock">
+  <p class="eyebrow">PART 1B</p>
+  <h2>Mock endterm</h2>
+  <div id="mock-root"></div>
+</section>
+
+<section class="part" id="juice">
+  <p class="eyebrow">PART 2</p>
+  <h2>The whole course, short</h2>
+  <p class="part-intro">Each block is the part worth remembering. If something is not clear, its "Full lesson" link opens that chapter in your complete guide.</p>
+  <ul class="chips">
+    <li><a href="#j-story">The story</a></li><li><a href="#j-layers">Layers</a></li><li><a href="#j-ethernet">Ethernet</a></li><li><a href="#j-routing">Routing</a></li><li><a href="#j-arp">ARP and ND</a></li><li><a href="#j-ipv4">IPv4 ranges</a></li><li><a href="#j-ipv6">IPv6</a></li><li><a href="#j-icmp">ICMP</a></li><li><a href="#j-transport">TCP and UDP</a></li><li><a href="#j-app">Services</a></li><li><a href="#j-ios">Cisco IOS</a></li><li><a href="#j-phys">Physical and Wi-Fi</a></li><li><a href="#j-sec">Security</a></li><li><a href="#j-resil">Resilience</a></li><li><a href="#j-trouble">Troubleshooting</a></li><li><a href="#j-traps">Top traps</a></li>
+  </ul>
+
+  <div class="juice-block" id="j-story">
+    <div class="juice-head"><h3>One packet is the whole course</h3><a href="index.html#chapter-16">Full lesson</a></div>
+    <ol class="journey">
+      <li><strong>DHCP</strong>Gets IP, mask, gateway, DNS server. UDP 67/68.</li>
+      <li><strong>DNS</strong>Turns the name into an IP. Port 53.</li>
+      <li><strong>Routing decision</strong>Same subnet: go direct. Otherwise: gateway.</li>
+      <li><strong>ARP or ND</strong>Finds the MAC of the next hop only.</li>
+      <li><strong>Switch</strong>Forwards the frame by destination MAC.</li>
+      <li><strong>Router</strong>Longest prefix, TTL - 1, builds a new frame.</li>
+      <li><strong>TCP, TLS, HTTP</strong>SYN, SYN-ACK, ACK, then encrypt, then request.</li>
+    </ol>
+    <p class="key" style="margin-top:14px">IP addresses stay end to end. MAC addresses change at every hop. NAT is the exception that rewrites IP.</p>
+  </div>
+
+  <div class="juice-block" id="j-layers">
+    <div class="juice-head"><h3>Layers and encapsulation</h3><a href="index.html#chapter-2">Full lesson</a></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>TCP/IP</th><th>OSI</th><th>PDU</th><th>Address</th><th>Device</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Application</td><td>7, 6, 5</td><td>Data</td><td>-</td><td>Host</td><td>HTTP, DNS, DHCP, SMTP</td></tr>
+        <tr><td>Transport</td><td>4</td><td>Segment / datagram</td><td>Port</td><td>Host, firewall</td><td>TCP, UDP</td></tr>
+        <tr><td>Internet</td><td>3</td><td>Packet</td><td>IP</td><td>Router</td><td>IPv4, IPv6, ICMP</td></tr>
+        <tr><td>Network access</td><td>2, 1</td><td>Frame, bits</td><td>MAC</td><td>Switch, cable</td><td>Ethernet, Wi-Fi</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cols" style="margin-top:14px">
+      <div><h4>Sending</h4><p>Data + TCP header = segment. + IP header = packet. + Ethernet header and FCS = frame. Then bits.</p></div>
+      <div><h4>Who writes the rules</h4><p>IEEE: Ethernet, Wi-Fi. IETF: RFCs. IANA: ports and numbers. ICANN: names. TIA/EIA: cabling.</p></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-ethernet">
+    <div class="juice-head"><h3>Ethernet and switching</h3><a href="index.html#chapter-5">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>What a switch does</h4><ol><li>Learns the <strong>source</strong> MAC on the arrival port.</li><li>Looks up the <strong>destination</strong> MAC.</li><li>Known: forward. Same port: filter.</li><li>Unknown or broadcast: flood the VLAN, except the incoming port.</li></ol></div>
+      <div><h4>Numbers</h4><ul><li>MAC: 48 bits. Broadcast <code>ff:ff:ff:ff:ff:ff</code></li><li>Frame 64 to 1518 bytes, payload 46 to 1500</li><li>FCS detects errors and never repairs</li><li>EtherType: <code>0x0800</code> IPv4, <code>0x0806</code> ARP, <code>0x86DD</code> IPv6</li></ul></div>
+      <div><h4>Domains</h4><p>Each switch port is one collision domain. Each VLAN is one broadcast domain. VLANs need Layer 3 routing to talk. STP stops loops because frames have no hop counter.</p></div>
+      <div><h4>Forwarding and access</h4><p>Store-and-forward checks FCS. Cut-through starts early. Fragment-free waits for 64 bytes. CSMA/CD is legacy wired, CSMA/CA is Wi-Fi.</p></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-routing">
+    <div class="juice-head"><h3>IP and routing</h3><a href="index.html#chapter-6">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>Choosing a route</h4><ol><li><strong>Longest prefix</strong> always first.</li><li>Administrative distance only for the same prefix.</li><li>Metric within one protocol.</li></ol><p>Codes: <code>C</code> connected, <code>L</code> local, <code>S</code> static, <code>O</code> OSPF. Defaults: <code>0.0.0.0/0</code>, <code>::/0</code>.</p></div>
+      <div><h4>IP itself</h4><ul><li>Connectionless, best effort, media independent</li><li>IPv4 header 20+ bytes, IPv6 fixed 40</li><li>Routers decrement TTL or Hop Limit</li><li>IPv6 routers never fragment</li><li>Protocol field: ICMP 1, TCP 6, UDP 17</li></ul></div>
+    </div>
+    <pre><code>R1(config)# ip route 192.168.20.0 255.255.255.0 10.0.0.2
+R2(config)# ip route 192.168.10.0 255.255.255.0 10.0.0.1   ! return path too</code></pre>
+  </div>
+
+  <div class="juice-block" id="j-arp">
+    <div class="juice-head"><h3>ARP, Neighbor Discovery, and which table</h3><a href="index.html#chapter-7">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>ARP (IPv4)</h4><p>Request is broadcast, reply is unicast. Sits straight in Ethernet with no port. For a remote destination you ARP for the <strong>gateway</strong>.</p><h4>ND (IPv6, over ICMPv6)</h4><p>RS 133, RA 134, NS 135, NA 136, Redirect 137. DAD uses NS to check an address is unused. Solicited-node: <code>ff02::1:ff</code> + last 24 bits.</p></div>
+      <div class="table-wrap"><table><thead><tr><th>Table</th><th>Maps</th><th>Lives on</th></tr></thead><tbody><tr><td>MAC table</td><td>MAC to port</td><td>Switch</td></tr><tr><td>ARP cache</td><td>IPv4 to MAC</td><td>Host, router</td></tr><tr><td>Neighbor cache</td><td>IPv6 to MAC</td><td>Host, router</td></tr><tr><td>Routing table</td><td>Prefix to next hop</td><td>Host, router</td></tr><tr><td>DNS cache</td><td>Name to record</td><td>Resolver</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-ipv4">
+    <div class="juice-head"><h3>IPv4 ranges to recognize</h3><a href="index.html#chapter-8">Full lesson</a></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Range</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></td><td>Private. The 172 range is 172.16 to 172.31 only.</td></tr>
+        <tr><td><code>127.0.0.0/8</code></td><td>Loopback</td></tr>
+        <tr><td><code>169.254.0.0/16</code></td><td>Link-local, usually means DHCP failed</td></tr>
+        <tr><td><code>224.0.0.0/4</code></td><td>Multicast</td></tr>
+        <tr><td><code>255.255.255.255</code></td><td>Limited broadcast</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">Binary weights: 128 64 32 16 8 4 2 1. Mask octets: 128, 192, 224, 240, 248, 252, 254, 255.</p>
+  </div>
+
+  <div class="juice-block" id="j-ipv6">
+    <div class="juice-head"><h3>IPv6</h3><a href="index.html#chapter-9">Full lesson</a></div>
+    <div class="cols">
+      <div class="table-wrap"><table><thead><tr><th>Prefix</th><th>Type</th></tr></thead><tbody>
+        <tr><td><code>2000::/3</code></td><td>Global unicast (starts with 2 or 3)</td></tr>
+        <tr><td><code>fe80::/10</code></td><td>Link-local (fe80 to febf)</td></tr>
+        <tr><td><code>fc00::/7</code></td><td>Unique local (fc, fd)</td></tr>
+        <tr><td><code>ff00::/8</code></td><td>Multicast, no broadcast exists</td></tr>
+        <tr><td><code>ff02::1</code> / <code>ff02::2</code></td><td>All nodes / all routers</td></tr>
+        <tr><td><code>::1</code> / <code>::</code></td><td>Loopback / unspecified</td></tr>
+      </tbody></table></div>
+      <div><h4>Writing an address</h4><ul><li>Drop leading zeros in a hextet, never trailing</li><li><code>::</code> only once, on the longest zero run</li><li>Expand: 8 minus the groups you can see</li></ul><h4>Getting an address (the RA decides)</h4><ol><li>SLAAC: everything from the RA</li><li>SLAAC + stateless DHCPv6: address from RA, DNS from DHCPv6</li><li>Stateful DHCPv6: address from the server</li></ol><p>The default gateway is always the router's link-local, learned from the RA.</p></div>
+      <div><h4>EUI-64</h4><p>Split the MAC, insert <code>ff:fe</code>, flip the 7th bit. No <code>ff:fe</code> in the middle means the ID is random.</p></div>
+      <div><h4>Transition</h4><p>Dual stack runs both. Tunneling carries one inside the other. Translation (NAT64) converts between them.</p></div>
+    </div>
+    <pre><code>R1(config)# ipv6 unicast-routing
+R1(config)# interface g0/0/0
+R1(config-if)# ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)# ipv6 address fe80::1 link-local
+R1(config-if)# no shutdown</code></pre>
+  </div>
+
+  <div class="juice-block" id="j-icmp">
+    <div class="juice-head"><h3>ICMP and testing</h3><a href="index.html#chapter-10">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>Test in this order</h4><p>Loopback, then gateway, then remote IP, then hostname, then the application. The first failure points at the cause.</p></div>
+      <div><h4>Know the limits</h4><p>Ping proves one ICMP exchange. Traceroute raises TTL and reads Time Exceeded. <code>* * *</code> is a silent router, not a broken path. ICMP has no ports.</p></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-transport">
+    <div class="juice-head"><h3>TCP and UDP</h3><a href="index.html#chapter-11">Full lesson</a></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>TCP</th><th>UDP</th></tr></thead>
+      <tbody>
+        <tr><td>Model</td><td>Connection, ordered byte stream</td><td>Connectionless datagrams</td></tr>
+        <tr><td>Header</td><td>20 to 60 bytes</td><td>8 bytes</td></tr>
+        <tr><td>Reliability</td><td>Sequence, ACK, retransmit, flow control</td><td>None built in</td></tr>
+        <tr><td>Used by</td><td>HTTP, HTTPS, SMTP, FTP, SSH</td><td>DHCP, TFTP, VoIP, small DNS, SNMP</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cols" style="margin-top:14px">
+      <div><h4>The rules</h4><ul><li>Open: SYN, SYN-ACK, ACK. Close: FIN and ACK each way. RST aborts.</li><li><strong>ACK = first byte + bytes received</strong></li><li>SYN and FIN each consume one sequence number</li><li>Receive window protects the receiver, congestion window protects the network</li><li>MSS 1460 = 1500 - 20 - 20</li><li>Ports: well-known 0-1023, registered 1024-49151, dynamic 49152-65535</li></ul></div>
+      <div class="table-wrap"><table><thead><tr><th>netstat state</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td>LISTENING</td><td>Port is open, service waiting</td></tr>
+        <tr><td>SYN_SENT</td><td>Stuck: host down or firewall</td></tr>
+        <tr><td>SYN_RECEIVED</td><td>Thousands: SYN flood</td></tr>
+        <tr><td>ESTABLISHED</td><td>Data is flowing</td></tr>
+        <tr><td>CLOSE_WAIT</td><td>Many: application bug</td></tr>
+        <tr><td>TIME_WAIT</td><td>Normal after browsing</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-app">
+    <div class="juice-head"><h3>Services and ports</h3><a href="index.html#chapter-12">Full lesson</a></div>
+    <div class="cols">
+      <div class="table-wrap"><table><thead><tr><th>Service</th><th>Port</th><th>Note</th></tr></thead><tbody>
+        <tr><td>FTP</td><td class="num">TCP 20, 21</td><td>21 control, 20 data</td></tr>
+        <tr><td>SSH</td><td class="num">TCP 22</td><td>Encrypted CLI</td></tr>
+        <tr><td>Telnet</td><td class="num">TCP 23</td><td>Plain text CLI</td></tr>
+        <tr><td>SMTP</td><td class="num">TCP 25</td><td>Sends mail</td></tr>
+        <tr><td>DNS</td><td class="num">UDP/TCP 53</td><td>Names</td></tr>
+        <tr><td>DHCP</td><td class="num">UDP 67, 68</td><td>67 server, 68 client</td></tr>
+        <tr><td>TFTP</td><td class="num">UDP 69</td><td>No login, IOS images</td></tr>
+        <tr><td>HTTP</td><td class="num">TCP 80</td><td>Web, plain text</td></tr>
+        <tr><td>POP3</td><td class="num">TCP 110</td><td>Download, then deleted</td></tr>
+        <tr><td>IMAP</td><td class="num">TCP 143</td><td>Stays synced on server</td></tr>
+        <tr><td>SNMP</td><td class="num">UDP 161</td><td>Monitoring</td></tr>
+        <tr><td>HTTPS</td><td class="num">TCP 443</td><td>TLS, certificate</td></tr>
+        <tr><td>SMB</td><td class="num">TCP 445</td><td>File sharing</td></tr>
+      </tbody></table></div>
+      <div>
+        <h4>DHCP is DORA</h4><p>Discover (0.0.0.0 to 255.255.255.255), Offer, Request, Ack. Never lease the network or broadcast address.</p>
+        <h4>DNS records</h4><p><code>A</code> IPv4, <code>AAAA</code> IPv6, <code>MX</code> mail, <code>NS</code> name server, <code>CNAME</code> alias, <code>PTR</code> reverse. The recursive resolver walks root, TLD, authoritative. Test with <code>nslookup</code>.</p>
+        <h4>HTTP</h4><p>GET, POST, PUT, DELETE. Codes: 200 OK, 301 moved, 403 forbidden, 404 not found, 500 server error. Stateless, so sites use cookies.</p>
+        <h4>NAT and PAT</h4><p>Static is one to one, dynamic uses a pool, PAT shares one IP using ports. NAT is not encryption.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-ios">
+    <div class="juice-head"><h3>Cisco IOS</h3><a href="index.html#chapter-3">Full lesson</a></div>
+    <div class="cols">
+      <div class="table-wrap"><table><thead><tr><th>Prompt</th><th>Mode</th><th>Enter with</th></tr></thead><tbody>
+        <tr><td><code>S1&gt;</code></td><td>User EXEC</td><td>login</td></tr>
+        <tr><td><code>S1#</code></td><td>Privileged</td><td><code>enable</code></td></tr>
+        <tr><td><code>(config)#</code></td><td>Global</td><td><code>conf t</code></td></tr>
+        <tr><td><code>(config-if)#</code></td><td>Interface</td><td><code>int g0/0</code></td></tr>
+        <tr><td><code>(config-line)#</code></td><td>Line</td><td><code>line vty 0 4</code></td></tr>
+      </tbody></table></div>
+      <div><h4>Memory</h4><p>RAM: running-config, lost at power-off. NVRAM: startup-config. Flash: IOS image. <code>copy running-config startup-config</code> saves.</p><h4>Interface status</h4><p><code>up/up</code> working. <code>administratively down</code>: needs <code>no shutdown</code>. <code>down/down</code>: physical. <code>up/down</code>: protocol problem.</p></div>
+    </div>
+    <pre><code>hostname S1                     ! SSH needs hostname + domain + keys + user
+enable secret class12345
+ip domain-name lab.local
+username admin secret cisco12345
+crypto key generate rsa modulus 2048
+ip ssh version 2
+line vty 0 4
+ login local
+ transport input ssh
+interface vlan 1                ! the switch's own management address
+ ip address 192.168.10.2 255.255.255.0
+ no shutdown
+ip default-gateway 192.168.10.1</code></pre>
+    <p>Verify with <code>show ip interface brief</code>, <code>show ip route</code>, <code>show arp</code>, <code>show mac address-table</code>, <code>show running-config</code>. <code>service password-encryption</code> is weak obfuscation only.</p>
+  </div>
+
+  <div class="juice-block" id="j-phys">
+    <div class="juice-head"><h3>Physical layer and Wi-Fi</h3><a href="index.html#chapter-4">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>Media</h4><ul><li>UTP: cheap, common, usually 100 m</li><li>Fiber: immune to EMI. Single-mode long, multimode short</li><li>Straight-through for unlike devices, crossover for like, rollover for console</li><li>Attenuation: loss over distance. Crosstalk: coupling between wires</li></ul></div>
+      <div><h4>Wi-Fi</h4><ul><li>SSID is the name, BSSID the AP radio</li><li>2.4 GHz channels 1, 6, 11 avoid overlap</li><li>Wi-Fi 4 = n, 5 = ac, 6 = ax</li><li>RSSI is strength, SNR is signal against noise</li></ul></div>
+    </div>
+    <p>A 10 MB file on 20 Mb/s: 80 Mb / 20 = 4 s. MB is bytes, Mb is bits, a factor of 8. Bandwidth is capacity, throughput is what you got, jitter is delay variation.</p>
+  </div>
+
+  <div class="juice-block" id="j-sec">
+    <div class="juice-head"><h3>Security</h3><a href="index.html#chapter-13">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>Language</h4><ul><li>CIA: confidentiality, integrity, availability</li><li>AAA: authentication, authorization, accounting</li><li>Hash is one-way, encryption is reversible</li><li>IDS alerts, IPS blocks</li><li>ACL: first match wins, implicit deny at the end. Wildcard is the inverted mask</li><li>Least privilege, defense in depth</li></ul></div>
+      <div><h4>Attacks to name</h4><ul><li>Virus attaches, worm spreads alone, Trojan disguises</li><li>DoS and DDoS exhaust resources</li><li>ARP, DHCP and DNS spoofing plant false answers</li><li>Evil twin imitates a trusted AP</li><li>Phishing and tailgating target people</li><li>SQL injection: use parameterized queries</li></ul></div>
+      <div><h4>Wi-Fi security</h4><p>WEP and TKIP are obsolete. WPA2 AES, WPA3 uses SAE. 802.1X: supplicant, authenticator, RADIUS server. Hiding the SSID is not security.</p></div>
+      <div><h4>Design</h4><p>DMZ for public services. VLANs separate, firewalls enforce. FAR is false accept, FRR is false reject. SSH instead of Telnet.</p></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-resil">
+    <div class="juice-head"><h3>Resilience and backups</h3><a href="index.html#chapter-14">Full lesson</a></div>
+    <div class="cols">
+      <div><h4>RAID (not a backup)</h4><ul><li>0: stripe, no protection</li><li>1: mirror</li><li>5: single parity, survives 1 disk</li><li>6: dual parity, survives 2</li><li>10: stripe of mirrors</li></ul></div>
+      <div><h4>Backups and targets</h4><ul><li>Incremental restore: full + every incremental</li><li>Differential restore: full + latest differential</li><li>RPO: data you can lose. RTO: time to come back</li><li>99.999% is about 5.26 minutes a year</li><li>N+1 is one spare. HSRP protects the gateway</li></ul></div>
+    </div>
+  </div>
+
+  <div class="juice-block" id="j-trouble">
+    <div class="juice-head"><h3>Troubleshooting</h3><a href="index.html#chapter-15">Full lesson</a></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Symptom</th><th>Check first</th></tr></thead>
+      <tbody>
+        <tr><td>Administratively down</td><td><code>no shutdown</code></td></tr>
+        <tr><td>Local works, remote fails</td><td>Gateway, mask, routes, return route</td></tr>
+        <tr><td>IP works, name fails</td><td>DNS server setting and query</td></tr>
+        <tr><td>169.254.x.x address</td><td>DHCP pool, VLAN, relay, server</td></tr>
+        <tr><td>SVI is down</td><td>VLAN exists, active port in it</td></tr>
+        <tr><td>IPv4 works, IPv6 fails</td><td>Prefix, RA, ND, <code>ipv6 unicast-routing</code></td></tr>
+        <tr><td>Ping works, web fails</td><td>Service, port policy, DNS, TLS</td></tr>
+        <tr><td>Random failures, ARP flipping</td><td>Duplicate IP addresses</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">Method: identify, theorize, test, fix, verify, document. Bottom-up starts at the cable, top-down at the application, divide-and-conquer in the middle.</p>
+  </div>
+
+  <div class="juice-block" id="j-traps">
+    <div class="juice-head"><h3>Top traps</h3></div>
+    <ol class="traps">
+      <li>Subnet counts have no minus 2. Host counts do.</li>
+      <li>62 usable fits a /26, but 63 hosts needs a /25.</li>
+      <li>The router-to-router link is a subnet too. Size it /30.</li>
+      <li>VLSM: largest first, always.</li>
+      <li>An address ending in .0 can be a valid host, for example 172.16.5.0/23.</li>
+      <li>/20 works in the 3rd octet. Look at the 3rd octet, not the 4th.</li>
+      <li>IPv6 counts in hex: after 9 comes a, and 10 hex is 16.</li>
+      <li>IPv6 needs <code>ipv6 unicast-routing</code> or RA and forwarding stop.</li>
+      <li>A remote destination means you ARP for the gateway, not the server.</li>
+      <li>The switch learns the source and forwards on the destination.</li>
+      <li>ACK is the next byte expected, not the last one received.</li>
+      <li>fe90:: is still link-local. 3001:: is still global.</li>
+      <li>Ping success does not prove DNS, TLS or the application.</li>
+      <li>RAID is not a backup. NAT is not encryption.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="part" id="mixed">
+  <p class="eyebrow">PART 3</p>
+  <h2>Mixed quiz</h2>
+  <p class="part-intro">20 random questions from all 16 chapters. Each chapter also has its own quiz at the end of the lesson in your full guide.</p>
+  <div class="chapter-quiz" id="mixed-quiz"></div>
+</section>
+
+<p class="foot">Independent study notes. Not affiliated with or endorsed by Cisco or any university. Your progress is saved in this browser only.</p>
+</main>
+<script>'use strict';
+// Chapter quizzes. Each item is [question, correct option, [wrong options], why].
+// Options are shuffled when shown. Text between backticks renders as code.
+(function (root) {
+  const BANK = {
+    'chapter-1': { title: 'Network fundamentals', items: [
+      ["Laptops A and B share one switch and one /24. Which device and field move A's frame to B?", "The switch, using the destination MAC", ["A router, using the destination IP", "The switch, using the destination IP", "A router, using the source MAC"], "Same subnet means local delivery. The switch looks up the destination MAC in its table; no router is involved."],
+      ["Which statement about clients and servers is correct?", "They are roles, so one computer can be both", ["A server can never request a service", "A client is any host without an IP address", "They describe how a device is cabled"], "Client and server describe who requests and who provides in a given exchange, not a type of hardware."],
+      ["A full mesh connects 6 routers. How many point-to-point links are needed?", "15", ["6", "12", "30"], "n(n-1)/2 = 6 x 5 / 2 = 15."],
+      ["Which term means the rate of data actually transferred successfully?", "Throughput", ["Bandwidth", "Jitter", "Latency"], "Bandwidth is nominal capacity. Throughput is what you really achieved under the measured conditions."],
+      ["Voice breaks up because the delay between packets keeps changing. What is that called?", "Jitter", ["Attenuation", "Bandwidth", "Goodput"], "Jitter is variation in delay. Real-time traffic is sensitive to it."],
+      ["Ideally, how long does a 15 MB file take on a 40 Mb/s link?", "3 s", ["0.375 s", "6 s", "24 s"], "15 MB x 8 = 120 Mb, and 120 / 40 = 3 s, before overhead and other delays."],
+      ["What does QoS actually do?", "Classifies and schedules competing traffic", ["Adds bandwidth when a link becomes full", "Encrypts delay-sensitive traffic", "Resends packets lost on the link"], "QoS decides who goes first. It cannot create capacity that does not exist."],
+      ["A company lets a partner reach a few internal services under control. That is:", "An extranet", ["An intranet", "A PAN", "A WLAN"], "An intranet is internal only. An extranet grants controlled access to outsiders."]
+    ]},
+    'chapter-2': { title: 'Models, protocols, and encapsulation', items: [
+      ["What is the PDU of TCP at the transport layer?", "Segment", ["Frame", "Packet", "Bits"], "Transport: segment. Network: packet. Data link: frame. Physical: bits."],
+      ["Which OSI layer handles logical addressing and routing?", "Network", ["Data Link", "Transport", "Session"], "Layer 3 carries IP addresses and makes routing decisions."],
+      ["The TCP/IP Application layer corresponds to which OSI layers?", "OSI 5, 6 and 7", ["OSI 4 and 5", "OSI 6 and 7 only", "OSI 7 only"], "Application, Presentation and Session collapse into one TCP/IP layer."],
+      ["On an ordinary routed hop without NAT, what is rewritten?", "Source and destination MAC addresses", ["Source and destination IP addresses", "Source and destination TCP ports", "The application data"], "Each Ethernet hop gets a new frame. IP endpoints stay the same, although TTL does decrease."],
+      ["Which order is correct when a host sends data?", "Data, segment, packet, frame, bits", ["Data, packet, segment, frame, bits", "Data, frame, packet, segment, bits", "Bits, frame, packet, segment, data"], "Each lower layer wraps the one above it. The reverse order is decapsulation on the receiver."],
+      ["Who publishes Internet standards as RFCs?", "IETF", ["IEEE", "TIA/EIA", "ISO"], "IETF writes RFCs. IEEE writes LAN standards such as Ethernet and Wi-Fi."],
+      ["Which body develops the Ethernet and WLAN standards?", "IEEE", ["IETF", "IANA", "ICANN"], "802.3 is Ethernet and 802.11 is Wi-Fi, both from IEEE."],
+      ["In a connection to a remote server on 443, what does 443 identify?", "The service endpoint on that server", ["The next router on the path", "The local switch port", "The destination network"], "Ports identify the application endpoint. IP finds the host, MAC finds the next receiver on the link."],
+      ["What does IPv6 use in place of broadcast?", "Multicast", ["Anycast", "Loopback", "Unicast flooding"], "IPv6 has no broadcast. Groups such as ff02::1 do that work."]
+    ]},
+    'chapter-3': { title: 'Cisco IOS and basic device configuration', items: [
+      ["What mode does the prompt `Switch(config-if)#` show?", "Interface configuration", ["Global configuration", "Privileged EXEC", "Line configuration"], "`(config-if)` means an interface is selected for editing."],
+      ["Which command makes the current configuration survive a reboot?", "`copy running-config startup-config`", ["`copy startup-config running-config`", "`show running-config`", "`write terminal`"], "It copies RAM to NVRAM. The reverse direction would load the saved config over the active one."],
+      ["Where is the running configuration held?", "RAM", ["NVRAM", "Flash", "ROM"], "RAM is volatile. Startup config is commonly in NVRAM and the IOS image in flash."],
+      ["What does `service password-encryption` do?", "Applies weak reversible obfuscation to passwords", ["Encrypts Telnet sessions end to end", "Replaces the enable secret hash", "Turns on SSH for the VTY lines"], "It is Type 7 obfuscation of stored passwords. It does nothing for traffic on the wire."],
+      ["Why give a Layer 2 switch an address on interface VLAN 1?", "So the switch itself can be managed remotely", ["So PCs can forward frames through it", "So it becomes the PCs' default gateway", "So it creates another broadcast domain"], "A switch forwards frames without any IP. The SVI is only the switch's own management address."],
+      ["`show ip interface brief` lists `administratively down`. What is the fix?", "Enter `no shutdown` on that interface", ["Replace the cable on that interface", "Enter `ip routing` in global mode", "Reload the device and try again"], "Administratively down means it was disabled by configuration."],
+      ["Which is needed before `crypto key generate rsa` in the usual workflow?", "A hostname and an IP domain name", ["A DHCP pool on the device", "Telnet enabled on the VTY lines", "A default static route"], "IOS names the RSA key after hostname and domain name."],
+      ["What does `transport input ssh` under `line vty 0 4` do?", "Allows only SSH on those VTY lines", ["Generates the SSH key pair", "Sets the SSH username and secret", "Enables SSH version 2 globally"], "It restricts which remote protocols the lines accept, so Telnet is refused."],
+      ["What must be entered for a router to forward IPv6 between interfaces?", "`ipv6 unicast-routing`", ["`ipv6 enable`", "`ip routing ipv6`", "`ipv6 address autoconfig`"], "Without it the router has addresses but does not forward IPv6 or send RAs."]
+    ]},
+    'chapter-4': { title: 'Physical layer, number systems, and wireless', items: [
+      ["A signal weakens as cable length grows. What is that called?", "Attenuation", ["Crosstalk", "Jitter", "Multiplexing"], "Crosstalk is coupling between nearby conductors. Attenuation is loss over distance."],
+      ["What is binary `11001000` in decimal?", "200", ["192", "208", "216"], "128 + 64 + 8 = 200."],
+      ["What is hexadecimal `AC` in decimal?", "172", ["162", "182", "192"], "A = 10, so 10 x 16 + 12 = 172."],
+      ["Which medium is immune to electromagnetic interference?", "Fiber", ["UTP", "STP", "Coaxial"], "Fiber carries light. It can still suffer bending loss, dirty connectors and damage."],
+      ["Which pairing is correct?", "Single-mode: small core, long distance", ["Single-mode: large core, short distance", "Multimode: small core, long distance", "Multimode: copper core, short distance"], "Single-mode suits long optical links. Multimode's larger core suits shorter building and campus links."],
+      ["Which access method does Wi-Fi use?", "CSMA/CA", ["CSMA/CD", "Token passing", "Circuit switching"], "Radios cannot reliably detect collisions while sending, so WLANs avoid them. CSMA/CD is legacy half-duplex Ethernet."],
+      ["Which channel set is commonly used to avoid overlap at 2.4 GHz?", "1, 6, 11", ["1, 2, 3", "2, 4, 6", "5, 10, 15"], "With 20 MHz channels, 1, 6 and 11 are the usual non-overlapping plan."],
+      ["How long does a 1,000-byte packet take to serialize at 10 Mb/s?", "0.8 ms", ["0.1 ms", "8 ms", "80 ms"], "8,000 bits / 10,000,000 b/s = 0.0008 s."],
+      ["Which cable is used for a console connection?", "Rollover", ["Crossover", "Straight-through", "Coaxial"], "A console or rollover cable is for management, not ordinary Ethernet forwarding."],
+      ["Wi-Fi shows strong RSSI but performs badly near a microwave. Which measure is likely poor?", "SNR", ["SSID", "BSSID", "MTU"], "RSSI is signal strength alone. SNR compares that signal to the noise."]
+    ]},
+    'chapter-5': { title: 'Data link layer and Ethernet switching', items: [
+      ["What does a switch learn from an incoming frame?", "The source MAC on the arrival port", ["The destination MAC on the arrival port", "The source IP on the arrival port", "The destination IP on the exit port"], "Arrival proves where the sender is. It proves nothing about the destination."],
+      ["What does a switch do with a unicast frame to an unknown MAC?", "Floods it in the VLAN except the incoming port", ["Drops it and sends an ICMP error", "Rewrites it to the broadcast address", "Returns it out of the incoming port"], "That is unknown-unicast flooding. The destination MAC stays unchanged."],
+      ["What is the Ethernet broadcast MAC?", "`ff:ff:ff:ff:ff:ff`", ["`00:00:00:00:00:00`", "`01:00:5e:00:00:00`", "`33:33:00:00:00:00`"], "All ones. `01:00:5e` and `33:33` are IPv4 and IPv6 multicast prefixes."],
+      ["What is the size range of a basic untagged Ethernet frame?", "64 to 1518 bytes", ["46 to 1500 bytes", "64 to 1500 bytes", "18 to 1522 bytes"], "Counted from destination MAC through FCS. 46 to 1500 is the payload alone."],
+      ["What does the FCS do?", "Detects corruption in the frame", ["Encrypts the frame payload", "Repairs flipped bits in the frame", "Identifies the payload protocol"], "A CRC check detects errors and the frame is usually dropped. EtherType identifies the payload."],
+      ["Which EtherType identifies IPv6?", "`0x86DD`", ["`0x0800`", "`0x0806`", "`0x8100`"], "`0x0800` is IPv4, `0x0806` is ARP, `0x8100` is an 802.1Q tag."],
+      ["Which forwarding method checks the FCS before sending?", "Store-and-forward", ["Cut-through", "Fragment-free", "Unknown-unicast"], "It receives the whole frame first. Cut-through starts early and can pass on corrupted frames."],
+      ["A 24-port switch has every port in one VLAN. How many collision and broadcast domains?", "24 collision, 1 broadcast", ["1 collision, 24 broadcast", "24 collision, 24 broadcast", "1 collision, 1 broadcast"], "Each port is its own collision domain. One VLAN is one broadcast domain."],
+      ["What is required for hosts in different VLANs to communicate?", "Layer 3 routing", ["A longer MAC table timeout", "A second access port", "A crossover cable"], "Each VLAN is a separate broadcast domain, so traffic between them must be routed."],
+      ["Why are uncontrolled Layer 2 loops so damaging?", "Ethernet frames have no hop counter", ["Switches cannot read MAC addresses twice", "Broadcasts are always encrypted", "Routers forward every VLAN by default"], "Without a TTL, frames circulate forever. STP keeps a loop-free active topology."]
+    ]},
+    'chapter-6': { title: 'Network layer and routing', items: [
+      ["A router has several routes that match a destination. Which one wins?", "The longest matching prefix", ["The route that was added first", "The route with the lowest next hop", "The default route"], "Most specific wins. A default route only catches what nothing else matched."],
+      ["Routes: `0.0.0.0/0`, `10.0.0.0/8`, `10.2.0.0/16`, `10.2.3.0/24`. Which is used for 10.2.200.1?", "`10.2.0.0/16`", ["`10.2.3.0/24`", "`10.0.0.0/8`", "`0.0.0.0/0`"], "10.2.200.1 is not in 10.2.3.0/24, so the /16 is the longest prefix that matches."],
+      ["What does best-effort delivery mean for IP?", "Arrival and order are not guaranteed", ["Every packet is retransmitted once", "A session is set up before sending", "Only encrypted traffic is delivered"], "IP is connectionless and best effort. Reliability belongs to upper layers."],
+      ["What does a router do to the IPv4 TTL when forwarding?", "Decrements it by one", ["Resets it to 255", "Copies it unchanged", "Doubles it"], "TTL limits a packet's life. At zero the packet is dropped and Time Exceeded may be returned."],
+      ["What are the IPv4 minimum and IPv6 base header sizes?", "20 bytes and 40 bytes", ["40 bytes and 20 bytes", "20 bytes and 20 bytes", "8 bytes and 40 bytes"], "IPv6 is a fixed 40-byte base header despite having fewer fields, because its addresses are larger."],
+      ["In `show ip route`, what does the code `C` mean?", "Directly connected network", ["Cisco proprietary route", "Candidate default route", "Configured static route"], "`C` connected, `L` local interface address, `S` static, `O` OSPF."],
+      ["When does administrative distance matter?", "Between competing sources for the same prefix", ["Between a /16 and a /24 for one destination", "Only when the default route is missing", "Only for directly connected routes"], "Prefix length is decided first. AD only compares routes to the identical prefix."],
+      ["What is the value of the IPv4 Protocol field for TCP?", "6", ["1", "17", "58"], "ICMP is 1, TCP is 6, UDP is 17, ICMPv6 is 58."],
+      ["An IPv6 packet is larger than a link's MTU. What does the router do?", "Drops it and sends Packet Too Big", ["Fragments it and forwards the pieces", "Compresses the extension headers", "Forwards it and sets a flag"], "IPv6 routers never fragment. Only the source can."],
+      ["Which is a valid static route to 192.168.20.0/24 via 10.0.0.2?", "`ip route 192.168.20.0 255.255.255.0 10.0.0.2`", ["`ip route 192.168.20.0/24 10.0.0.2`", "`ip route 10.0.0.2 255.255.255.0 192.168.20.0`", "`route add 192.168.20.0 10.0.0.2`"], "Syntax is network, dotted mask, next hop. Remember a return route on the other router."]
+    ]},
+    'chapter-7': { title: 'ARP and IPv6 Neighbor Discovery', items: [
+      ["Host 192.168.10.20/24 sends to 192.168.20.30. Whose MAC does it ARP for?", "Its default gateway's", ["192.168.20.30's", "The DNS server's", "The switch's"], "The destination is remote, so the frame goes to the router. The IP destination stays 192.168.20.30."],
+      ["How are an ARP request and an ARP reply normally sent?", "Request broadcast, reply unicast", ["Request unicast, reply broadcast", "Both are sent as broadcast", "Both are sent as multicast"], "Nobody knows the target's MAC yet, so the question is broadcast. The answer goes straight back."],
+      ["What is ARP carried in?", "Directly in an Ethernet frame", ["A UDP datagram on port 53", "A TCP segment on port 80", "An ICMP message"], "ARP has EtherType `0x0806`, and no IP header or port."],
+      ["What does IPv6 use instead of ARP?", "ICMPv6 Neighbor Solicitation and Advertisement", ["DHCPv6 Request and Reply", "ICMPv6 Echo Request and Reply", "ARPv6 broadcast and reply"], "Neighbor Discovery runs over ICMPv6 and uses multicast rather than broadcast."],
+      ["Which ICMPv6 type number is a Router Advertisement?", "134", ["133", "135", "136"], "133 RS, 134 RA, 135 NS, 136 NA, 137 Redirect."],
+      ["What is the solicited-node multicast address for a target ending in `:1234:5678`?", "`ff02::1:ff34:5678`", ["`ff02::1:ff12:3456`", "`ff02::2:ff34:5678`", "`ff02::1:1234:5678`"], "Prefix `ff02::1:ff00:0/104` plus the final 24 bits, which are `34:5678`."],
+      ["What does Duplicate Address Detection check?", "That no one on the link already uses the address", ["That the address is globally registered", "That the router has a route to the prefix", "That DHCPv6 has reserved the address"], "DAD uses Neighbor Solicitation for the tentative address on the local link."],
+      ["A switch sends known unicast out of the wrong port. Which table do you inspect?", "The MAC address table", ["The ARP cache", "The routing table", "The DNS cache"], "MAC table: MAC to port. ARP cache: IP to MAC. Routing table: prefix to next hop."]
+    ]},
+    'chapter-8': { title: 'IPv4 addressing and subnetting', items: [
+      ["What is the network address of 10.50.77.200/18?", "10.50.64.0", ["10.50.0.0", "10.50.72.0", "10.50.76.0"], "/18 has block 64 in the 3rd octet. 77 lies in 64 to 127."],
+      ["What is the broadcast address of 192.168.7.100/27?", "192.168.7.127", ["192.168.7.95", "192.168.7.126", "192.168.7.128"], "Block 32. 100 lies in 96 to 127, and broadcast is the last address."],
+      ["How many usable host addresses does a /22 have?", "1022", ["510", "1024", "2046"], "2^10 - 2 = 1022."],
+      ["What is the dotted mask for /21?", "255.255.248.0", ["255.255.240.0", "255.255.252.0", "255.255.255.248"], "/21 = 16 + 5 bits, and 11111000 = 248 in the 3rd octet."],
+      ["A LAN needs 64 usable addresses. What is the smallest prefix that works?", "/25", ["/26", "/27", "/24"], "/26 gives only 62 usable, so go to /25 with 126."],
+      ["How many /27 subnets fit in a /23?", "16", ["8", "14", "32"], "27 - 23 = 4 borrowed bits, and 2^4 = 16. Do not subtract 2 from a subnet count."],
+      ["Which address is in RFC 1918 private space?", "172.20.5.1", ["172.32.5.1", "172.15.5.1", "169.254.5.1"], "The private 172 range is 172.16 to 172.31. 169.254 is link-local."],
+      ["A host shows 169.254.13.7. What does that suggest?", "It got no usable DHCP lease", ["It is using a private ISP address", "It is a multicast group member", "It holds the default route"], "169.254.0.0/16 is IPv4 link-local, often seen when DHCP fails."],
+      ["Which of these is a valid host address?", "172.16.5.0 /23", ["172.16.4.0 /23", "172.16.5.255 /23", "172.16.6.0 /23"], "172.16.4.0/23 runs to 172.16.5.255, so 172.16.5.0 is inside. An address ending in .0 can be a host."],
+      ["In VLSM, how should subnets be allocated?", "Largest requirement first, on aligned boundaries", ["Smallest requirement first, on any boundary", "In the order the departments were listed", "Equal sizes first, then the point-to-point links"], "Largest first keeps blocks aligned and leaves contiguous space for smaller ones."],
+      ["Which pair summarizes exactly to one /23?", "192.168.0.0/24 and 192.168.1.0/24", ["192.168.1.0/24 and 192.168.2.0/24", "192.168.3.0/24 and 192.168.4.0/24", "192.168.5.0/24 and 192.168.6.0/24"], "A /23 must start on an even 3rd octet, so the pair has to begin at an even number."],
+      ["Which is the correct way to get the number of equal subnets from borrowed bits?", "2^borrowed bits", ["2^borrowed bits - 2", "2^host bits - 2", "2^host bits"], "The minus 2 applies to hosts per subnet only."],
+      ["A department of 300 hosts is part of a /22 VLSM plan. What prefix does it need?", "/23", ["/24", "/22", "/25"], "A /24 holds only 254 usable, so go one step larger. A /23 holds 510."],
+      ["Two routers are directly connected in a VLSM plan. Which prefix suits their link?", "/30", ["/29", "/32", "/24"], "The link needs 2 usable addresses, and 2^2 - 2 = 2."],
+      ["In a VLSM plan, a /25 starts at 172.18.46.0. Where can the next block start?", "172.18.46.128", ["172.18.46.126", "172.18.46.127", "172.18.47.0"], "The /25 ends with broadcast .127, so the next block starts one address later."]
+    ]},
+    'chapter-9': { title: 'IPv6 addressing and configuration', items: [
+      ["How many zero hextets does `::` replace in `2001:db8::1:0:2`?", "3", ["2", "4", "5"], "Five groups are written, and 8 - 5 = 3."],
+      ["What is the canonical short form of `2001:0db8:0000:0000:00a0:0000:0000:0001`?", "`2001:db8::a0:0:0:1`", ["`2001:db8::a:0:0:1`", "`2001:db8::a0::1`", "`2001:db8:0:0:a0::1`"], "Equal runs of zeros: compress the leftmost. `a0` keeps its trailing zero, and `::` may appear only once."],
+      ["Which is a global unicast address?", "`3001:abcd:12::1`", ["`fe90::a1`", "`fd12:3456:789a::1`", "`ff02::1`"], "2000::/3 includes everything starting with 2 or 3."],
+      ["What type of address is `fe90::a1`?", "Link-local", ["Global unicast", "Unique local", "Multicast"], "fe80::/10 covers fe80 through febf."],
+      ["What is `ff02::2`?", "All routers on the link", ["All nodes on the link", "The loopback address", "The unspecified address"], "`ff02::1` is all nodes, and `::1` is loopback."],
+      ["How many /64 subnets fit in a /56?", "256", ["16", "65,536", "254"], "2^(64-56) = 2^8 = 256. There is no minus 2 in IPv6 subnet counts."],
+      ["What follows `2001:db8:acad:9::/64` when counting subnet IDs?", "`2001:db8:acad:a::/64`", ["`2001:db8:acad:10::/64`", "`2001:db8:acad:90::/64`", "`2001:db8:acad:9a::/64`"], "Count in hex. After 9 comes a. Subnet 10 hex is number 16."],
+      ["Using EUI-64, what is the interface ID for MAC `5c:26:0a:11:22:33`?", "`5e26:0aff:fe11:2233`", ["`5c26:0aff:fe11:2233`", "`5e26:0a11:22ff:fe33`", "`5c26:ff0a:fe11:2233`"], "Split the MAC, insert `ff:fe`, flip the 7th bit: 5c = 01011100 becomes 01011110 = 5e."],
+      ["In SLAAC with stateless DHCPv6, where does the host get its address and its DNS info?", "Address via SLAAC, DNS via DHCPv6", ["Both via stateful DHCPv6 leases", "Address via DHCPv6, DNS via SLAAC", "Both via manual configuration"], "The RA tells the host to build its own address and ask DHCPv6 for other options."],
+      ["How does an IPv6 host normally learn its default gateway?", "From the source of the Router Advertisement", ["From a DHCPv6 default-router option", "From an ARP reply on the link", "From the AAAA record of the router"], "The gateway is the router's link-local address, as seen in the RA."],
+      ["Is `fe80::50a5:8a35:a5bb:66e1` EUI-64 or random?", "Random: no `ff:fe` in the middle", ["EUI-64: it starts with `fe80`", "EUI-64: it has a 64-bit interface ID", "Random: it has no 7th bit set"], "EUI-64 interface IDs always have `ff:fe` in bytes 4 and 5."],
+      ["Are `2001:db8:acad:1::1` and `2001:db8:acad:10::1` in the same /64?", "No, subnet ID 0001 differs from 0010", ["Yes, the first three hextets match", "Yes, both end in the same `::1`", "No, one of them is link-local"], "A /64 compares the first four hextets. Hex 10 is 16 in decimal."],
+      ["Which IPv6 address is invalid?", "`2001:db8::1::5`", ["`2001:db8:a::12`", "`ff02::1:ff00:10`", "`fe80::202:b3ff:fe1e:8329`"], "`::` can appear only once, otherwise the length of each gap is unknown."],
+      ["Under stateful DHCPv6, where does a host's default gateway come from?", "The Router Advertisement", ["The DHCPv6 server", "A static ARP entry", "The DNS server"], "In all three RA methods the gateway is the router's link-local address, taken from the RA."]
+    ]},
+    'chapter-10': { title: 'ICMP and connectivity testing', items: [
+      ["Which messages does ping use?", "ICMP Echo Request and Echo Reply", ["TCP SYN and SYN-ACK", "ARP Request and ARP Reply", "UDP query and response"], "Ping tests one ICMP exchange and nothing more."],
+      ["How does traceroute reveal each router on a path?", "It raises TTL and reads Time Exceeded replies", ["It records the route inside every reply", "It asks each router through DNS", "It floods the path with ARP requests"], "A probe with TTL n expires at hop n, which reveals that router."],
+      ["Traceroute shows `* * *` on one hop, but later hops answer. What does it mean?", "That router gave no reply; forwarding works", ["The packets are stopped at that hop", "The link beyond that hop is down", "The destination refused the connection"], "Filtering or rate limits can hide a router while it forwards normally."],
+      ["What does a successful ping to 127.0.0.1 prove?", "The local IP stack responds", ["The NIC and cable are working", "The default gateway is reachable", "The DNS server is configured"], "Loopback never reaches the NIC or the wire."],
+      ["Ping by IP works but ping by hostname fails. What do you check first?", "The DNS resolver configuration", ["The cable and link lights", "The switch MAC table", "The default route on the router"], "IP reachability is proven, so the name resolution step is the missing piece."],
+      ["Which port does ICMP use?", "None: it has no port numbers", ["UDP 7", "TCP 7", "UDP 161"], "ICMP is carried in IP and has types and codes, not ports."],
+      ["What is a sensible order for testing connectivity?", "Loopback, gateway, remote IP, hostname, application", ["Application, hostname, remote IP, gateway, loopback", "Gateway, loopback, hostname, remote IP, application", "Hostname, loopback, remote IP, application, gateway"], "Each step adds one dependency, so the first failure points at the cause."],
+      ["Why can blocking all ICMPv6 break an IPv6 network?", "Neighbor Discovery runs over ICMPv6", ["IPv6 uses ICMPv6 for encryption", "TCP segments are carried in ICMPv6", "DNS queries depend on ICMPv6 Echo"], "RS, RA, NS and NA are ICMPv6 messages. Packet Too Big is too."]
+    ]},
+    'chapter-11': { title: 'Transport layer: TCP and UDP', items: [
+      ["A segment starts at sequence 7001 and carries 1200 bytes, all in order. What is the ACK?", "8201", ["8200", "7002", "1201"], "Bytes 7001 to 8200 arrived, so the next expected byte is 8201."],
+      ["What is the three-way handshake order?", "SYN, SYN-ACK, ACK", ["SYN, ACK, FIN", "ACK, SYN, SYN-ACK", "FIN, ACK, SYN"], "Closing is the one that uses FIN and ACK in each direction."],
+      ["A client's SYN has seq=1000. What ack does the server's SYN-ACK carry?", "1001", ["1000", "5001", "2000"], "SYN consumes one sequence number. The server's own seq is independent."],
+      ["How large is the UDP header?", "8 bytes", ["4 bytes", "20 bytes", "40 bytes"], "Four 2-byte fields: source port, destination port, length, checksum."],
+      ["A voice packet has 160 bytes of payload over IPv4 and UDP. How much is header?", "28 bytes, about 15%", ["40 bytes, about 20%", "8 bytes, about 5%", "28 bytes, about 18%"], "20 + 8 = 28, and 28 / 188 = 14.9%. Over TCP it would be 40 / 200 = 20%."],
+      ["Which range is the well-known ports?", "0 to 1023", ["1024 to 49151", "49152 to 65535", "0 to 65535"], "Registered: 1024 to 49151. Dynamic: 49152 to 65535."],
+      ["Which flag aborts a TCP connection immediately?", "RST", ["FIN", "PSH", "URG"], "FIN closes politely one direction at a time. RST resets the connection."],
+      ["What protects the receiver from being overwhelmed?", "The receive window (flow control)", ["The congestion window at the sender", "The sequence number field", "The urgent pointer"], "Flow control protects the receiver. Congestion control responds to the network."],
+      ["`netstat` shows thousands of SYN_RECEIVED entries. What does that suggest?", "A SYN flood attack", ["A normal browsing session", "A bug in a client application", "A server that is not listening"], "Half-open connections are piling up because final ACKs never arrive."],
+      ["`netstat` shows many CLOSE_WAIT entries. What does that suggest?", "The application is not closing its sockets", ["The remote host is flooding the server", "The port is open and waiting", "The connection is fully established"], "The other side closed, but our application has not."],
+      ["With an MTU of 1500 over IPv4 and no options, what is the usual TCP MSS?", "1460 bytes", ["1500 bytes", "1480 bytes", "1440 bytes"], "1500 - 20 IP - 20 TCP = 1460. Over IPv6 it is 1440."],
+      ["Why does DHCP use UDP rather than TCP?", "The client has no IP yet, so no session is possible", ["UDP encrypts the address offers", "UDP guarantees the lease is delivered", "TCP has no port number for DHCP"], "A host without an address cannot complete a TCP handshake. DHCP broadcasts over UDP 67/68."]
+    ]},
+    'chapter-12': { title: 'Application layer protocols', items: [
+      ["What is the correct DHCP order?", "Discover, Offer, Request, Acknowledge", ["Offer, Discover, Acknowledge, Request", "Request, Offer, Discover, Acknowledge", "Discover, Request, Offer, Acknowledge"], "DORA. The client finds servers, gets an offer, requests it, and the server confirms."],
+      ["What source and destination does a new client use in DHCPDISCOVER?", "From 0.0.0.0 to 255.255.255.255", ["From 169.254.0.1 to 224.0.0.1", "From 127.0.0.1 to the gateway", "From 0.0.0.0 to the DNS server"], "It has no address and does not know the server, so it broadcasts."],
+      ["Which DNS record does a mail server look up first for a recipient's domain?", "MX", ["A", "NS", "AAAA"], "MX names the domain's mail exchanger. An A or AAAA lookup follows for that server."],
+      ["Which DNS record maps a name to an IPv6 address?", "AAAA", ["A", "CNAME", "PTR"], "A is IPv4, CNAME is an alias, PTR is reverse lookup."],
+      ["A user wants the same folders and read status on phone and laptop. Which protocol?", "IMAP", ["POP3", "SMTP", "HTTP"], "IMAP keeps mail on the server. POP3 by default downloads and deletes."],
+      ["Which protocol and port send mail between servers?", "SMTP, TCP 25", ["POP3, TCP 110", "IMAP, TCP 143", "SMTP, UDP 25"], "SMTP sends. POP3 and IMAP read."],
+      ["Which FTP port carries commands?", "TCP 21", ["TCP 20", "UDP 69", "TCP 22"], "21 is control and 20 is data in active mode. UDP 69 is TFTP, and 22 is SSH."],
+      ["Which protocol copies IOS images with no login, over UDP 69?", "TFTP", ["FTP", "SMB", "SSH"], "TFTP is simple: no login and no directory listing."],
+      ["What does HTTP status 403 mean?", "Access is denied", ["Resource does not exist", "Resource has a new URL", "Server failed internally"], "404 is not found, 301 is moved, 500 is a server error."],
+      ["Which HTTP method sends form data to a server?", "POST", ["GET", "DELETE", "HEAD"], "GET requests data, and POST submits it."],
+      ["What does PAT let many inside hosts do?", "Share one public IP using different ports", ["Encrypt traffic to the public Internet", "Each hold a fixed public address", "Avoid needing a default gateway"], "PAT (NAT overload) tracks flows by translated port. It is not encryption."],
+      ["Which is true of HTTPS compared with HTTP?", "Encrypted, port 443, server proven by certificate", ["Encrypted, port 80, no certificate is used", "Plain text, port 443, certificate optional", "Compressed only, port 8080, no identity check"], "TLS adds encryption, integrity and server authentication."],
+      ["Which pair of addresses must never be leased to hosts?", "The network and the broadcast address", ["The first and last usable addresses", "The gateway and the first usable address", "Any two addresses ending in .0"], "They identify the subnet and all of its hosts. An address ending in .0 can be valid under shorter prefixes."],
+      ["Who normally walks through the root, TLD and authoritative servers?", "The recursive resolver", ["The client's browser", "The default gateway", "The authoritative server"], "The client asks one resolver, which does the walking and caches the answer."],
+      ["Which port does SMB use?", "TCP 445", ["TCP 443", "UDP 161", "TCP 143"], "SMB shares files and printers. 443 is HTTPS, 161 is SNMP, 143 is IMAP."]
+    ]},
+    'chapter-13': { title: 'Network and system security', items: [
+      ["An attacker alters a record in transit. Which CIA goal is hit?", "Integrity", ["Confidentiality", "Availability", "Accounting"], "Confidentiality is about disclosure and availability about access."],
+      ["How does a hash differ from encryption?", "A hash is one-way; encryption is reversible", ["A hash needs a key; encryption does not", "A hash hides data; encryption only signs it", "They are two names for one process"], "Encryption can be reversed with the right key. A digest is not designed to be reversed."],
+      ["How do IDS and IPS differ?", "IDS alerts; IPS can block in-path", ["IDS blocks; IPS only alerts", "IDS is for wireless; IPS is for wired", "IDS encrypts; IPS authenticates"], "An IPS sits in the traffic path and can act on what it detects."],
+      ["What happens at the end of a traditional IOS ACL?", "An implicit deny matches everything left", ["An implicit permit matches everything left", "The router asks the RADIUS server", "The packet is logged and forwarded"], "Unmatched traffic is denied, so required traffic must be permitted explicitly."],
+      ["What is the wildcard mask for a /24?", "0.0.0.255", ["255.255.255.0", "0.0.255.255", "255.255.255.255"], "A wildcard inverts the subnet mask bits."],
+      ["A fake AP imitates the campus SSID. What is that attack called?", "Evil twin", ["Tailgating", "SYN flood", "Honeypot"], "Enterprise authentication with server certificate validation is the defense."],
+      ["What does WPA3-Personal use for authentication?", "SAE", ["WEP", "TKIP", "LEAP"], "WEP, TKIP and LEAP are obsolete."],
+      ["What is the purpose of a DMZ?", "A controlled segment for public-facing services", ["A segment with all ports open to the world", "The VLAN that carries management traffic", "A backup link to the second ISP"], "A DMZ has explicit policy between external, DMZ and internal segments."],
+      ["Someone follows an employee through a secure door. What is that?", "Tailgating", ["Phishing", "Spoofing", "Reconnaissance"], "A mantrap or access-control vestibule reduces it."],
+      ["What separates a worm from a virus?", "A worm spreads by itself across networks", ["A worm must attach to a host file", "A worm only encrypts files for ransom", "A worm is always hidden in a useful app"], "A virus attaches to something and needs help to run. A Trojan is the one that disguises itself."],
+      ["Which control directly addresses SQL injection?", "Parameterized queries", ["Output compression", "Client-side colors", "A longer session timeout"], "Parameters keep input as data rather than executable query text."],
+      ["In 802.1X, what is the client device called?", "Supplicant", ["Authenticator", "Authentication server", "Controller"], "The AP or switch is the authenticator, and RADIUS is commonly the server."]
+    ]},
+    'chapter-14': { title: 'Resilience, backups, physical facilities, and specialized systems', items: [
+      ["About how much downtime per year does 99.999% allow?", "5.26 minutes", ["52.6 minutes", "8.76 hours", "26 seconds"], "0.001% of a 365-day year is about 5.26 minutes."],
+      ["Up to one hour of new data may be lost. Which objective is that?", "RPO of one hour", ["RTO of one hour", "MTU of one hour", "N+1 of one hour"], "RPO is acceptable data loss. RTO is how fast service must return."],
+      ["Which RAID level has no redundancy at all?", "RAID 0", ["RAID 1", "RAID 5", "RAID 10"], "RAID 0 only stripes. One disk failure loses the array."],
+      ["How many disk failures does a healthy RAID 5 tolerate?", "One", ["Zero", "Two", "Half of the disks"], "RAID 5 has single distributed parity. RAID 6 has dual parity."],
+      ["Why is RAID not a backup?", "Deletion and malware affect the whole array", ["RAID stores data only in volatile RAM", "RAID disks cannot be read after a reboot", "RAID encrypts data without keeping keys"], "Backups are retained, independent copies. RAID protects against certain disk failures."],
+      ["To restore from a differential scheme, what do you need?", "The last full plus the latest differential", ["The last full plus every differential", "Only the latest differential", "Every full backup ever taken"], "An incremental scheme is the one that needs the full plus each incremental."],
+      ["What does HSRP protect?", "The default gateway for hosts", ["The MAC table of the access switch", "The DNS zone of the domain", "The DHCP lease database"], "Hosts use a virtual gateway address that survives a router failure."],
+      ["What does a UPS provide?", "Temporary conditioned battery power", ["Long-term fuel-based generation", "Cooling for the server room", "Distribution of power to racks"], "A generator handles long outages. A PDU distributes power."],
+      ["A reduced-voltage event is called:", "A brownout", ["A blackout", "A surge", "A spike"], "A blackout is total loss. Surges and spikes are increased voltage."],
+      ["What is a honeypot?", "A monitored decoy that reveals attackers", ["A backup of the production database", "A firewall rule that blocks scanners", "A redundant link between two sites"], "It supports detection and learning, and must be isolated."]
+    ]},
+    'chapter-15': { title: 'Build and troubleshoot a small network', items: [
+      ["Same-subnet pings work but remote ones fail. Where do you look first?", "Gateway, mask and routes", ["The cable to the local switch", "The MAC table aging timer", "The console password"], "Local traffic proves the link. The next dependency is leaving the subnet."],
+      ["A host is 192.168.1.10/24 with gateway 192.168.2.1. What is wrong?", "The gateway is outside the host's subnet", ["The host address is reserved for broadcast", "The mask is too short for a private address", "Nothing: gateways are usually remote"], "A gateway must be directly reachable on the local subnet."],
+      ["A router has two LANs on its own interfaces. Which routes are needed between them?", "None: both are connected routes", ["One static route for each LAN", "A default route on the router", "A dynamic routing protocol"], "Connected routes appear once the interfaces are up with addresses."],
+      ["Which method starts at the physical layer and moves up?", "Bottom-up", ["Top-down", "Divide-and-conquer", "Follow-the-path"], "Top-down starts at the application. Divide-and-conquer starts in the middle."],
+      ["An SVI stays down after `no shutdown`. What else must be true?", "The VLAN exists with an active port in it", ["The switch has a default route", "DHCP is enabled on the switch", "The console line has a password"], "An SVI needs its VLAN and usually at least one up/up port in that VLAN."],
+      ["Which command shows what a Cisco device sees directly connected?", "`show cdp neighbors detail`", ["`show ip route`", "`show mac address-table`", "`show ipv6 neighbors`"], "CDP discovers directly attached Cisco devices at Layer 2."],
+      ["Which issue causes unstable ARP mappings and intermittent failures?", "Duplicate IP addresses", ["A missing console password", "A saved startup configuration", "A long interface description"], "Two hosts answering for one IP makes the mapping flip between them."],
+      ["IPv4 works but IPv6 fails. What is the most useful thing to check?", "IPv6 prefixes, RA, ND and IPv6 routing", ["The IPv4 default route on the host", "The ARP cache of the gateway", "The DHCPv4 pool on the router"], "A working IPv4 path proves nothing about IPv6, which is configured separately."]
+    ]},
+    'chapter-16': { title: 'Follow one complete packet journey', items: [
+      ["In what order does a fresh laptop normally open an HTTPS page?", "DHCP, DNS, ARP for gateway, TCP, TLS, HTTP", ["DNS, DHCP, TCP, ARP, HTTP, TLS", "ARP, TCP, DHCP, DNS, TLS, HTTP", "DHCP, TCP, DNS, HTTP, ARP, TLS"], "Get configured, resolve the name, reach the next hop, open transport, secure it, then speak HTTP."],
+      ["For a remote server, what is the destination MAC on the first frame?", "The gateway's LAN MAC", ["The server's MAC", "The switch's MAC", "The DNS server's MAC"], "Ethernet only reaches the next hop on this link."],
+      ["With PAT at the edge, what does the server see as the source?", "The edge router's public IP and mapped port", ["The PC's private IP and original port", "The switch's management IP", "The ISP's DNS server address"], "PAT rewrites the source address and port at the boundary."],
+      ["Which ports does the client's first TCP SYN to an HTTPS server use?", "An ephemeral source, destination 443", ["Source 443, destination ephemeral", "Source 80, destination 443", "Both ports set to 443"], "The client picks a temporary port. The server listens on 443."],
+      ["Without NAT, what does a router leave unchanged on the IP packet?", "Source and destination IP addresses", ["The TTL value", "The header checksum", "The Ethernet MAC addresses"], "The TTL decrements and the IPv4 checksum is recalculated, and the frame is rebuilt."],
+      ["What replaces ARP in the IPv6 version of this journey?", "Neighbor Discovery over ICMPv6", ["DHCPv6 relay messages", "AAAA lookups through DNS", "TLS certificate validation"], "ARP is IPv4-only. AAAA replaces A for the name lookup."],
+      ["The DNS server is on another subnet. What does the host ARP for?", "Its default gateway", ["The DNS server", "The web server", "Nothing: DNS avoids ARP"], "Every remote destination still needs the local next hop first."]
+    ]}
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = BANK;
+  else root.QUIZ_BANK = BANK;
+})(typeof self !== 'undefined' ? self : this);
+
+'use strict';
+// One-question-at-a-time quiz used at the end of each chapter and on the juice page.
+(function (root) {
+  const LETTERS = ['A', 'B', 'C', 'D'];
+  const read = key => { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } };
+  const write = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage is optional */ } };
+  function shuffle(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  }
+  function rich(node, text) {
+    String(text).split('`').forEach((part, i) => {
+      if (!part) return;
+      if (i % 2) { const c = document.createElement('code'); c.textContent = part; node.append(c); } else node.append(part);
+    });
+    return node;
+  }
+  function el(tag, className, text) {
+    const n = document.createElement(tag);
+    if (className) n.className = className;
+    if (text !== undefined) rich(n, text);
+    return n;
+  }
+  function button(label, className, onClick) {
+    const b = el('button', className, label); b.type = 'button'; b.addEventListener('click', onClick); return b;
+  }
+
+  function mount(host, items, options) {
+    const opts = Object.assign({ eyebrow: 'CHECK YOURSELF', title: 'Chapter quiz', count: 0, key: '', source: null }, options);
+    const storeKey = opts.key ? 'cn-quiz-' + opts.key : '';
+    let deck, index, score, missed, answered;
+
+    function deal(pool) {
+      const picked = shuffle(pool);
+      deck = (opts.count && picked.length > opts.count ? picked.slice(0, opts.count) : picked)
+        .map(item => ({ item, options: shuffle([item[1]].concat(item[2])) }));
+      index = 0; score = 0; missed = []; answered = false;
+      draw(false);
+    }
+    function head() {
+      const box = el('div', 'quiz-head');
+      const left = el('div');
+      left.append(el('p', 'eyebrow', opts.eyebrow), el('h3', 'quiz-title', opts.title));
+      box.append(left);
+      const best = storeKey && read(storeKey);
+      if (best && best.total) box.append(el('p', 'quiz-best', 'Best: ' + best.score + ' / ' + best.total));
+      return box;
+    }
+    function drawResult() {
+      const total = deck.length, pct = Math.round(score / total * 100);
+      const prev = storeKey && read(storeKey);
+      if (storeKey && (!prev || score / total >= prev.score / prev.total)) write(storeKey, { score, total });
+      const box = el('div', 'quiz-result');
+      box.append(el('p', 'quiz-score', score + ' / ' + total));
+      box.append(el('p', 'quiz-verdict', pct >= 85 ? 'Solid. Come back in a couple of days and it will stick.' : pct >= 60 ? 'Close. Retry the ones you missed, then reread those parts.' : 'Worth another read before you retry.'));
+      const row = el('div', 'quiz-actions');
+      if (missed.length) row.append(button('Retry the ' + missed.length + ' you missed', 'quiz-primary', () => deal(missed.slice())));
+      row.append(button('Start over', 'quiz-ghost', () => deal(items)));
+      box.append(row);
+      return box;
+    }
+    function drawQuestion(focus) {
+      const card = deck[index], [q, correct, , why] = card.item;
+      const wrap = el('div', 'quiz-body');
+      const meter = el('div', 'quiz-meter'); meter.setAttribute('aria-hidden', 'true');
+      const fill = el('span'); fill.style.width = ((index + (answered ? 1 : 0)) / deck.length * 100) + '%'; meter.append(fill);
+      const count = el('p', 'quiz-count', 'Question ' + (index + 1) + ' of ' + deck.length + ' / score ' + score);
+      const title = el('p', 'quiz-question', q); title.tabIndex = -1;
+      wrap.append(meter, count, title);
+      const list = el('div', 'quiz-options'); list.setAttribute('role', 'group'); list.setAttribute('aria-label', 'Answer choices');
+      const feedback = el('div', 'quiz-feedback'); feedback.setAttribute('aria-live', 'polite');
+      const footer = el('div', 'quiz-actions');
+      const buttons = card.options.map((text, i) => {
+        const b = el('button', 'quiz-option'); b.type = 'button';
+        b.append(el('span', 'quiz-letter', LETTERS[i]), el('span', 'quiz-text', text));
+        b.addEventListener('click', () => choose(i));
+        list.append(b);
+        return b;
+      });
+      function choose(i) {
+        if (answered) return;
+        answered = true;
+        const right = card.options[i] === correct;
+        if (right) score++; else missed.push(card.item);
+        buttons.forEach((b, j) => {
+          b.disabled = true;
+          const isCorrect = card.options[j] === correct;
+          if (isCorrect) { b.classList.add('is-correct'); b.append(el('span', 'quiz-mark', 'Correct')); }
+          else if (j === i) { b.classList.add('is-wrong'); b.append(el('span', 'quiz-mark', 'Your pick')); }
+        });
+        fill.style.width = ((index + 1) / deck.length * 100) + '%';
+        count.textContent = 'Question ' + (index + 1) + ' of ' + deck.length + ' / score ' + score;
+        feedback.replaceChildren(el('p', right ? 'quiz-right' : 'quiz-wrong', right ? 'Right.' : 'Not quite.'), el('p', 'quiz-why', why));
+        if (opts.source) { const link = opts.source(card.item); if (link) feedback.append(link); }
+        const next = button(index + 1 < deck.length ? 'Next question' : 'See my score', 'quiz-primary', () => { index++; answered = false; draw(true); });
+        footer.replaceChildren(next);
+        next.focus({ preventScroll: true });
+      }
+      wrap.append(list, feedback, footer);
+      if (focus) setTimeout(() => title.focus({ preventScroll: true }), 0);
+      return wrap;
+    }
+    function draw(focus) {
+      const parts = [head(), index < deck.length ? drawQuestion(focus) : drawResult()];
+      host.replaceChildren(...parts);
+      if (focus && host.getBoundingClientRect().top < 0) host.scrollIntoView({ block: 'start' });
+    }
+    deal(items);
+    return { restart: () => deal(items) };
+  }
+
+  root.ChapterQuiz = { mount, shuffle, rich };
+  function autoMount() {
+    if (!root.QUIZ_BANK) return;
+    document.querySelectorAll('[data-quiz]').forEach(node => {
+      const chapter = root.QUIZ_BANK[node.dataset.quiz];
+      if (chapter) mount(node, chapter.items, { title: 'Quiz: ' + chapter.title, key: node.dataset.quiz });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoMount); else autoMount();
+})(window);
+
+'use strict';
+// Pure logic for the endterm trainer: task builders, generators and answer checking.
+(function (root, factory) {
+  const api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.TrainerCore = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  /* ---------- IPv4 ---------- */
+  function parseIP(text) {
+    const m = String(text).trim().match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+    if (!m) return null;
+    const o = m.slice(1).map(Number);
+    if (o.some(x => x > 255)) return null;
+    return o[0] * 16777216 + o[1] * 65536 + o[2] * 256 + o[3];
+  }
+  const ip = n => [Math.floor(n / 16777216) % 256, Math.floor(n / 65536) % 256, Math.floor(n / 256) % 256, n % 256].join('.');
+  const need = t => { const n = parseIP(t); if (n === null) throw new Error('bad ip ' + t); return n; };
+  const maskOf = p => ip(2 ** 32 - 2 ** (32 - p));
+  function subnet(n, p) {
+    const size = 2 ** (32 - p), network = Math.floor(n / size) * size;
+    return { network, broadcast: network + size - 1, first: network + 1, last: network + size - 2, size, usable: size - 2, prefix: p };
+  }
+  const cidr = s => ip(s.network) + '/' + s.prefix;
+  function boundary(p) {
+    const index = Math.min(3, Math.floor((p - 1) / 8)), bits = p - index * 8;
+    return { index, name: ['1st', '2nd', '3rd', '4th'][index], bits, octet: 256 - 2 ** (8 - bits), block: 2 ** (8 - bits), split: Array(index).fill(8).concat(bits).join(' + ') };
+  }
+  function locate(n, p) {
+    const b = boundary(p), value = Math.floor(n / 2 ** (24 - b.index * 8)) % 256, start = Math.floor(value / b.block) * b.block;
+    return { value, start, end: start + b.block - 1 };
+  }
+  function hostBits(hosts) { let h = 2; while (2 ** h - 2 < hosts) h++; return h; }
+  function vlsm(base, parent, list) {
+    let cursor = need(base);
+    return list.map((item, i) => [item, i]).sort((a, b) => b[0][1] - a[0][1] || a[1] - b[1]).map(([[name, hosts, extra]]) => {
+      const h = hostBits(hosts), size = 2 ** h;
+      cursor = Math.ceil(cursor / size) * size;
+      const s = subnet(cursor, 32 - h);
+      cursor += size;
+      return Object.assign({ name, hosts, h, extra }, s);
+    });
+  }
+
+  /* ---------- IPv6 ---------- */
+  function parseV6(text) {
+    const t = String(text).trim().toLowerCase();
+    if (!/^[0-9a-f:]+$/.test(t) || (t.match(/::/g) || []).length > 1 || /:::/.test(t)) return null;
+    const groups = s => s === '' ? [] : s.split(':');
+    let parts;
+    if (t.includes('::')) {
+      const [l, r] = t.split('::'), a = groups(l), b = groups(r), fill = 8 - a.length - b.length;
+      if (fill < 1) return null;
+      parts = a.concat(Array(fill).fill('0'), b);
+    } else parts = groups(t);
+    if (parts.length !== 8 || parts.some(p => !/^[0-9a-f]{1,4}$/.test(p))) return null;
+    return parts.map(p => parseInt(p, 16));
+  }
+  function v6(words) {
+    let best = -1, len = 0;
+    for (let i = 0; i < 8;) {
+      if (words[i] !== 0) { i++; continue; }
+      let j = i; while (j < 8 && words[j] === 0) j++;
+      if (j - i > len && j - i > 1) { best = i; len = j - i; }
+      i = j;
+    }
+    const hex = a => a.map(w => w.toString(16)).join(':');
+    return best < 0 ? hex(words) : hex(words.slice(0, best)) + '::' + hex(words.slice(best + len));
+  }
+  const v6full = words => words.map(w => w.toString(16).padStart(4, '0')).join(':');
+  const withSubnet = (prefixWords, id) => { const w = prefixWords.slice(0, 3).concat(id, 0, 0, 0, 0); return v6(w) + '/64'; };
+
+  /* ---------- Answer checking ---------- */
+  const clean = v => String(v).trim().replace(/\s+/g, ' ');
+  const sameV6 = (a, b) => { const x = parseV6(a), y = parseV6(b); return !!x && !!y && x.every((w, i) => w === y[i]); };
+  function splitPrefix(v) { const m = clean(v).replace(/\s*\/\s*/, '/').match(/^(.+)\/(\d{1,3})$/); return m ? [m[1], Number(m[2])] : null; }
+  const checkers = {
+    int: (v, a) => clean(v).replace(/[,\s]/g, '') === String(a),
+    ip: (v, a) => { const n = parseIP(v); return n !== null && n === need(a); },
+    cidr: (v, a) => { const x = splitPrefix(v), y = splitPrefix(a); return !!x && x[1] === y[1] && parseIP(x[0]) === need(y[0]); },
+    v6: (v, a) => sameV6(v, a),
+    v6cidr: (v, a) => { const x = splitPrefix(v), y = splitPrefix(a); return !!x && x[1] === y[1] && sameV6(x[0], y[0]); },
+    v6full: (v, a) => clean(v).toLowerCase() === a,
+    v6short: (v, a) => clean(v).toLowerCase() === a,
+    v6cmd: (v, a) => {
+      const pick = t => clean(t).replace(/^.*#\s*/, '').match(/^ipv6 add(?:r|re|res|ress)? (.+)$/i);
+      const x = pick(v), y = pick(a);
+      return !!x && !!y && checkers.v6cidr(x[1], y[1]);
+    }
+  };
+  const isCorrect = (field, value) => checkers[field.type](value, field.answer);
+  function grade(task, values) {
+    const results = task.fields.map((f, i) => isCorrect(f, values[i] === undefined ? '' : values[i]));
+    return { results, right: results.filter(Boolean).length, total: results.length, solved: results.every(Boolean) };
+  }
+
+  /* ---------- Random helpers ---------- */
+  function rngFrom(seed) {
+    let a = seed >>> 0;
+    return function () { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+  const between = (r, a, b) => a + Math.floor(r() * (b - a + 1));
+  const choose = (r, list) => list[Math.floor(r() * list.length)];
+  const f = (label, type, answer, placeholder) => ({ label, type, answer: String(answer), placeholder: placeholder || '' });
+  const ORGS = ['A dental clinic', 'A logistics firm', 'A secondary school', 'A city library', 'A film studio', 'A courier company', 'A research lab', 'A hotel chain', 'A ferry operator', 'A farm cooperative'];
+  const HOSTS = ['A reception PC', 'A door controller', 'A label printer', 'A lab server', 'A wall display', 'A payment terminal', 'A backup NAS', 'A staff laptop'];
+  const UNITS = ['branch', 'department', 'floor', 'site', 'workshop'];
+  const AREAS = [['Guest Wi-Fi', 'Offices', 'Kitchen', 'Security'], ['Students', 'Teachers', 'Admin', 'Printers'], ['Warehouse', 'Sales', 'Finance', 'CCTV'], ['Wards', 'Clinics', 'Records', 'Pharmacy']];
+  const DEPTS = [['Design', 'Sales', 'Servers', 'Cameras'], ['Editing', 'Office', 'Storage', 'Sensors'], ['Support', 'Billing', 'Database', 'Phones']];
+  const classB = (r, third) => '172.' + between(r, 16, 31) + '.' + third + '.0';
+  const c192 = (r, third) => '192.168.' + third + '.0';
+  const aligned3 = (r, p) => Math.floor(between(r, 0, 239) / 2 ** (24 - p)) * 2 ** (24 - p);
+  function usableHostIP(r, prefix) {
+    for (;;) {
+      const text = prefix >= 24 ? '192.168.' + between(r, 1, 254) + '.' + between(r, 1, 254) : '172.' + between(r, 16, 31) + '.' + between(r, 1, 254) + '.' + between(r, 1, 254);
+      const n = need(text), s = subnet(n, prefix);
+      if (n !== s.network && n !== s.broadcast) return text;
+    }
+  }
+  function blockSteps(address, p) {
+    const n = need(address), b = boundary(p), s = subnet(n, p), where = locate(n, p);
+    return {
+      s, b, where, intro: [
+        { t: 'Find the interesting octet', b: `/${p} = ${b.split}, so the split is in the ${b.name} octet. Mask \`${maskOf(p)}\`.` },
+        { t: 'Find the block size', b: `block = 256 - ${b.octet} = ${b.block}. Subnets start at multiples of ${b.block}.` },
+        { t: 'Find the subnet', b: `The ${b.name} octet is ${where.value}, which lies in ${where.start} to ${where.end}. Network \`${ip(s.network)}\`, broadcast \`${ip(s.broadcast)}\`.` }
+      ]
+    };
+  }
+
+  /* ---------- Task types ---------- */
+  const TASKS = [
+    { id: 'range', n: 1, title: 'Range of assignable addresses', recipe: 'Interesting octet, block size, network and broadcast, then first = network + 1 and last = broadcast - 1.',
+      random: r => { const p = choose(r, [18, 19, 20, 21, 22, 23, 25, 26, 27, 28]); return { address: usableHostIP(r, p), p }; },
+      build: ({ address, p }) => { const k = blockSteps(address, p); return {
+        prompt: `What is the range of assignable IP addresses for the subnet containing ${address} /${p}?`,
+        fields: [f('First usable', 'ip', ip(k.s.first), 'a.b.c.d'), f('Last usable', 'ip', ip(k.s.last), 'a.b.c.d')],
+        steps: k.intro.concat({ t: 'Write the range', b: `First = network + 1, last = broadcast - 1.` }),
+        answer: `${ip(k.s.first)} - ${ip(k.s.last)}` }; } },
+    { id: 'network', n: 2, title: 'Network address of a host', recipe: 'Take the largest multiple of the block that is not bigger than the host value.',
+      random: r => { const p = choose(r, [25, 26, 27, 28, 29, 20, 21, 22]); return { who: choose(r, HOSTS), address: usableHostIP(r, p), p }; },
+      build: ({ who, address, p }) => { const k = blockSteps(address, p); return {
+        prompt: `${who} has the IP address ${address} /${p}. What is the network address of its subnet?`,
+        fields: [f('Network address', 'ip', ip(k.s.network), 'a.b.c.d')],
+        steps: k.intro, answer: `${ip(k.s.network)} /${p}` }; } },
+    { id: 'broadcast', n: 3, title: 'Directed broadcast address', recipe: 'Find the next subnet, then go back one address.',
+      random: r => { const p = choose(r, [18, 19, 20, 21, 22, 23, 26, 27, 28]); return { who: choose(r, HOSTS), address: usableHostIP(r, p), p }; },
+      build: ({ who, address, p }) => { const k = blockSteps(address, p); return {
+        prompt: `${who} with the IP address ${address} /${p} must reach every device in its subnet. Which directed broadcast address does it use?`,
+        fields: [f('Broadcast address', 'ip', ip(k.s.broadcast), 'a.b.c.d')],
+        steps: k.intro.concat({ t: 'One before the next subnet', b: `Next subnet is \`${ip(k.s.network + k.s.size)}\`. Minus 1 gives \`${ip(k.s.broadcast)}\`.` }),
+        answer: ip(k.s.broadcast) }; } },
+    { id: 'count', n: 4, title: 'How many subnets fit in a block', recipe: 'Borrowed bits = new prefix - old prefix. Subnets = 2^borrowed.',
+      random: r => { const p1 = between(r, 17, 23), p2 = Math.min(30, p1 + between(r, 4, 10)); return { org: choose(r, ORGS), unit: choose(r, UNITS), base: classB(r, aligned3(r, p1)), p1, p2 }; },
+      build: ({ org, unit, base, p1, p2 }) => { const b = p2 - p1, total = 2 ** b; return {
+        prompt: `${org} owns the block ${base} /${p1}. Each ${unit} gets one /${p2} subnet. How many subnets can it create?`,
+        fields: [f('Number of subnets', 'int', total, 'whole number')],
+        steps: [{ t: 'Compare the prefixes', b: `Owned /${p1}, each new subnet /${p2}.` }, { t: 'Count the borrowed bits', b: `${p2} - ${p1} = ${b} bits, so 2^${b} subnets.` }, { t: 'Calculate and double-check', b: `2^${b} = ${total}. Check: 2^${32 - p1} addresses / 2^${32 - p2} per subnet = ${total}.` }],
+        answer: `${total} subnets` }; } },
+    { id: 'mask', n: 5, title: 'Mask from a host count', recipe: 'Pick the fewest host bits with 2^h - 2 >= hosts. That gives the mask and the most subnets.',
+      random: r => { const p = between(r, 20, 23), h = between(r, 4, Math.min(9, 31 - p)), hosts = between(r, 2 ** (h - 1) - 1, 2 ** h - 2); return { org: choose(r, ORGS), unit: choose(r, UNITS), base: c192(r, aligned3(r, p)), p, hosts }; },
+      build: ({ org, unit, base, p, hosts }) => { const h = hostBits(hosts), np = 32 - h, b = np - p, count = 2 ** b; return {
+        prompt: `${org} uses ${base} /${p}. Each ${unit} needs its own subnet with at least ${hosts} usable host addresses. Which subnet mask gives enough addresses and the most equal-sized subnets? How many subnets is that?`,
+        fields: [f('Subnet mask (dotted)', 'ip', maskOf(np), '255.255.255.x'), f('Number of subnets', 'int', count, 'whole number')],
+        steps: [{ t: 'Fewest host bits that fit', b: `h = ${h - 1} gives 2^${h - 1} - 2 = ${2 ** (h - 1) - 2}, too few. h = ${h} gives 2^${h} - 2 = ${2 ** h - 2}, enough.` }, { t: 'Host bits become the mask', b: `Prefix = 32 - ${h} = /${np}, mask \`${maskOf(np)}\`.` }, { t: 'Count the subnets', b: `Borrowed = ${np} - ${p} = ${b}, so 2^${b} = ${count} subnets.` }],
+        answer: `${maskOf(np)} (/${np}), ${count} subnets` }; } },
+    { id: 'equal', n: 6, title: 'Split into equal subnets', recipe: 'Borrow bits for the subnet count, then list them by adding the block each time.',
+      random: r => { const p = between(r, 19, 23); const count = choose(r, [4, 8]); return { org: choose(r, ORGS), base: classB(r, aligned3(r, p)), p, count }; },
+      build: ({ org, base, p, count }) => { const b = Math.log2(count), np = p + b, parent = subnet(need(base), p), size = 2 ** (32 - np), list = Array.from({ length: count }, (_, i) => subnet(parent.network + i * size, np)), bd = boundary(np); return {
+        prompt: `${org} has the network ${base} /${p}. Divide it into ${count} equal-sized subnets. List the network address and prefix of each subnet.`,
+        fields: list.map((s, i) => f('Subnet ' + (i + 1), 'cidr', cidr(s), 'a.b.c.d/nn')),
+        steps: [{ t: 'Borrow the bits', b: `${count} = 2^${b}, so borrow ${b}. New prefix /${p} + ${b} = /${np}.` }, { t: 'Find the block', b: `/${np} has mask \`${maskOf(np)}\`, block ${bd.block} in the ${bd.name} octet.` }, { t: 'List and check the end', b: `Add ${bd.block} each time. The last subnet ends at \`${ip(list[count - 1].broadcast)}\`, the last address of the original block.` }],
+        answer: list.map(cidr).join(', ') }; } },
+    { id: 'hosts', n: 7, title: 'Mask and hosts for N subnets', recipe: 'Borrow bits for N, add them to the given prefix, write the dotted mask, then hosts = 2^h - 2.',
+      random: r => { const p = between(r, 20, 24), count = choose(r, [4, 8, 16, 32]); return { org: choose(r, ORGS), base: c192(r, aligned3(r, p)), p, count }; },
+      build: ({ org, base, p, count }) => { const b = Math.log2(count), np = p + b, h = 32 - np, hosts = 2 ** h - 2; return {
+        prompt: `${org} has the network ${base} /${p}. Divide it into ${count} equal-sized subnets. Which subnet mask should be used, and how many usable host addresses will each subnet have?`,
+        fields: [f('Subnet mask (dotted)', 'ip', maskOf(np), '255.255.x.x'), f('Usable hosts per subnet', 'int', hosts, 'whole number')],
+        steps: [{ t: 'Borrow bits', b: `${count} = 2^${b}, so the new prefix is /${p} + ${b} = /${np}.` }, { t: 'Write the mask dotted', b: `/${np} = \`${maskOf(np)}\`. The question asks for the mask, so give the dotted form.` }, { t: 'Count usable hosts', b: `Host bits = 32 - ${np} = ${h}, so 2^${h} - 2 = ${hosts}.` }],
+        answer: `${maskOf(np)} (/${np}), ${hosts} hosts` }; } },
+    { id: 'four', n: 8, title: 'Four subnets: range and broadcast', recipe: 'Work the first subnet fully. The others follow by adding the block.',
+      random: r => { const p = between(r, 20, 23); return { org: choose(r, ORGS), base: classB(r, aligned3(r, p)), p }; },
+      build: ({ org, base, p }) => { const np = p + 2, parent = subnet(need(base), p), size = 2 ** (32 - np), list = [0, 1, 2, 3].map(i => subnet(parent.network + i * size, np)), bd = boundary(np);
+        const fields = [], rows = list.map((s, i) => { const at = fields.length; fields.push(f(`Subnet ${i + 1} network`, 'cidr', cidr(s), 'a.b.c.d/nn'), f(`Subnet ${i + 1} first`, 'ip', ip(s.first)), f(`Subnet ${i + 1} last`, 'ip', ip(s.last)), f(`Subnet ${i + 1} broadcast`, 'ip', ip(s.broadcast))); return { head: 'Subnet ' + (i + 1), cells: [at, at + 1, at + 2, at + 3] }; });
+        return {
+        prompt: `${org} uses ${base} /${p}. Divide it into four equal-sized subnets. For each, give the network address, usable host range and broadcast address.`,
+        fields, table: { cols: ['', 'Network/prefix', 'First usable', 'Last usable', 'Broadcast'], rows },
+        steps: [{ t: 'Borrowed bits and new prefix', b: `4 = 2^2, so /${p} + 2 = /${np}. Mask \`${maskOf(np)}\`, block ${bd.block} in the ${bd.name} octet.` }, { t: 'First subnet in full', b: `Network \`${ip(list[0].network)}\`, usable \`${ip(list[0].first)}\` to \`${ip(list[0].last)}\`, broadcast \`${ip(list[0].broadcast)}\`.` }, { t: 'Add the block for the rest', b: `The last broadcast \`${ip(list[3].broadcast)}\` must be the end of the original block.` }],
+        answer: list.map(s => `${cidr(s)}: ${ip(s.first)} - ${ip(s.last)}, broadcast ${ip(s.broadcast)}`).join('; ') }; } },
+    { id: 'vlsm', n: 9, title: 'VLSM plan', recipe: 'Sort largest first, size each with 2^h - 2, place each right after the previous broadcast.',
+      random: r => { const names = choose(r, AREAS); return { org: choose(r, ORGS), base: classB(r, Math.floor(between(r, 0, 239) / 4) * 4), p: 22, areas: [[names[0], between(r, 255, 500)], [names[1], between(r, 65, 126)], [names[2], between(r, 31, 62)], [names[3], between(r, 15, 30)]] }; },
+      build: ({ org, base, p, areas }) => { const plan = vlsm(base, p, areas), fields = [];
+        const rows = plan.map(s => { const at = fields.length; fields.push(f(`${s.name} network`, 'cidr', cidr(s), 'a.b.c.d/nn'), f(`${s.name} first`, 'ip', ip(s.first)), f(`${s.name} last`, 'ip', ip(s.last)), f(`${s.name} broadcast`, 'ip', ip(s.broadcast))); return { head: `${s.name} (${s.hosts})`, cells: [at, at + 1, at + 2, at + 3] }; });
+        return {
+        prompt: `${org} has the block ${base} /${p} and needs four subnets: ${areas.map(a => `${a[0]} ${a[1]} hosts`).join(', ')}. Use VLSM. List each network address, prefix, usable host range and broadcast address.`,
+        fields, table: { cols: ['Area', 'Network/prefix', 'First usable', 'Last usable', 'Broadcast'], rows },
+        steps: [{ t: 'Sort and size', b: plan.map(s => `${s.name} ${s.hosts}: 2^${s.h} - 2 = ${s.usable}, /${s.prefix}`).join('. ') + '.' }, { t: 'Place the biggest block', b: `${plan[0].name} takes \`${cidr(plan[0])}\`, ending at \`${ip(plan[0].broadcast)}\`.` }, { t: 'Fit the rest in order', b: `Each subnet starts right after the previous broadcast. Everything stays inside \`${ip(need(base))}/${p}\`.` }],
+        answer: plan.map(s => `${s.name} ${cidr(s)}`).join(', ') }; } },
+    { id: 'vlsm2', n: 10, title: 'VLSM with two routers', recipe: 'Count every segment including the R1-R2 link (/30), allocate largest first, then draw and label.',
+      random: r => { const n = choose(r, DEPTS); return { org: choose(r, ORGS), base: c192(r, Math.floor(between(r, 0, 239) / 2) * 2), p: 23, r1: [[n[0], between(r, 129, 254)], [n[1], between(r, 65, 126)]], r2: [[n[2], between(r, 17, 30)], [n[3], between(r, 7, 14)]] }; },
+      build: ({ org, base, p, r1, r2 }) => { const plan = vlsm(base, p, r1.concat(r2, [['R1-R2 link', 2]])), side = name => r1.some(x => x[0] === name) ? 'R1' : r2.some(x => x[0] === name) ? 'R2' : 'both';
+        const find = name => plan.find(s => s.name === name);
+        return {
+        prompt: `${org} uses ${base} /${p}. Two routers are directly connected. Each department connects to its router through its own switch. R1: ${r1.map(a => `${a[0]} ${a[1]} hosts`).join(', ')}. R2: ${r2.map(a => `${a[0]} ${a[1]} hosts`).join(', ')}. Use VLSM and give the network address and prefix of every subnet. Draw the topology on paper.`,
+        fields: plan.map(s => f(`${s.name} (${s.hosts} hosts)`, 'cidr', cidr(s), 'a.b.c.d/nn')),
+        steps: [{ t: 'Count every subnet', b: plan.map(s => `${s.name} (${side(s.name)}) ${s.hosts}: 2^${s.h} - 2 = ${s.usable}, /${s.prefix}`).join('. ') + '.' }, { t: 'Allocate largest first', b: 'Each network starts one address after the previous one ends, with the /30 link last.' }, { t: 'Check the plan', b: `Each subnet fits its hosts, none overlap, all sit inside \`${ip(need(base))}/${p}\`, the router link is included, and the topology is drawn and labelled.` }],
+        topology: { r1: r1.map(a => ({ name: a[0], net: cidr(find(a[0])) })), r2: r2.map(a => ({ name: a[0], net: cidr(find(a[0])) })), link: cidr(find('R1-R2 link')) },
+        answer: plan.map(s => `${s.name} ${cidr(s)}`).join(', ') }; } },
+    { id: 'ipv6', n: 11, title: 'IPv6 subnetting', recipe: 'Subnet ID bits = 64 - prefix. List the IDs in hex (after 9 comes a). No minus 2.',
+      random: r => { const third = between(r, 1, 65535).toString(16); const p = choose(r, [48, 56, 56, 60]); if (p === 48) return { prefix: `2001:db8:${third}::`, p, lans: choose(r, [10, 12, 16, 18]) }; const fourth = (p === 56 ? between(r, 1, 255) * 256 : between(r, 1, 4095) * 16).toString(16); return { prefix: `2001:db8:${third}:${fourth}::`, p }; },
+      build: ({ prefix, p, lans }) => { const words = parseV6(prefix), bits = 64 - p, total = 2 ** bits;
+        if (p === 48) {
+          const ids = Array.from({ length: lans }, (_, i) => i + 1), gw = v6(words.slice(0, 3).concat(1, 0, 0, 0, 1)) + '/64';
+          const ask = [1, 10, lans];
+          return { prompt: `An ISP assigns a company the prefix ${v6(words)}/48. Every LAN uses a /64. a) How many /64 subnets can it create? b) The company needs ${lans} LANs with subnet IDs 1, 2, 3 and so on: write LAN 1, LAN 10 and LAN ${lans}. c) Give the command that sets R1 G0/0/0 to ::1 in LAN 1.`,
+            fields: [f('a) /64 subnets', 'int', total, 'whole number')].concat(ask.map(n => f(`b) LAN ${n}`, 'v6cidr', withSubnet(words, n), 'xxxx::/64')), f('c) Command', 'v6cmd', 'ipv6 address ' + gw, 'ipv6 address ...')),
+            steps: [{ t: 'Count the subnet ID bits', b: `64 - 48 = 16 bits, so 2^16 = 65,536 subnets. No minus 2: IPv6 has no broadcast.` }, { t: 'Find the subnet ID', b: 'A /48 ends after the 3rd hextet, so the whole 4th hextet numbers the subnets.' }, { t: 'List in hex', b: `After 9 comes a. ${ids.slice(0, 12).map(n => n.toString(16)).join(', ')}. So LAN 10 is \`${withSubnet(words, 10)}\`.` }, { t: 'Configure the interface', b: `\`ipv6 unicast-routing\`, then on G0/0/0: \`ipv6 address ${gw}\` and \`no shutdown\`.` }],
+            answer: `${total.toLocaleString('en-US')} subnets; LAN 1 ${withSubnet(words, 1)}; LAN ${lans} ${withSubnet(words, lans)}; ipv6 address ${gw}` };
+        }
+        const base = words[3], at = n => withSubnet(words, base + n), last = at(total - 1), gw = v6(words.slice(0, 4).concat(0, 0, 0, 1)) + '/64';
+        return { prompt: `An ISP assigns ${v6(words)}/${p}. Every LAN uses a /64. a) How many /64 subnets can you create? b) Write the first three subnets and the last one. c) Give the command that sets R1 G0/0/0 to ::1 in the first subnet.`,
+          fields: [f('a) /64 subnets', 'int', total, 'whole number'), f('b) First', 'v6cidr', at(0), 'xxxx::/64'), f('b) Second', 'v6cidr', at(1), 'xxxx::/64'), f('b) Third', 'v6cidr', at(2), 'xxxx::/64'), f('b) Last', 'v6cidr', last, 'xxxx::/64'), f('c) Command', 'v6cmd', 'ipv6 address ' + gw, 'ipv6 address ...')],
+          steps: [{ t: 'Count the subnet ID bits', b: `64 - ${p} = ${bits} bits, so 2^${bits} = ${total} subnets.` }, { t: 'See which hex digits change', b: `${bits / 4} hex digit${bits === 4 ? '' : 's'} of the 4th hextet are yours to number. The rest stay fixed.` }, { t: 'List in hex', b: `\`${at(0)}\`, \`${at(1)}\`, \`${at(2)}\`, and the last is \`${last}\`.` }, { t: 'Configure the interface', b: `\`ipv6 address ${gw}\`.` }],
+          answer: `${total} subnets; ${at(0)}, ${at(1)}, ${at(2)} ... ${last}; ipv6 address ${gw}` }; } }
+  ];
+  const BONUS = [
+    { id: 'eui', n: 'B1', title: 'EUI-64 by hand', recipe: 'Split the MAC, insert ff:fe, flip the 7th bit of the first byte.',
+      random: r => ({ mac: Array.from({ length: 6 }, () => between(r, 0, 255).toString(16).padStart(2, '0')).join(':').replace(/^../, () => (between(r, 0, 63) * 4).toString(16).padStart(2, '0')), prefix: `2001:db8:${between(r, 1, 65535).toString(16)}:${between(r, 1, 255).toString(16)}::` }),
+      build: ({ mac, prefix }) => { const b = mac.split(':').map(x => parseInt(x, 16)), flipped = b[0] ^ 2, iid = [flipped * 256 + b[1], b[2] * 256 + 0xff, 0xfe00 + b[3], b[4] * 256 + b[5]], words = parseV6(prefix), gua = v6(words.slice(0, 4).concat(iid)), lla = v6([0xfe80, 0, 0, 0].concat(iid)), hex2 = x => x.toString(16).padStart(2, '0'); return {
+        prompt: `MAC ${mac}, prefix ${v6(words)}/64. Using EUI-64, find the global unicast address and the link-local address.`,
+        fields: [f('GUA', 'v6', gua, 'xxxx:...'), f('LLA', 'v6', lla, 'fe80::...')],
+        steps: [{ t: 'Split and insert', b: `\`${mac.slice(0, 8)}\` + \`ff:fe\` + \`${mac.slice(9)}\`.` }, { t: 'Flip the 7th bit', b: `${hex2(b[0])} = ${b[0].toString(2).padStart(8, '0')} becomes ${flipped.toString(2).padStart(8, '0')} = ${hex2(flipped)}.` }, { t: 'Join with the prefix', b: `GUA \`${gua}\`, LLA \`${lla}\`.` }],
+        answer: `${gua} and ${lla}` }; } },
+    { id: 'expand', n: 'B2', title: 'IPv6 expand and compress', recipe: 'Expand: count the written groups, fill to 8. Compress: drop leading zeros, one :: on the longest zero run.',
+      random: r => { const words = [0x2001, 0xdb8, between(r, 0, 3) ? between(r, 1, 4095) : 0, 0, 0, 0, 0, between(r, 1, 65535)]; words[3] = choose(r, [0, 0, between(r, 1, 255) * 16]); words[4] = choose(r, [0, between(r, 1, 15) * 256]); words[6] = choose(r, [0, between(r, 1, 4095)]); return { words }; },
+      build: ({ words }) => { const short = v6(words), full = v6full(words); return {
+        prompt: `Expand ${short} to all 8 hextets, and give the shortest form of ${full}.`,
+        fields: [f('Fully expanded', 'v6full', full, 'xxxx:xxxx:...'), f('Shortest form', 'v6short', short, 'xxxx::...')],
+        steps: [{ t: 'Expand', b: `Written groups in \`${short}\`: ${short.split(':').filter(Boolean).length}. \`::\` fills the rest up to 8.` }, { t: 'Compress', b: 'Drop leading zeros in each hextet. Use `::` once, on the longest run of two or more zero hextets, leftmost on a tie.' }],
+        answer: `${full} and ${short}` }; } },
+    { id: 'ack', n: 'B3', title: 'TCP sequence and ACK', recipe: 'ACK = first byte + bytes received. It names the next byte expected.',
+      random: r => ({ seq: between(r, 1, 90) * 1000 + 1, bytes: between(r, 1, 29) * 50 }),
+      build: ({ seq, bytes }) => ({
+        prompt: `A TCP segment starts at sequence number ${seq} and carries ${bytes} bytes. All bytes arrive in order. What is the last byte received, and what ACK does the receiver send?`,
+        fields: [f('Last byte received', 'int', seq + bytes - 1, 'number'), f('ACK number', 'int', seq + bytes, 'number')],
+        steps: [{ t: 'Last byte', b: `${seq} + ${bytes} - 1 = ${seq + bytes - 1}.` }, { t: 'Next expected', b: `${seq} + ${bytes} = ${seq + bytes}. The ACK names the byte it needs next.` }],
+        answer: `last ${seq + bytes - 1}, ACK ${seq + bytes}` }) }
+  ];
+  return { TASKS, BONUS, grade, isCorrect, rngFrom, parseIP, ip, subnet, parseV6, v6, v6full, hostBits, cidr, maskOf };
+});
+
+(function () {
+  const W = {
+    range: { address: '10.91.203.77', p: 19 },
+    network: { who: 'A wall display', address: '192.168.33.201', p: 28 },
+    broadcast: { who: 'A backup NAS', address: '172.19.150.9', p: 21 },
+    count: { org: 'A courier company', unit: 'site', base: '172.17.128.0', p1: 18, p2: 26 },
+    mask: { org: 'A hotel chain', unit: 'floor', base: '192.168.8.0', p: 21, hosts: 120 },
+    equal: { org: 'A film studio', base: '10.40.32.0', p: 20, count: 8 },
+    hosts: { org: 'A secondary school', base: '192.168.16.0', p: 22, count: 8 },
+    four: { org: 'A research lab', base: '10.40.32.0', p: 20 },
+    vlsm: { org: 'A city library', base: '172.18.44.0', p: 22, areas: [['Classrooms', 300], ['Library', 120], ['Admin', 45], ['CCTV', 18]] },
+    vlsm2: { org: 'A training center', base: '192.168.20.0', p: 23, r1: [['Teaching', 180], ['Office', 90]], r2: [['Storage', 26], ['Sensors', 9]] },
+    ipv6: { prefix: '2001:db8:77::', p: 48, lans: 12 },
+    eui: { mac: '5c:26:0a:11:22:33', prefix: '2001:db8:1:10::' },
+    expand: { words: [0x2001, 0xdb8, 0, 0, 0xa0, 0, 0, 1] },
+    ack: { seq: 1001, bytes: 500 }
+  };
+  window.TrainerCore.TASKS.concat(window.TrainerCore.BONUS).forEach(t => { t.worked = W[t.id]; });
+})();
+'use strict';
+(function () {
+  const C = window.TrainerCore, Q = window.ChapterQuiz;
+  const STORE = 'cn-juice-solved';
+  const readSolved = () => { try { return new Set(JSON.parse(localStorage.getItem(STORE)) || []); } catch (e) { return new Set(); } };
+  const solved = readSolved();
+  const saveSolved = () => { try { localStorage.setItem(STORE, JSON.stringify([...solved])); } catch (e) { /* optional */ } };
+
+  function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) Q.rich(n, text); return n; }
+  function btn(label, cls, fn, type) { const b = el('button', cls, label); b.type = type || 'button'; if (fn) b.addEventListener('click', fn); return b; }
+  const freshRng = () => C.rngFrom(Math.floor(Math.random() * 2 ** 31));
+
+  function updateProgress() {
+    const done = C.TASKS.filter(t => solved.has(t.id)).length;
+    const label = document.getElementById('progress-label'), bar = document.getElementById('progress-fill');
+    if (label) label.textContent = done + ' of ' + C.TASKS.length + ' task types solved';
+    if (bar) bar.style.width = (done / C.TASKS.length * 100) + '%';
+    C.TASKS.concat(C.BONUS).forEach(t => { const m = document.getElementById('done-' + t.id); if (m) m.hidden = !solved.has(t.id); });
+  }
+
+  function renderSolution(task) {
+    const box = el('div', 'solution');
+    const list = el('ol', 'solution-steps');
+    task.steps.forEach(s => { const li = el('li'); li.append(el('strong', '', s.t), el('span', '', s.b)); list.append(li); });
+    box.append(list);
+    if (task.topology) box.append(renderTopology(task.topology));
+    const ans = el('p', 'solution-answer'); ans.append(el('strong', '', 'Answer '), el('span', '', task.answer)); box.append(ans);
+    return box;
+  }
+  function renderTopology(t) {
+    const lan = item => { const b = el('div', 'topo-lan'); b.append(el('strong', '', item.name)); const c = el('code'); c.textContent = item.net; b.append(c); return b; };
+    const side = list => { const d = el('div', 'topo-lans'); list.forEach(i => d.append(lan(i))); return d; };
+    const wrap = el('div', 'topo'); wrap.setAttribute('role', 'img');
+    wrap.setAttribute('aria-label', 'Topology: R1 connects ' + t.r1.map(x => x.name).join(' and ') + '; R2 connects ' + t.r2.map(x => x.name).join(' and ') + '; routers joined by link ' + t.link);
+    const link = el('div', 'topo-link'); link.append(el('span', '', 'R1-R2 link')); const c = el('code'); c.textContent = t.link; link.append(c);
+    wrap.append(side(t.r1), el('div', 'topo-router', 'R1'), link, el('div', 'topo-router', 'R2'), side(t.r2));
+    return wrap;
+  }
+
+  function makeCard(def, mock, heading) {
+        let task, inputs = [], locked = false;
+    const card = el('article', 'task');
+    if (!mock) card.id = 'task-' + def.id;
+
+    const head = el('header', 'task-head');
+    const titles = el('div');
+    titles.append(el('p', 'task-num', (typeof def.n === 'number' ? 'TASK ' + def.n : 'BONUS') + (def.from ? ' / ' + def.from.toUpperCase() : '')), el(heading || 'h3', 'task-title', def.title));
+    head.append(titles);
+    if (!mock) { const done = el('span', 'task-done', 'Solved'); done.id = 'done-' + def.id; done.hidden = true; head.append(done); }
+    card.append(head, el('p', 'task-recipe', def.recipe));
+
+    if (!mock) {
+      const worked = el('details', 'worked');
+      worked.append(el('summary', '', 'Worked example'));
+      const ex = def.build(def.worked);
+      worked.append(el('p', 'worked-prompt', ex.prompt), renderSolution(ex));
+      card.append(worked);
+    }
+
+    const source = el('p', 'task-source'), prompt = el('p', 'task-prompt');
+    const form = el('form', 'task-form'); form.noValidate = true;
+    const fieldsBox = el('div');
+    const actions = el('div', 'task-actions');
+    const feedback = el('p', 'task-feedback'); feedback.setAttribute('aria-live', 'polite');
+    const solutionBox = el('div', 'task-solution'); solutionBox.hidden = true;
+    form.append(fieldsBox, actions);
+    card.append(source, prompt, form, feedback, solutionBox);
+
+    function field(f, compactLabel) {
+      const wrap = el('label', 'field');
+      wrap.append(el('span', 'field-label', compactLabel || f.label));
+      const input = document.createElement('input');
+      input.type = 'text'; input.autocomplete = 'off'; input.spellcheck = false; input.setAttribute('autocapitalize', 'off'); input.setAttribute('autocorrect', 'off');
+      if (f.type === 'int') input.inputMode = 'numeric';
+      if (f.placeholder) input.placeholder = f.placeholder;
+      if (compactLabel) input.setAttribute('aria-label', f.label);
+      wrap.append(input);
+      const note = el('span', 'field-note'); wrap.append(note);
+      input.addEventListener('input', () => { wrap.removeAttribute('data-state'); note.textContent = ''; input.removeAttribute('aria-invalid'); });
+      inputs.push({ input, wrap, note, field: f });
+      return wrap;
+    }
+    function drawFields() {
+      inputs = [];
+      if (task.table) {
+        const grid = el('div', 'rows');
+        task.table.rows.forEach(row => {
+          const r = el('div', 'row');
+          r.append(el('p', 'row-head', row.head));
+          const cells = el('div', 'row-cells');
+          row.cells.forEach((idx, c) => cells.append(field(task.fields[idx], task.table.cols[c + 1])));
+          r.append(cells); grid.append(r);
+        });
+        fieldsBox.replaceChildren(grid);
+      } else {
+        const grid = el('div', 'fields');
+        task.fields.forEach(f => grid.append(field(f)));
+        fieldsBox.replaceChildren(grid);
+      }
+    }
+    function load(params) {
+      task = def.build(params); locked = false;
+      source.hidden = true;
+      prompt.replaceChildren(); Q.rich(prompt, task.prompt);
+      drawFields(); feedback.textContent = ''; feedback.removeAttribute('data-state');
+      solutionBox.hidden = true; solutionBox.replaceChildren();
+      drawActions();
+    }
+    function values() { return inputs.map(x => x.input.value); }
+    function mark(result, reveal) {
+      inputs.forEach((x, i) => {
+        const ok = result.results[i];
+        x.wrap.dataset.state = ok ? 'ok' : 'bad';
+        if (ok) { x.input.removeAttribute('aria-invalid'); } else { x.input.setAttribute('aria-invalid', 'true'); }
+        x.note.textContent = ok ? 'Correct' : reveal ? 'Answer: ' + x.field.answer : 'Check this';
+      });
+    }
+    function check() {
+      if (locked) return null;
+      const result = C.grade(task, values());
+      mark(result, false);
+      feedback.dataset.state = result.solved ? 'ok' : 'bad';
+      feedback.textContent = result.solved ? 'All ' + result.total + ' correct.' : result.right + ' of ' + result.total + ' correct. Fix the marked fields, or open the solution.';
+      if (result.solved && !mock) { solved.add(def.id); saveSolved(); updateProgress(); }
+      if (!result.solved) { const first = inputs.find(x => x.wrap.dataset.state === 'bad'); if (first) first.input.focus({ preventScroll: true }); }
+      return result;
+    }
+    function showSolution() {
+      solutionBox.replaceChildren(renderSolution(task)); solutionBox.hidden = false;
+      const result = C.grade(task, values());
+      if (values().some(Boolean)) mark(result, true);
+    }
+    function drawActions() {
+      actions.replaceChildren();
+      if (mock) return;
+      actions.append(btn('Check my answer', 'btn-primary', null, 'submit'), btn('Show solution', 'btn-ghost', showSolution), btn('New numbers', 'btn-ghost', () => { load(def.random(freshRng())); const first = inputs[0]; if (first) first.input.focus({ preventScroll: true }); }));
+    }
+    form.addEventListener('submit', e => { e.preventDefault(); if (!mock) check(); });
+
+    load(def.random(freshRng()));
+    return {
+      node: card,
+      finish() {
+        const result = C.grade(task, values());
+        mark(result, true); locked = true;
+        inputs.forEach(x => { x.input.readOnly = true; });
+        solutionBox.replaceChildren(renderSolution(task)); solutionBox.hidden = false;
+        feedback.dataset.state = result.solved ? 'ok' : 'bad';
+        feedback.textContent = result.right + ' of ' + result.total + ' fields correct.';
+        if (result.solved) { solved.add(def.id); saveSolved(); }
+        return result;
+      }
+    };
+  }
+
+  function buildMock(root) {
+    let cards = [], timer = null, started = 0;
+    const clock = () => { const s = Math.floor((Date.now() - started) / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+    function intro() {
+      if (timer) clearInterval(timer);
+      const box = el('div', 'mock-intro');
+      box.append(el('p', '', 'All 11 task types with fresh numbers. No checking until you finish, and the clock runs. Use paper as you would in the real thing.'), btn('Start a mock endterm', 'btn-primary', start));
+      root.replaceChildren(box);
+    }
+    function start() {
+      cards = C.TASKS.map(d => makeCard(d, true, 'h4'));
+      const bar = el('div', 'mock-bar'); const time = el('span', 'mock-clock', '00:00'); time.setAttribute('role', 'timer');
+      const finishBtn = btn('Finish and grade', 'btn-primary', finish);
+      bar.append(el('span', 'mock-label', 'Mock endterm'), time, finishBtn);
+      const list = el('div', 'task-list');
+      cards.forEach(c => list.append(c.node));
+      const endRow = el('div', 'task-actions'); endRow.append(btn('Finish and grade', 'btn-primary', finish));
+      root.replaceChildren(bar, list, endRow);
+      started = Date.now();
+      timer = setInterval(() => { time.textContent = clock(); }, 1000);
+      bar.scrollIntoView({ block: 'start' });
+      function finish() {
+        clearInterval(timer);
+        const final = clock();
+        const results = cards.map(c => c.finish());
+        const solvedCount = results.filter(r => r.solved).length, right = results.reduce((a, r) => a + r.right, 0), total = results.reduce((a, r) => a + r.total, 0);
+        const summary = el('div', 'mock-summary');
+        summary.append(el('p', 'quiz-score', solvedCount + ' / ' + cards.length), el('p', '', 'tasks fully correct in ' + final + ', with ' + right + ' of ' + total + ' fields right. Solutions are open under each task.'), btn('Start a new mock', 'btn-primary', start));
+        bar.replaceWith(summary); endRow.remove();
+        updateProgress();
+        summary.scrollIntoView({ block: 'start' });
+      }
+    }
+    intro();
+  }
+
+  function boot() {
+    const list = document.getElementById('task-list'), bonus = document.getElementById('bonus-list'), mock = document.getElementById('mock-root'), quiz = document.getElementById('mixed-quiz');
+    C.TASKS.forEach(d => list.append(makeCard(d, false).node));
+    C.BONUS.forEach(d => bonus.append(makeCard(d, false).node));
+    updateProgress();
+    buildMock(mock);
+    if (quiz && window.QUIZ_BANK) {
+      const where = new Map(), all = [];
+      Object.entries(window.QUIZ_BANK).forEach(([id, ch]) => ch.items.forEach(item => { where.set(item, { id, title: ch.title }); all.push(item); }));
+      Q.mount(quiz, all, { eyebrow: 'MIXED FROM ALL CHAPTERS', title: '20 random questions', count: 20, key: 'mixed', source: item => {
+        const w = where.get(item), a = el('a', '', 'Reread: ' + w.id.replace('chapter-', '') + '. ' + w.title); a.href = 'index.html#' + w.id; return a;
+      } });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>

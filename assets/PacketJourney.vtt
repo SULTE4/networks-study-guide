@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+Application data needs lower-layer delivery information.
+
+00:00:05.000 --> 00:00:10.000
+TCP identifies applications with ports and tracks bytes.
+
+00:00:10.000 --> 00:00:14.000
+IP names endpoints A and B across networks.
+
+00:00:14.000 --> 00:00:20.000
+On LAN 1, Ethernet addresses the router as the local next hop.
+
+00:00:20.000 --> 00:00:26.000
+The switch forwards the frame; the router selects an outgoing route.
+
+00:00:26.000 --> 00:00:32.000
+New Ethernet framing uses router-to-B MACs. IP endpoints stay A and B.
+
+00:00:32.000 --> 00:00:36.100
+Ordinary routing without NAT. TTL also decreases.

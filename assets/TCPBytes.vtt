@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.000
+Client SYN uses sequence 1000 and consumes one sequence number.
+
+00:00:06.000 --> 00:00:11.000
+Server SYN-ACK uses its own sequence 5000 and acknowledges 1001.
+
+00:00:11.000 --> 00:00:16.000
+Client ACK acknowledges 5001. Client data will start at 1001.
+
+00:00:16.000 --> 00:00:22.000
+500 bytes starting at 1001 end at 1500.
+
+00:00:22.000 --> 00:00:29.000
+Cumulative ACK 1501 means that byte 1501 is next expected.
+
+00:00:29.000 --> 00:00:35.700
+1001 plus 500 equals 1501. TCP counts bytes, not packets.
