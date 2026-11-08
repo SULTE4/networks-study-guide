@@ -75,7 +75,7 @@
     TCPBytes:[['Client SYN','seq=1000. SYN consumes one sequence number.'],['Server SYN-ACK','seq=5000, ack=1001. The server has an independent sequence space.'],['Client ACK','seq=1001, ack=5001. The normal handshake is complete.'],['Client data','500 bytes start at sequence 1001 and finish at 1500.'],['Server ACK','ack=1501 means that byte 1501 is the next needed byte. It is not the last byte received.']]
   };
   document.querySelectorAll('.animation-lesson').forEach(node=>{
-    const key=node.dataset.video,video=document.createElement('video');video.controls=true;video.preload='metadata';video.playsInline=true;video.poster=assetURL(`assets/${node.dataset.poster}.png`);video.setAttribute('aria-label',key+' captioned networking animation');
+    const key=node.dataset.video,video=document.createElement('video');video.controls=true;video.preload='none';video.playsInline=true;const poster=assetURL(`assets/${node.dataset.poster}.png`);if('IntersectionObserver'in window){const near=new IntersectionObserver((entries,o)=>{if(entries.some(x=>x.isIntersecting)){video.poster=poster;o.disconnect();}},{rootMargin:'600px 0px'});near.observe(node);}else video.poster=poster;video.setAttribute('aria-label',key+' captioned networking animation');
     const source=document.createElement('source');source.src=assetURL(`assets/${key}.mp4`);source.type='video/mp4';video.append(source);
     const track=document.createElement('track');track.kind='captions';track.srclang='en';track.label='English';track.src=assetURL(`assets/${key}.vtt`);video.append(track);
     video.append(document.createTextNode('Your viewer cannot play this video. The full explanation is below.'));node.append(video);
