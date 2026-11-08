@@ -182,6 +182,7 @@ td code{white-space:nowrap}
 @media(max-width:400px){.row-cells{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress-track span{transition:none}}
 @media print{.topbar,.task-form,.task-actions,#mock,#mixed,.progress,.chips,.skip{display:none!important}body{background:#fff;font-size:10pt}.task{break-inside:avoid}.juice-block{break-inside:avoid}}
+.two-filter{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}.two-chip{min-height:40px;padding:6px 12px;background:transparent;border:1px solid var(--quiz-line);font:13px/1.3 var(--sans);color:var(--ink)}.two-chip[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:var(--on-teal);font-weight:700}.quiz-option.is-picked{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue);background:var(--soft)}.two-hint{margin:10px 0 0;font-size:13px;color:var(--muted)}.quiz-primary:disabled{opacity:.45;cursor:default}
 </style>
 </head>
 <body>
@@ -193,6 +194,7 @@ td code{white-space:nowrap}
     <a href="#endterm">Endterm tasks</a>
     <a href="#mock">Mock endterm</a>
     <a href="#juice">Short notes</a>
+    <a href="#choose">Choose two</a>
     <a href="#mixed">Mixed quiz</a>
     <a href="index.html">Full guide</a>
   </nav>
@@ -518,6 +520,13 @@ ip default-gateway 192.168.10.1</code></pre>
       <li>RAID is not a backup. NAT is not encryption.</li>
     </ol>
   </div>
+</section>
+
+<section class="part" id="choose">
+  <p class="eyebrow">EXAM STYLE</p>
+  <h2>Choose two</h2>
+  <p class="part-intro">Pick exactly two answers. Many wrong options are true of a different protocol, so for each one ask: is this really this protocol's job?</p>
+  <div class="chapter-quiz" id="choose-two"></div>
 </section>
 
 <section class="part" id="mixed">
@@ -1334,6 +1343,130 @@ ip default-gateway 192.168.10.1</code></pre>
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
+
+'use strict';
+// "Choose two" practice. Each item is [question, [two correct], [four wrong], why].
+(function (root) {
+  const SETS = {
+    'IPv4': [
+      ['Which two statements describe the subnet mask?', ['It is compared with the IP address bit by bit to find the network portion', 'Its number of 1 bits equals the prefix length'], ['It identifies the default gateway of the host', 'It is assigned to each hostname by the DNS server', 'Its 0 bits mark the network portion', 'It is used on routers and never on hosts'], 'The process is called ANDing. The 1 bits mark the network part, and their count is the prefix.'],
+      ['Which two addresses are private addresses?', ['10.250.1.1', '172.31.200.5'], ['172.32.1.1', '192.169.1.1', '169.254.10.10', '127.0.0.1'], 'Private ranges are 10.0.0.0/8, 172.16.0.0 to 172.31.255.255, and 192.168.0.0/16.'],
+      ['Which two are reasons to subnet a network?', ['Reduce overall traffic by making broadcast domains smaller', 'Apply security policies between subnets'], ['Increase the number of hosts in each broadcast domain', 'Remove the need for a default gateway', 'Let switches stop broadcasts between ports', 'Make IPv4 addresses longer than 32 bits'], 'Only routers stop broadcasts, so smaller subnets mean less broadcast traffic and clear boundaries for policy.'],
+      ['Which two are usable host addresses in the subnet 192.168.10.64 /26?', ['192.168.10.65', '192.168.10.126'], ['192.168.10.64', '192.168.10.127', '192.168.10.128', '192.168.10.63'], 'Block 64 gives 64 to 127. Then .64 is the network and .127 is the broadcast.'],
+      ['Which two statements are true about addresses from 169.254.0.0 /16?', ['A Windows DHCP client assigns one to itself when no DHCP server is available', 'They are known as link-local or APIPA addresses'], ['They are routed across the Internet', 'They are assigned to home routers by the ISP', 'They are used to test that TCP/IP works, like 127.0.0.1', 'They are reserved for multicast groups'], 'Seeing 169.254.x.x usually means DHCP failed. Loopback is 127.0.0.0/8.'],
+      ['Which two statements describe VLSM?', ['The largest subnet is allocated first', 'Different subnet sizes reduce wasted addresses'], ['Every subnet must use the same mask', 'Router-to-router links should use a /27', 'The smallest subnets are allocated first to save space', 'A subnet block can start at any address'], 'VLSM means subnetting a subnet. Blocks must start on a valid boundary, and a router link needs only a /30.'],
+      ['Which two prefixes give at least 60 usable hosts?', ['/26', '/25'], ['/27', '/28', '/29', '/30'], '/26 gives 2^6 - 2 = 62 and /25 gives 126. /27 gives only 30.'],
+      ['Which two statements about broadcasts are correct?', ['A router does not propagate a broadcast', 'A switch floods a broadcast out all interfaces except the incoming one'], ['A router forwards broadcasts to every known network', 'A switch drops all broadcasts', 'A switch keeps a broadcast on the incoming port only', 'Broadcasts are the same as unicasts on a LAN'], 'Each router interface connects to its own broadcast domain.'],
+      ['Which two statements about address assignment are recommended?', ['Most end-user clients use DHCP', 'Servers should have a predictable static IP address'], ['Routers lease their interface addresses from DNS', 'Printers must always use APIPA', 'Internet-facing servers should have only link-local addresses', 'Gateways do not need an IP address'], 'DHCP reduces errors and work on clients. Devices others must find need addresses that do not change.']
+    ],
+    'IPv6': [
+      ['Which two are valid IPv6 addresses?', ['2001:db8::1', 'fe80::a:b'], ['2001:db8::1::5', '2001:db8:acad:12345::1', '2001:db8:0g::1', '1:2:3:4:5:6:7:8:9'], 'A :: may appear once, each hextet has at most 4 hex digits, and there are 8 hextets at most.'],
+      ['Which two statements are true about a link-local address?', ['It is confined to a single link and is not routable', 'Every IPv6 interface must have one'], ['It is globally unique and Internet routable', 'It is taken from ff00::/8', 'It is assigned by the ISP', 'It can be used on routers only'], 'LLAs are in fe80::/10. If none is configured, the device creates one automatically.'],
+      ['Which two statements about IPv6 are true?', ['It has no broadcast address', 'Its addresses are 128 bits long'], ['It uses ARP to find MAC addresses', 'Its header is fixed at 20 bytes', 'Routers fragment IPv6 packets', 'Its addresses are written in dotted decimal'], 'Multicast replaces broadcast, ICMPv6 replaces ARP, and the header is 40 bytes.'],
+      ['Which two items does a Router Advertisement include?', ['The network prefix and prefix length', 'The default gateway address, as the source of the message'], ["The host's MAC address table", "The router's running configuration", 'The full routing table of the ISP', 'The password for the DHCPv6 server'], 'An RA also suggests how the host should get its address. The gateway is the router\'s link-local address.'],
+      ['Which two are methods for IPv4 and IPv6 to coexist?', ['Dual stack', 'Tunneling'], ['VLSM', 'APIPA', 'CSMA/CA', 'EUI-64'], 'The third method is translation (NAT64).'],
+      ['Which two actions are part of the EUI-64 process?', ['Insert ff:fe into the middle of the MAC address', 'Reverse the 7th bit of the MAC address'], ['Register the address in DNS', 'Remove the OUI from the MAC address', 'Use the IPv4 address as the interface ID', 'Reverse the last bit of the MAC address'], 'A 48-bit MAC plus 16 bits of ff:fe makes a 64-bit interface ID.'],
+      ['Which two commands are needed for a router to forward IPv6 on a LAN interface address?', ['ipv6 unicast-routing', 'ipv6 address 2001:db8:1:1::1/64'], ['ip default-gateway 2001:db8:1:1::1', 'service password-encryption', 'enable secret class', 'banner motd #IPv6#'], 'Without ipv6 unicast-routing, the router does not forward IPv6 or send RAs.'],
+      ['A site is given 2001:db8:7:5500::/56. Which two are valid /64 subnets from it?', ['2001:db8:7:5501::/64', '2001:db8:7:55ff::/64'], ['2001:db8:7:5600::/64', '2001:db8:7:5400::/64', '2001:db8:8:5500::/64', '2001:db8:7:5::/64'], 'With a /56, only the last two hex digits of the 4th hextet change, from 5500 to 55ff.']
+    ],
+    'Transport': [
+      ['Which two are features of TCP?', ['It establishes a session before sending data', 'It resends data that does not arrive'], ['It has an 8-byte header', 'It sends no acknowledgments', 'It identifies applications by IP address', 'It keeps data in the order it happened to arrive'], 'TCP is connection-oriented and uses sequence numbers to restore order.'],
+      ['Which two are features of UDP?', ['It sends no acknowledgment of received data', 'It rebuilds data in the order it is received'], ['It uses a three-way handshake', 'It resends lost datagrams', 'It has a header of at least 20 bytes', 'It numbers every byte it sends'], 'UDP has very little overhead, which suits delay-sensitive traffic.'],
+      ['Which two protocols normally use TCP?', ['SMTP', 'SSH'], ['DHCP', 'TFTP', 'SNMP', 'VoIP'], 'Email and remote commands must arrive complete and in order.'],
+      ['Which two protocols normally use UDP?', ['DHCP', 'TFTP'], ['HTTPS', 'FTP', 'SMTP', 'SSH'], 'A device with no address cannot complete a handshake, so DHCP uses UDP. TFTP is UDP 69.'],
+      ['Which two are responsibilities of the transport layer?', ['Tracking individual conversations', 'Segmenting data and reassembling segments'], ['Selecting the best path between networks', 'Converting bits into signals on the media', 'Resolving IPv4 addresses to MAC addresses', 'Assigning IP addresses to hosts'], 'Choosing paths is the network layer. Signals are physical. ARP finds MACs and DHCP gives addresses.'],
+      ['Which two control flags are used to open a TCP connection?', ['SYN', 'ACK'], ['FIN', 'RST', 'URG', 'PSH'], 'The order is SYN, SYN-ACK, ACK. FIN closes and RST resets.'],
+      ['Which two port numbers are in the well-known range?', ['443', '1023'], ['1024', '8081', '49152', '65535'], 'Well-known is 0 to 1023, registered is 1024 to 49151, and dynamic is 49152 to 65535.'],
+      ['Which two statements describe a socket?', ['It combines an IP address and a port number', 'It lets several processes on one client be told apart'], ['It combines a MAC address and a port number', 'It is used only by UDP', 'A host can have only one socket at a time', 'It is assigned by the DHCP server'], 'A connection is identified by a socket pair: one at each end.'],
+      ['Which two statements about netstat states are correct?', ['Thousands of SYN_RECEIVED entries suggest a SYN flood', 'Many CLOSE_WAIT entries suggest an application bug'], ['TIME_WAIT always indicates an attack', 'LISTENING means the port is closed', 'ESTABLISHED means the handshake failed', 'UDP connections show SYN_SENT'], 'TIME_WAIT is normal after browsing, and UDP has no states.']
+    ],
+    'Application': [
+      ['Which two parameters can a DHCP server give to a host?', ['Default gateway', 'DNS server address'], ["The host's MAC address", 'A TCP sequence number', "The switch's MAC address table", "A website's certificate"], 'DHCP gives an IPv4 address, mask, default gateway and DNS server.'],
+      ['Which two statements describe what DHCP does?', ['It leases addresses from a configured pool', 'It delivers IP settings to a host automatically'], ['It translates domain names into IP addresses', 'It finds the MAC address that belongs to an IP', 'It monitors the performance of the network', 'It chooses the best path between routers'], 'Names are the job of DNS, and IP to MAC is the job of ARP.'],
+      ['Which two DHCP messages are sent by the client?', ['DHCPDISCOVER', 'DHCPREQUEST'], ['DHCPOFFER', 'DHCPACK', 'DHCPNAK', 'ICMP Echo Request'], 'Discover and Request come from the client. Offer, Ack and Nak come from the server.'],
+      ['Which two DNS records contain an IP address of a host?', ['A', 'AAAA'], ['MX', 'NS', 'CNAME', 'TXT'], 'A is IPv4 and AAAA is IPv6. MX names a mail server, NS a name server, and CNAME an alias.'],
+      ['Which two protocols let a client retrieve email?', ['POP3', 'IMAP'], ['SMTP', 'DNS', 'DHCP', 'TFTP'], 'SMTP only sends mail. POP3 and IMAP read it.'],
+      ['Which two statements about IMAP are correct?', ['Messages are kept on the server', 'Folders and read status are the same on every device'], ['It uses TCP port 110', 'Messages are deleted from the server after download by default', 'It transfers mail between mail servers', 'It runs over UDP'], 'IMAP uses TCP 143. Deleting after download is the POP3 default.'],
+      ['Which two are true of HTTPS compared with HTTP?', ['Data on the network is encrypted', 'A certificate proves the identity of the server'], ['It uses TCP port 80', 'Changes in transit cannot be detected', 'Wireshark shows the full page in plain text', 'It removes the need for DNS'], 'HTTPS is HTTP protected by TLS on TCP 443.'],
+      ['Which two statements describe TFTP?', ['It has no login and no directory listing', 'It is used to copy IOS images to Cisco devices'], ['It uses TCP port 21', 'It encrypts every file it sends', 'It opens shared folders as a network drive', 'It sends mail between servers'], 'TFTP is UDP 69. Shared folders are SMB.'],
+      ['Which two statements describe FTP?', ['The client sends commands over a control connection on TCP 21', 'A separate data connection is opened for each transfer'], ['It sends passwords encrypted by default', 'It uses UDP port 69', 'It can only download and never upload', 'It resolves names to addresses'], 'FTP sends its password in clear text, so use SFTP or FTPS for security.'],
+      ['Which two are functions of the presentation layer?', ['Compressing data, for example JPEG', 'Encrypting data before sending'], ['Maintaining dialogs between applications', 'Choosing the path to the destination', 'Adding MAC addresses to a frame', 'Assigning port numbers to services'], 'Keeping dialogs going is the session layer.'],
+      ['Which two HTTP status codes are matched correctly?', ['403 means access is denied', '404 means the resource does not exist'], ['200 means the server failed', '301 means access is denied', '500 means the request succeeded', '404 means the resource has a new URL'], '200 is OK, 301 moved, 500 server error.']
+    ]
+  };
+
+  function mount(host) {
+    const Q = root.ChapterQuiz, topics = Object.keys(SETS), LETTERS = 'ABCDEF';
+    let current = 'All', deck, index, score, missed, picked, done;
+    const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) Q.rich(n, text); return n; };
+    const btn = (label, cls, fn) => { const b = el('button', cls, label); b.type = 'button'; b.addEventListener('click', fn); return b; };
+    const pool = () => current === 'All' ? topics.flatMap(t => SETS[t]) : SETS[current];
+    function deal(items) { deck = Q.shuffle(items).map(item => ({ item, options: Q.shuffle(item[1].concat(item[2])) })); index = 0; score = 0; missed = []; start(); }
+    function start() { picked = new Set(); done = false; draw(); }
+    function filters() {
+      const row = el('div', 'two-filter'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Topic');
+      ['All'].concat(topics).forEach(t => { const b = btn(t, 'two-chip', () => { current = t; deal(pool()); }); b.setAttribute('aria-pressed', String(t === current)); row.append(b); });
+      return row;
+    }
+    function result() {
+      const box = el('div', 'quiz-result');
+      box.append(el('p', 'quiz-score', score + ' / ' + deck.length), el('p', 'quiz-verdict', 'A question counts only when both answers are right.'));
+      const row = el('div', 'quiz-actions');
+      if (missed.length) { const again = missed.slice(); row.append(btn('Retry the ' + again.length + ' you missed', 'quiz-primary', () => deal(again))); }
+      row.append(btn('Start over', 'quiz-ghost', () => deal(pool())));
+      box.append(row);
+      return box;
+    }
+    function question() {
+      const card = deck[index], [text, correct, , why] = card.item, wrap = el('div', 'quiz-body');
+      const meter = el('div', 'quiz-meter'), fill = el('span'); fill.style.width = (index / deck.length * 100) + '%'; meter.setAttribute('aria-hidden', 'true'); meter.append(fill);
+      const q = el('p', 'quiz-question', text + ' (Choose two.)'); q.tabIndex = -1;
+      wrap.append(meter, el('p', 'quiz-count', 'Question ' + (index + 1) + ' of ' + deck.length + ' / score ' + score), q);
+      const list = el('div', 'quiz-options'); list.setAttribute('role', 'group'); list.setAttribute('aria-label', 'Choose two answers');
+      const feedback = el('div', 'quiz-feedback'); feedback.setAttribute('aria-live', 'polite');
+      const footer = el('div', 'quiz-actions');
+      const check = btn('Check my two answers', 'quiz-primary', submit); check.disabled = true;
+      const hint = el('p', 'two-hint', 'Pick 2 more.');
+      const buttons = card.options.map((option, i) => {
+        const b = el('button', 'quiz-option'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+        b.append(el('span', 'quiz-letter', LETTERS[i]), el('span', 'quiz-text', option));
+        b.addEventListener('click', () => toggle(i));
+        list.append(b);
+        return b;
+      });
+      function toggle(i) {
+        if (done) return;
+        if (picked.has(i)) picked.delete(i); else if (picked.size < 2) picked.add(i); else return;
+        buttons.forEach((b, j) => { const on = picked.has(j); b.classList.toggle('is-picked', on); b.setAttribute('aria-pressed', String(on)); });
+        check.disabled = picked.size !== 2;
+        hint.textContent = picked.size === 2 ? 'Ready. You can tap one again to change it.' : 'Pick ' + (2 - picked.size) + ' more.';
+      }
+      function submit() {
+        done = true;
+        const right = [...picked].every(i => correct.includes(card.options[i]));
+        if (right) score++; else missed.push(card.item);
+        buttons.forEach((b, j) => {
+          const good = correct.includes(card.options[j]), mine = picked.has(j);
+          b.disabled = true; b.classList.remove('is-picked');
+          if (good) { b.classList.add('is-correct'); b.append(el('span', 'quiz-mark', 'Correct')); }
+          else if (mine) { b.classList.add('is-wrong'); b.append(el('span', 'quiz-mark', 'Your pick')); }
+        });
+        fill.style.width = ((index + 1) / deck.length * 100) + '%';
+        feedback.replaceChildren(el('p', right ? 'quiz-right' : 'quiz-wrong', right ? 'Right.' : 'Not quite.'), el('p', 'quiz-why', why));
+        const next = btn(index + 1 < deck.length ? 'Next question' : 'See my score', 'quiz-primary', () => { index++; start(); const t = host.querySelector('.quiz-question'); if (t) t.focus({ preventScroll: true }); if (host.getBoundingClientRect().top < 0) host.scrollIntoView({ block: 'start' }); });
+        footer.replaceChildren(next); hint.remove(); next.focus({ preventScroll: true });
+      }
+      footer.append(check);
+      wrap.append(list, hint, feedback, footer);
+      return wrap;
+    }
+    function draw() { host.replaceChildren(filters(), index < deck.length ? question() : result()); }
+    deal(pool());
+  }
+  if (typeof module !== 'undefined' && module.exports) { module.exports = SETS; return; }
+  function boot() { const host = document.getElementById('choose-two'); if (host) mount(host); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})(typeof self !== 'undefined' ? self : this);
 </script>
 </body>
 </html>
