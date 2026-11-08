@@ -52,15 +52,15 @@ body.refresh .lec{padding-bottom:4px}
 </style>
 </head>
 <body>
-<div class="bar"><nav aria-label="Sections"><a href="#roles">Roles</a><a href="#calc">Calculation</a><a href="#second">Addressing and services</a><a href="#first">Foundations</a><a href="#later">Security</a><a href="networks-juice.html">Trainer</a><a href="index.html">Full guide</a></nav><button class="mode" id="mode" type="button" aria-pressed="false">Morning refresh</button></div>
+<div class="bar"><nav aria-label="Sections"><a href="#roles">Roles</a><a href="#calc">Calculation</a><a href="#second">Addressing and services</a><a href="#first">Foundations</a><a href="#facts">Exact facts</a><a href="#later">Security</a><a href="networks-juice.html">Trainer</a><a href="index.html">Full guide</a></nav><button class="mode" id="mode" type="button" aria-pressed="false">Morning refresh</button></div>
 <main>
 <header class="top">
   <p class="eyebrow">ROLES AND PRINCIPLES</p>
   <h1>How it works.</h1>
   <p class="lead">Why each thing exists, what job it does, and the few ideas behind every calculation.</p>
   <ol class="how">
-    <li><strong>Today:</strong> read everything once (about 25 minutes), then practice the calculations.</li>
-    <li><strong>Tomorrow morning:</strong> press <em>Morning refresh</em> at the top. Only the key lines stay (about 6 minutes).</li>
+    <li><strong>Today:</strong> read everything once (about 30 minutes), then practice the calculations.</li>
+    <li><strong>Tomorrow morning:</strong> press <em>Morning refresh</em> at the top. Only the key lines and exact facts stay (about 8 minutes).</li>
   </ol>
 </header>
 
@@ -284,6 +284,74 @@ body.refresh .lec{padding-bottom:4px}
     </div>
     <p class="key"><b>Remember:</b> changes are lost on reboot until <code>copy running-config startup-config</code>.</p>
   </article>
+</section>
+
+<section id="facts">
+  <p class="eyebrow">SMALL FACTS EXAMS LIKE TO ASK</p>
+  <h2>Exact facts</h2>
+  <p style="font-size:14px;color:var(--muted)">These do not need deep understanding. Read them twice and they stay.</p>
+
+  <h3>Which cable connects what</h3>
+  <p class="role"><b>Easy rule:</b> straight-through only when exactly one end is a switch. Everything else is crossover.</p>
+  <div class="tw"><table><thead><tr><th>Straight-through</th><th>Crossover</th></tr></thead><tbody>
+    <tr><td>Switch to Router</td><td>Switch to Switch</td></tr>
+    <tr><td>Switch to PC</td><td>Router to Router</td></tr>
+    <tr><td>Switch to Server</td><td>Router to PC</td></tr>
+    <tr><td></td><td>PC to PC</td></tr>
+  </tbody></table></div>
+
+  <h3>Colors and connectors</h3>
+  <div class="tw"><table><tbody>
+    <tr><td>Fiber jacket</td><td>Yellow: single-mode. Orange or aqua: multimode</td></tr>
+    <tr><td>Straight-through</td><td>Same wire order on both ends</td></tr>
+    <tr><td>Crossover</td><td>Pins 1, 2 swap with pins 3, 6 (orange pair swaps with green pair)</td></tr>
+    <tr><td>Wire order, pins 1-8</td><td>White-orange, orange, white-green, blue, white-blue, green, white-brown, brown</td></tr>
+    <tr><td>Copper connector</td><td>RJ-45 for UTP and STP</td></tr>
+    <tr><td>Fiber connectors</td><td>LC (Lucent), ST (Straight-Tip), SC (Subscriber)</td></tr>
+  </tbody></table></div>
+
+  <h3>IEEE numbers</h3>
+  <div class="tw"><table><tbody>
+    <tr><td class="num">802.2</td><td>LLC sublayer</td></tr>
+    <tr><td class="num">802.3</td><td>Ethernet</td></tr>
+    <tr><td class="num">802.11</td><td>Wi-Fi (WLAN)</td></tr>
+    <tr><td class="num">802.15</td><td>Bluetooth (WPAN)</td></tr>
+    <tr><td class="num">802.15.4</td><td>Zigbee (low power, IoT)</td></tr>
+    <tr><td class="num">802.16</td><td>WiMAX</td></tr>
+  </tbody></table></div>
+  <p class="mix"><b>Wi-Fi versions:</b> 802.11a is 5 GHz, b and g are 2.4 GHz, n is both, ac is 5 GHz.</p>
+
+  <h3>Who makes which standard</h3>
+  <div class="tw"><table><tbody>
+    <tr><td>IEEE</td><td>Ethernet, Wi-Fi, copper categories (Cat 3, 5, 5e, 6)</td></tr>
+    <tr><td>TIA/EIA-568</td><td>Cable types, lengths, connectors, termination, testing</td></tr>
+    <tr><td>IETF</td><td>Internet and TCP/IP standards</td></tr>
+    <tr><td>ICANN, IANA</td><td>IP addresses, domain names, protocol identifiers</td></tr>
+    <tr><td>EIA</td><td>Wiring, connectors, 19-inch racks</td></tr>
+    <tr><td>ISOC</td><td>Promotes the open Internet</td></tr>
+    <tr><td>IAB</td><td>Manages Internet standards</td></tr>
+    <tr><td>IRTF</td><td>Long-term research</td></tr>
+  </tbody></table></div>
+
+  <h3>Numbers to memorize</h3>
+  <div class="tw"><table><tbody>
+    <tr><td>UTP maximum length</td><td>100 m</td></tr>
+    <tr><td>Multimode fiber</td><td>Up to 550 m</td></tr>
+    <tr><td>Ethernet frame</td><td>64 to 1518 bytes. Under 64 is a runt</td></tr>
+    <tr><td>Ethernet MTU</td><td>1500 bytes</td></tr>
+    <tr><td>MAC address</td><td>48 bits, 12 hex digits. OUI is the first 24 bits</td></tr>
+    <tr><td>IP address size</td><td>IPv4 32 bits, IPv6 128 bits</td></tr>
+    <tr><td>Header sizes</td><td>IPv6 40 bytes, TCP 20 to 60, UDP 8</td></tr>
+    <tr><td>TCP MSS</td><td>1460 bytes</td></tr>
+    <tr><td>IPv4 multicast</td><td>224.0.0.0 to 239.255.255.255</td></tr>
+    <tr><td>Multicast MAC start</td><td>01-00-5E (IPv4), 33-33 (IPv6)</td></tr>
+    <tr><td>Switch MAC entry</td><td>About 5 minutes</td></tr>
+    <tr><td>VTY lines on many switches</td><td>16, numbered 0 to 15</td></tr>
+    <tr><td>Non-overlapping 2.4 GHz channels</td><td>1, 6, 11</td></tr>
+    <tr><td>Regional Internet Registries</td><td>5</td></tr>
+    <tr><td>Cloud types</td><td>Public, private, hybrid, custom</td></tr>
+    <tr><td>Encoding examples</td><td>Manchester, 4B/5B, 8B/10B</td></tr>
+  </tbody></table></div>
 </section>
 
 <section id="later">
