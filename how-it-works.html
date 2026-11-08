@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How It Works</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%232563a6%22/%3E%3Ctext x=%229%22 y=%2225%22 font-size=%2224%22 fill=%22%23fff%22%3EH%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:light dark;--paper:#fbf8f1;--page:#fffefb;--ink:#243447;--head:#153e51;--muted:#5d6a72;--blue:#2563a6;--orange:#ad501f;--teal:#167566;--on:#fff;--line:#d9ddd8;--soft:#f1ede2;--code:#e9ede6;--net:#dbeafe;--nett:#1e40af;--host:#ffedd5;--hostt:#9a3412;--ok:#15704a;--mono:'DejaVu Sans Mono',ui-monospace,Menlo,Consolas,monospace;--sans:'DejaVu Sans',system-ui,Arial,sans-serif;--serif:Georgia,'DejaVu Serif',serif}
+@media(prefers-color-scheme:dark){:root{--paper:#14191f;--page:#1c232b;--ink:#e6e2d8;--head:#f0ead9;--muted:#a3adb4;--blue:#8dbdea;--orange:#e9a77a;--teal:#58bda9;--on:#0e1f1b;--line:#2f3943;--soft:#232b34;--code:#27313a;--net:#1e3a5f;--nett:#a9cdf5;--host:#4a2c17;--hostt:#f3bd93;--ok:#74d6a4}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:62px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--sans)}
+a{color:var(--blue);text-underline-offset:3px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #9366b4;outline-offset:2px}
+code{font:.9em/1.4 var(--mono);background:var(--code);padding:1px 5px;overflow-wrap:anywhere}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px 14px;padding:8px max(16px,calc(50% - 400px));background:var(--paper);border-bottom:1px solid var(--line);font-size:13px}
+.bar nav{display:flex;gap:14px;overflow-x:auto;min-width:0;scrollbar-width:none}.bar nav::-webkit-scrollbar{display:none}.bar nav a{white-space:nowrap;text-decoration:none;padding:6px 0}
+.mode{flex:0 0 auto;margin-left:auto;min-height:40px;padding:6px 12px;background:var(--teal);color:var(--on);border:0;font-weight:700;font-size:12px}
+main{max-width:800px;margin:0 auto;padding:0 16px 70px}
+.eyebrow{margin:0;font:bold 11px/1.6 var(--sans);letter-spacing:.13em;color:var(--orange)}
+h1,h2{font-family:var(--serif);font-weight:500;color:var(--head);letter-spacing:-.025em}
+h1{font-size:clamp(40px,8vw,62px);line-height:1.05;margin:10px 0 12px}
+header.top{padding:38px 0 22px;border-bottom:2px solid var(--ink)}
+.lead{font:20px/1.45 var(--serif);margin:0 0 14px;color:var(--head)}
+.how{margin:0;padding-left:1.2em;font-size:15px}.how li{margin:4px 0}
+section{padding-top:38px}h2{font-size:clamp(28px,5vw,36px);line-height:1.15;margin:4px 0 12px}
+h3{font:700 18px/1.35 var(--sans);color:var(--head);margin:0 0 6px}
+p{margin:0 0 10px}ul,ol{margin:0 0 10px;padding-left:1.25em}li{margin:4px 0}
+.fix{padding:14px 16px;background:var(--page);border:1px solid var(--line);border-left:4px solid var(--teal);margin:0 0 12px}.fix.wrong{border-left-color:var(--orange)}
+.tw{overflow-x:auto;margin:0 0 12px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.45}th,td{padding:8px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--soft);color:var(--head);white-space:nowrap}td:first-child{font-weight:700}
+.lec{padding:18px 18px 8px;background:var(--page);border:1px solid var(--line);margin:0 0 14px}
+.role{font-size:16.5px;padding:10px 12px;background:var(--soft);border-left:3px solid var(--blue);margin:8px 0 12px}
+.role b,.key b,.mix b{color:var(--head)}
+.key{padding:9px 12px;border:1px dashed var(--line);font-size:15px;margin:10px 0}
+.mix{font-size:15px;margin:10px 0}
+.num{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.pr{counter-increment:p;position:relative;padding:14px 0 12px 42px;border-bottom:1px solid var(--line)}.prs{counter-reset:p}.pr:before{content:counter(p);position:absolute;left:0;top:15px;width:30px;height:30px;line-height:30px;text-align:center;background:var(--ink);color:var(--paper);font:bold 13px/30px var(--sans)}
+.lab{padding:16px;background:var(--page);border:2px solid var(--blue);margin:18px 0}
+.ctrl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px;margin:8px 0}
+.ctrl label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.ctrl input[type=text]{min-height:44px;padding:8px 10px;background:var(--paper);border:1px solid var(--line);font:16px var(--mono)}
+.ctrl input[type=range]{width:100%;height:44px;accent-color:var(--blue)}
+.bits{display:flex;flex-wrap:wrap;gap:6px 10px;margin:10px 0}.oct{display:flex;gap:1px}.oct i{font:13px/1.9 var(--mono);font-style:normal;width:15px;text-align:center}.n{background:var(--net);color:var(--nett)}.h{background:var(--host);color:var(--hostt)}
+.out p{margin:4px 0;font-size:14.5px;overflow-wrap:anywhere}.out b{color:var(--head)}
+details.a{border-top:1px solid var(--line);padding:9px 0;font-size:15px}details.a summary{cursor:pointer}details.a p{margin:8px 0 2px}
+.btn{display:inline-block;min-height:44px;padding:11px 16px;background:var(--teal);color:var(--on);font-weight:700;font-size:14px;text-decoration:none}
+body.refresh .detail{display:none}
+body.refresh .lec{padding-bottom:4px}
+@media(max-width:560px){.ctrl{grid-template-columns:minmax(0,1fr)}.bar{padding-left:12px;padding-right:12px}.lec{padding:14px 14px 6px}.oct i{width:14px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="bar"><nav aria-label="Sections"><a href="#roles">Roles</a><a href="#calc">Calculation</a><a href="#second">Addressing and services</a><a href="#first">Foundations</a><a href="#later">Security</a><a href="networks-juice.html">Trainer</a><a href="index.html">Full guide</a></nav><button class="mode" id="mode" type="button" aria-pressed="false">Morning refresh</button></div>
+<main>
+<header class="top">
+  <p class="eyebrow">ROLES AND PRINCIPLES</p>
+  <h1>How it works.</h1>
+  <p class="lead">Why each thing exists, what job it does, and the few ideas behind every calculation.</p>
+  <ol class="how">
+    <li><strong>Today:</strong> read everything once (about 25 minutes), then practice the calculations.</li>
+    <li><strong>Tomorrow morning:</strong> press <em>Morning refresh</em> at the top. Only the key lines stay (about 6 minutes).</li>
+  </ol>
+</header>
+
+<section id="roles">
+  <p class="eyebrow">START HERE</p>
+  <h2>Who does what</h2>
+  <div class="fix"><strong>TCP and UDP: you have it right.</strong> UDP sends and forgets: no acknowledgment, no resend. TCP confirms what arrived and resends what did not. One addition: UDP is not "bad". It is chosen when speed matters more, because a late video frame is useless anyway.</div>
+  <div class="fix wrong"><strong>DHCP: a small correction.</strong> DHCP does not identify who is who. Its job is to <strong>give a device its address</strong>, like reception handing you a room number when you arrive. The "who is who" jobs belong to <strong>DNS</strong> (which IP has this name?) and <strong>ARP</strong> (which MAC has this IP?).</div>
+  <div class="tw"><table>
+    <thead><tr><th>Problem</th><th>Who solves it</th><th>In one line</th></tr></thead>
+    <tbody>
+      <tr><td>I have no address</td><td>DHCP</td><td>Gives IP, mask, gateway and DNS server</td></tr>
+      <tr><td>I know a name, need its IP</td><td>DNS</td><td>Phone book: name to IP</td></tr>
+      <tr><td>I know an IP, need its MAC</td><td>ARP (IPv6: ND)</td><td>Asks the local network: "who has this IP?"</td></tr>
+      <tr><td>Deliver inside my network</td><td>Switch</td><td>Uses the MAC address</td></tr>
+      <tr><td>Reach another network</td><td>Router</td><td>Uses the IP address and its routing table</td></tr>
+      <tr><td>Leaving my network</td><td>Default gateway</td><td>The router's address on my LAN, my exit door</td></tr>
+      <tr><td>Reach the right program</td><td>Port number</td><td>Which application on that device</td></tr>
+      <tr><td>Everything must arrive</td><td>TCP</td><td>Confirms, resends, keeps order</td></tr>
+      <tr><td>Fast matters more</td><td>UDP</td><td>Sends with no checking</td></tr>
+      <tr><td>Report errors, test paths</td><td>ICMP</td><td>Used by ping and traceroute</td></tr>
+    </tbody>
+  </table></div>
+  <p class="key"><b>The key idea:</b> IP finds the <em>device</em> across the world. MAC finds the <em>next device</em> on this link. Port finds the <em>program</em>. IP stays the same on the way, and MAC changes at every router.</p>
+</section>
+
+<section id="calc">
+  <p class="eyebrow">THE CALCULATION TASKS</p>
+  <h2>One idea behind every calculation</h2>
+  <p class="role"><b>The whole idea:</b> an IP address is 32 bits with a line drawn through it. Left of the line is the network, right of the line is the host. The prefix (/26) says where the line is. Every task is just finding what that line does.</p>
+  <div class="prs">
+    <div class="pr"><h3>Why there is a block size</h3><p>The numbers on the left of the line are fixed. Subnets only change by the <strong>last network bit</strong>, so its value is the step between subnets. /26 ends in <code>11000000</code>, and the last 1 has weight 64, so subnets go 0, 64, 128, 192. A quick shortcut gives the same number: <strong>256 - 192 = 64</strong>.</p></div>
+    <div class="pr"><h3>Why the network is a multiple of the block</h3><p>The network address means <strong>all host bits are 0</strong>. Clearing the bits on the right is the same as rounding down to a multiple of the block. So 200 with block 32 rounds down to 192.</p></div>
+    <div class="pr"><h3>Why the broadcast is one before the next</h3><p>The broadcast means <strong>all host bits are 1</strong>, which is the very last address of the block. One step further is already the next subnet.</p></div>
+    <div class="pr"><h3>Why hosts have minus 2 and subnets do not</h3><p>Inside each subnet, two addresses are taken: network (all 0s) and broadcast (all 1s). So <strong>Hosts = 2<sup>h</sup> - 2</strong>. The subnets themselves are all usable, so <strong>Subnets = 2<sup>H</sup></strong>. Here h is the host bits left, and H is the bits you borrowed.</p></div>
+    <div class="pr"><h3>Why borrowing trades hosts for subnets</h3><p>Moving the line right by one bit <strong>doubles the subnets and halves the addresses</strong> in each. That is the only trade there is. "Most subnets" always means: use the fewest host bits that still fit.</p></div>
+    <div class="pr"><h3>Why VLSM goes largest first</h3><p>A block must start at a multiple of its own size. Big blocks are the pickiest, so place them first and the small ones always fit after. This avoids waste: a router link needs 2 addresses, so give it a /30 and not a /27.</p></div>
+    <div class="pr"><h3>Why IPv6 is the same but easier</h3><p>The line for a LAN is at /64. Your bits are between the given prefix and /64, so <strong>subnets = 2<sup>(64 - prefix)</sup></strong>. Each hex digit is 4 bits, so count in hex (9, a, b ... f, 10). There is no minus 2, because IPv6 has no broadcast.</p></div>
+  </div>
+
+  <div class="lab" id="line-lab">
+    <h3>Move the line and watch</h3>
+    <p style="font-size:14px;margin:0">Drag the slider and see what changes. This is the fastest way to feel why the method works.</p>
+    <div class="ctrl"><label>IP address<input type="text" id="ip" value="10.91.203.77" inputmode="decimal" autocomplete="off" spellcheck="false"></label><label><span>Prefix: <b id="pv"></b></span><input type="range" id="pr" min="8" max="30" value="19"></label></div>
+    <div class="bits" id="bits" aria-hidden="true"></div>
+    <div class="out" id="out" aria-live="polite"></div>
+  </div>
+
+  <h3 style="margin-top:22px">Read the question, know the move</h3>
+  <div class="tw"><table>
+    <thead><tr><th>The question asks</th><th>Your move</th><th>Task</th></tr></thead>
+    <tbody>
+      <tr><td>Range of assignable addresses</td><td>Network + 1 to broadcast - 1</td><td><a href="networks-juice.html#task-range">1</a></td></tr>
+      <tr><td>Network of this host</td><td>Round down to a multiple of the block</td><td><a href="networks-juice.html#task-network">2</a></td></tr>
+      <tr><td>Directed broadcast</td><td>Next network - 1</td><td><a href="networks-juice.html#task-broadcast">3</a></td></tr>
+      <tr><td>How many subnets fit</td><td>2<sup>(new prefix - old prefix)</sup></td><td><a href="networks-juice.html#task-count">4</a></td></tr>
+      <tr><td>Mask for at least N hosts</td><td>Fewest h with 2<sup>h</sup> - 2 ≥ N, prefix = 32 - h</td><td><a href="networks-juice.html#task-mask">5</a></td></tr>
+      <tr><td>Divide into equal subnets, list</td><td>Borrow bits, then add the block each time</td><td><a href="networks-juice.html#task-equal">6</a></td></tr>
+      <tr><td>N subnets: mask and hosts</td><td>Prefix + borrowed, then 2<sup>h</sup> - 2</td><td><a href="networks-juice.html#task-hosts">7</a></td></tr>
+      <tr><td>Four subnets in full</td><td>Do the first fully, add the block</td><td><a href="networks-juice.html#task-four">8</a></td></tr>
+      <tr><td>Table of hosts (VLSM)</td><td>Sort, size, place largest first</td><td><a href="networks-juice.html#task-vlsm">9</a></td></tr>
+      <tr><td>Two routers (VLSM)</td><td>Same, plus a /30 link, then draw</td><td><a href="networks-juice.html#task-vlsm2">10</a></td></tr>
+      <tr><td>IPv6 prefix</td><td>Count ID bits, list in hex, configure</td><td><a href="networks-juice.html#task-ipv6">11</a></td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:14px"><a class="btn" href="networks-juice.html#endterm">Practice in the trainer</a></p>
+</section>
+
+<section id="second">
+  <p class="eyebrow">PART 2</p>
+  <h2>Addressing and services</h2>
+
+  <article class="lec"><h3>IPv4 addressing</h3>
+    <p class="role"><b>Role:</b> give every device a logical address, and group devices into networks.</p>
+    <div class="detail">
+      <p><strong>Why subnet at all?</strong> Broadcasts reach everyone in a network, and too many slow it down. Routers stop broadcasts, so smaller subnets mean less traffic, better security between groups, and fewer devices hit by a problem.</p>
+      <p><strong>ANDing</strong> is how a device finds the network part: address AND mask, bit by bit.</p>
+      <div class="tw"><table><tbody>
+        <tr><td>Unicast / broadcast / multicast</td><td>One / all / a group (224.0.0.0 to 239.255.255.255)</td></tr>
+        <tr><td>Private</td><td>10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. Not routed on the Internet</td></tr>
+        <tr><td>Loopback</td><td>127.0.0.1, tests if TCP/IP works on this host</td></tr>
+        <tr><td>Link-local (APIPA)</td><td>169.254.x.x, self-assigned when no DHCP server answers</td></tr>
+        <tr><td>Classes</td><td>A 0-127, B 128-191, C 192-223, D multicast, E reserved. Replaced by classless</td></tr>
+        <tr><td>Who hands out IPs</td><td>IANA to the 5 RIRs to ISPs to organizations</td></tr>
+        <tr><td>Clients vs servers</td><td>Clients use DHCP. Servers and printers get static addresses</td></tr>
+      </tbody></table></div>
+    </div>
+    <p class="key"><b>Remember:</b> only a router stops broadcasts. N = 2<sup>H</sup> subnets, Hosts = 2<sup>h</sup> - 2.</p>
+  </article>
+
+  <article class="lec"><h3>IPv6</h3>
+    <p class="role"><b>Role:</b> solve the shortage of IPv4 addresses with 128 bits, and remove the need for NAT.</p>
+    <div class="detail">
+      <p><strong>Living together:</strong> dual stack runs both, tunneling puts IPv6 inside IPv4, and translation (NAT64) converts between them.</p>
+      <p><strong>Writing it:</strong> rule 1, drop leading zeros in a hextet. Rule 2, one <code>::</code> replaces one run of zero hextets, used only once.</p>
+      <div class="tw"><table><tbody>
+        <tr><td>GUA 2000::/3</td><td>Like a public address. Starts with 2 or 3</td></tr>
+        <tr><td>LLA fe80::/10</td><td>One link only, every interface must have one, never routed</td></tr>
+        <tr><td>ULA fc00::/7</td><td>Like private addresses, local use</td></tr>
+        <tr><td>Multicast ff00::/8</td><td>Replaces broadcast. ff02::1 all nodes, ff02::2 all routers</td></tr>
+        <tr><td>Anycast</td><td>Same address on many devices, you reach the nearest</td></tr>
+      </tbody></table></div>
+      <p><strong>Parts of a GUA:</strong> global routing prefix (from the ISP) + subnet ID (yours) + interface ID (the host).</p>
+      <p><strong>Getting an address: the router's RA suggests one of three.</strong> SLAAC: everything from the RA. SLAAC + stateless DHCPv6: address from the RA, DNS from the server. Stateful DHCPv6: address from the server. In all three, the gateway is the router's LLA.</p>
+      <p><strong>EUI-64:</strong> split the MAC, insert <code>ff:fe</code>, flip the 7th bit. Otherwise the interface ID is random.</p>
+    </div>
+    <p class="key"><b>Remember:</b> no broadcast in IPv6. <code>ipv6 unicast-routing</code> comes first, or the router will not forward or send RAs.</p>
+  </article>
+
+  <article class="lec"><h3>Transport layer</h3>
+    <p class="role"><b>Role:</b> deliver data between <em>applications</em>. IP only reaches the device, and it guarantees nothing, so transport is where reliability can be added.</p>
+    <div class="detail">
+      <p><strong>Its jobs:</strong> track conversations, split data into segments and rebuild it, and identify applications by port.</p>
+      <div class="tw"><table><thead><tr><th></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+        <tr><td>Before sending</td><td>Handshake</td><td>Nothing</td></tr>
+        <tr><td>Lost data</td><td>Resent</td><td>Gone</td></tr>
+        <tr><td>Order</td><td>Fixed with sequence numbers</td><td>As received</td></tr>
+        <tr><td>Header</td><td>20 bytes or more</td><td>8 bytes</td></tr>
+        <tr><td>Good for</td><td>Web, email, files, SSH</td><td>Voice, video, games, DNS, DHCP</td></tr>
+      </tbody></table></div>
+      <p><strong>Open:</strong> SYN, SYN-ACK, ACK. It proves both sides exist and are ready. <strong>Close:</strong> FIN, ACK, FIN, ACK. <strong>RST</strong> resets on error.</p>
+      <p><strong>ACK number = first byte + bytes received.</strong> It means "send me this byte next". Sequence 1001 with 500 bytes gives ACK 1501.</p>
+      <p><strong>MSS 1460</strong> is 1500 (MTU) - 20 (IP) - 20 (TCP). <strong>Socket</strong> = IP + port. Ports: well-known 0-1023, registered 1024-49151, dynamic 49152-65535.</p>
+      <p><strong>netstat:</strong> LISTENING means a port is open and waiting. Thousands of SYN_RECEIVED means a SYN flood. Many CLOSE_WAIT means an application bug. TIME_WAIT is normal.</p>
+    </div>
+    <p class="key"><b>Remember:</b> DHCP must use UDP, because a device with no IP cannot do a handshake.</p>
+  </article>
+
+  <article class="lec"><h3>Application layer</h3>
+    <p class="role"><b>Role:</b> the services people actually use. Each protocol is one job.</p>
+    <div class="detail">
+      <p><strong>Upper layers:</strong> Application, Presentation (format, compress, encrypt) and Session (keep the dialog going) join into one TCP/IP layer.</p>
+      <p><strong>DHCP is DORA:</strong> Discover (broadcast, from 0.0.0.0), Offer, Request (broadcast, so other servers know they lost), Ack. The address is a <strong>lease</strong> for a limited time.</p>
+      <p><strong>DNS order:</strong> root, then top-level (.com), then the domain. Records: A (IPv4), AAAA (IPv6), MX (mail server), NS (name server), CNAME (alias). Test with <code>nslookup</code>.</p>
+      <p><strong>HTTP</strong> is stateless, so sites use cookies. GET asks, POST sends. 200 OK, 301 moved, 403 denied, 404 not found, 500 server error. <strong>HTTPS</strong> adds TLS: encryption, a certificate proving identity, and integrity.</p>
+      <p><strong>Mail:</strong> SMTP sends. POP3 downloads and deletes from the server. IMAP keeps mail on the server, synced on every device.</p>
+      <p><strong>Files:</strong> FTP has control on 21 and data on 20. TFTP is simple with no login, for IOS images. SMB shares folders and printers.</p>
+      <div class="tw"><table><thead><tr><th>Service</th><th>Port</th><th>Service</th><th>Port</th></tr></thead><tbody>
+        <tr><td>FTP</td><td class="num">TCP 20, 21</td><td>TFTP</td><td class="num">UDP 69</td></tr>
+        <tr><td>SSH</td><td class="num">TCP 22</td><td>HTTP</td><td class="num">TCP 80</td></tr>
+        <tr><td>Telnet</td><td class="num">TCP 23</td><td>POP3</td><td class="num">TCP 110</td></tr>
+        <tr><td>SMTP</td><td class="num">TCP 25</td><td>IMAP</td><td class="num">TCP 143</td></tr>
+        <tr><td>DNS</td><td class="num">UDP/TCP 53</td><td>HTTPS</td><td class="num">TCP 443</td></tr>
+        <tr><td>DHCP</td><td class="num">UDP 67, 68</td><td>SMB</td><td class="num">TCP 445</td></tr>
+      </tbody></table></div>
+    </div>
+    <p class="key"><b>Remember:</b> one laptop opening a site uses DHCP, then DNS, then TCP, then HTTPS.</p>
+  </article>
+</section>
+
+<section id="first">
+  <p class="eyebrow">THE FOUNDATION</p>
+  <h2>The foundations</h2>
+
+  <article class="lec"><h3>Network layer</h3>
+    <p class="role"><b>Role:</b> move packets from the source device to the destination device, even across many networks.</p>
+    <div class="detail">
+      <p><strong>IP is connectionless</strong> (no setup), <strong>best effort</strong> (no guarantee, no resend) and <strong>media independent</strong> (copper, fiber or radio). This is why TCP is needed above it.</p>
+      <p><strong>Each host decides:</strong> is the destination local or remote? It compares using its own IP and mask. Local goes direct, remote goes to the default gateway.</p>
+      <p><strong>Which MAC goes on the frame?</strong> Same network: the destination's MAC. Remote network: the <strong>gateway's</strong> MAC. ARP finds it, and the ARP table stores it.</p>
+      <p><strong>Router's table:</strong> directly connected (<code>C</code>, <code>L</code>), remote (static <code>S</code> or dynamic <code>O</code>, <code>D</code>), and default route (<code>S*</code>). Static is manual, dynamic adapts by itself.</p>
+      <p><strong>Header:</strong> TTL is a hop count, and at zero the packet is dropped. The Protocol field names the next level (TCP, UDP, ICMP). IPv6's header is simplified at 40 bytes, Hop Limit replaces TTL, and routers do not fragment IPv6.</p>
+      <p><strong>Router setup:</strong> <code>hostname</code>, <code>enable secret</code>, <code>line console 0</code>, <code>line vty 0 4</code>, <code>service password-encryption</code>, <code>banner motd</code>, <code>copy running-config startup-config</code>. Interface: <code>ip address</code> and <code>no shutdown</code>.</p>
+    </div>
+    <p class="key"><b>Remember:</b> no gateway or a wrong gateway means traffic cannot leave the LAN. A switch needs <code>ip default-gateway</code> only to be managed from another network.</p>
+  </article>
+
+  <article class="lec"><h3>Data link and switching</h3>
+    <p class="role"><b>Role:</b> deliver a frame from one network card to the next on the same link, and reject corrupted frames.</p>
+    <div class="detail">
+      <p><strong>Two sublayers:</strong> LLC talks up to the software (802.2). MAC handles encapsulation and access to the media.</p>
+      <p><strong>Frame:</strong> 64 to 1518 bytes. Under 64 is a "runt" and is dropped. The FCS trailer detects errors.</p>
+      <p><strong>MAC address:</strong> 48 bits, 12 hex digits. First half is the vendor (OUI). Broadcast is FF-FF-FF-FF-FF-FF. Multicast starts 01-00-5E (IPv4) or 33-33 (IPv6). The source MAC is always unicast.</p>
+      <p><strong>A switch does two things:</strong> <em>learn</em> the source MAC and its port, then <em>forward</em> by the destination MAC. Unknown or broadcast: flood out all ports except the incoming one. Entries last about 5 minutes.</p>
+      <p><strong>Sharing the medium:</strong> half-duplex is one at a time, full-duplex is both. CSMA/CD <em>detects</em> collisions (old Ethernet), and CSMA/CA <em>avoids</em> them (Wi-Fi).</p>
+      <p><strong>Topologies:</strong> physical shows cables, logical shows addressing. LAN: star, extended star, bus, ring. WAN: point-to-point, hub and spoke, mesh.</p>
+    </div>
+    <p class="key"><b>Remember:</b> learn from the source, forward on the destination.</p>
+  </article>
+
+  <article class="lec"><h3>Physical layer</h3>
+    <p class="role"><b>Role:</b> turn a frame into real signals on a cable or in the air.</p>
+    <div class="detail">
+      <p><strong>Signals:</strong> electrical on copper, light on fiber, radio on wireless. <strong>Encoding</strong> makes the bit pattern, <strong>signaling</strong> represents it physically.</p>
+      <p><strong>Speed words:</strong> bandwidth is capacity. Throughput is what actually passes. Goodput is the usable data (throughput - overhead). Latency is delay.</p>
+      <p><strong>Copper:</strong> cheap and common. Its limits are attenuation (weaker with distance), EMI/RFI and crosstalk. UTP max is 100 m, and twisting the pairs cancels interference. STP adds shielding.</p>
+      <p><strong>Fiber:</strong> longest and fastest, completely immune to EMI, but costly. Single-mode: tiny core, laser, long distance. Multimode: larger core, LED, up to 550 m.</p>
+      <p><strong>Wi-Fi:</strong> an AP connects wireless users to the wired network. 2.4 GHz: longer range but crowded, use channels 1, 6, 11. 5 GHz: less crowded, shorter range.</p>
+    </div>
+    <p class="key"><b>Remember:</b> fiber is immune to EMI. UTP stops at 100 m.</p>
+  </article>
+
+  <article class="lec"><h3>Protocols and models</h3>
+    <p class="role"><b>Role:</b> protocols are the agreed rules. Layers split one huge problem into small jobs.</p>
+    <div class="detail">
+      <p><strong>Every message needs rules for:</strong> encoding, formatting, size, timing (flow control, response timeout, access method) and delivery (unicast, multicast, broadcast).</p>
+      <p><strong>Layered models help because</strong> vendors can work together, and a change in one layer does not break the others.</p>
+      <p><strong>Who makes standards:</strong> IETF (Internet and TCP/IP), IEEE (Ethernet, Wi-Fi), ICANN and IANA (addresses and names), ISO, ITU, TIA, EIA.</p>
+      <p><strong>Segmenting</strong> breaks data into pieces so links are not blocked, and only failed pieces need resending. <strong>Sequencing</strong> numbers them so they can be rebuilt.</p>
+      <div class="tw"><table><thead><tr><th>TCP/IP</th><th>OSI</th><th>Unit</th></tr></thead><tbody>
+        <tr><td>Application</td><td>7, 6, 5</td><td>Data</td></tr>
+        <tr><td>Transport</td><td>4</td><td>Segment</td></tr>
+        <tr><td>Internet</td><td>3</td><td>Packet</td></tr>
+        <tr><td>Network access</td><td>2, 1</td><td>Frame, bits</td></tr>
+      </tbody></table></div>
+    </div>
+    <p class="key"><b>Remember:</b> going down the layers: data, segment, packet, frame, bits. Going up is de-encapsulation.</p>
+  </article>
+
+  <article class="lec"><h3>Networks and Cisco IOS</h3>
+    <p class="role"><b>Role:</b> the vocabulary of networks, and how to talk to a Cisco device.</p>
+    <div class="detail">
+      <p><strong>Devices:</strong> end devices start or receive data. Intermediary devices (switches, routers, APs, firewalls) connect them and manage the flow.</p>
+      <p><strong>Peer-to-peer:</strong> easy and cheap, but not secure or scalable, so only for very small networks.</p>
+      <p><strong>LAN</strong> covers a small area, run by one organization, fast. <strong>WAN</strong> covers a wide area, run by providers, usually slower. <strong>Intranet</strong> is private, <strong>extranet</strong> lets outside partners in.</p>
+      <p><strong>A reliable network has four qualities:</strong> fault tolerance (several paths, packet switching), scalability, QoS (voice and video first), and security (confidentiality, integrity, availability).</p>
+      <p><strong>Trends:</strong> BYOD, online collaboration, video, cloud (public, private, hybrid, custom), smart homes, powerline, wireless broadband.</p>
+      <p><strong>IOS access:</strong> console (physical), SSH (secure remote), Telnet (insecure remote).</p>
+      <p><strong>Modes:</strong> <code>&gt;</code> user EXEC, <code>enable</code> to <code>#</code> privileged, <code>configure terminal</code> to <code>(config)#</code>, then interface or line. <code>exit</code> goes back one, <code>end</code> goes to privileged.</p>
+      <p><strong>Two config files:</strong> running-config is in RAM and active now. startup-config is in NVRAM and used at boot.</p>
+    </div>
+    <p class="key"><b>Remember:</b> changes are lost on reboot until <code>copy running-config startup-config</code>.</p>
+  </article>
+</section>
+
+<section id="later">
+  <p class="eyebrow">STUDY AFTER THE REST</p>
+  <h2>Network security</h2>
+  <article class="lec"><h3>Network security</h3>
+    <p class="role"><b>Role:</b> keep data private, unchanged and available, by stopping people and programs that should not get in.</p>
+    <div class="detail">
+      <p><strong>Three goals (CIA):</strong> confidentiality (only the right people can read it), integrity (nobody changed it), availability (it works when needed).</p>
+      <p><strong>Three words people mix up:</strong> a <em>threat</em> is what could harm you, a <em>vulnerability</em> is the weak spot, and an <em>attack</em> is someone using it.</p>
+      <div class="tw"><table><thead><tr><th>Attack</th><th>How it works</th><th>What stops it</th></tr></thead><tbody>
+        <tr><td>Reconnaissance</td><td>Scanning to learn what exists</td><td>Fewer open services, monitoring</td></tr>
+        <tr><td>Password attack</td><td>Guessing or stealing logins</td><td>Strong passwords, lockouts</td></tr>
+        <tr><td>Malware</td><td>Virus needs a file, worm spreads alone, Trojan pretends to be useful</td><td>Updates, antivirus</td></tr>
+        <tr><td>DoS / DDoS</td><td>Flooding until it cannot serve others</td><td>Filtering, rate limits</td></tr>
+        <tr><td>On-path</td><td>Sits in the middle and reads traffic</td><td>Encryption: SSH, HTTPS</td></tr>
+      </tbody></table></div>
+      <p><strong>AAA:</strong> authentication (who are you?), authorization (what may you do?), accounting (what did you do?).</p>
+      <p><strong>Tools:</strong> a firewall allows or blocks traffic. An ACL is an ordered rule list with an invisible "deny all" at the end. IDS alerts, IPS blocks. A VPN is an encrypted tunnel.</p>
+      <p><strong>Protect a device:</strong> <code>enable secret</code>, SSH instead of Telnet, shut unused ports, keep backups, install updates.</p>
+      <p><strong>Wi-Fi:</strong> WEP is broken. Use WPA2 or WPA3.</p>
+    </div>
+    <p class="key"><b>Remember:</b> no single control is enough, so use several layers. This is called defense in depth.</p>
+  </article>
+</section>
+</main>
+<script>
+'use strict';
+(function(){
+  const body=document.body,btn=document.getElementById('mode');
+  const get=()=>{try{return localStorage.getItem('cn-how-mode')}catch(e){return null}};
+  const set=v=>{try{localStorage.setItem('cn-how-mode',v)}catch(e){}};
+  function apply(on){body.classList.toggle('refresh',on);btn.textContent=on?'Show full':'Morning refresh';btn.setAttribute('aria-pressed',String(on));}
+  apply(get()==='refresh');
+  btn.addEventListener('click',()=>{const on=!body.classList.contains('refresh');apply(on);set(on?'refresh':'full');});
+
+  const ipBox=document.getElementById('ip'),pr=document.getElementById('pr'),pv=document.getElementById('pv'),bits=document.getElementById('bits'),out=document.getElementById('out');
+  const fmt=n=>[16777216,65536,256,1].map(d=>Math.floor(n/d)%256).join('.');
+  function parse(t){const m=t.trim().match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);if(!m)return null;const o=m.slice(1).map(Number);return o.some(x=>x>255)?null:o[0]*16777216+o[1]*65536+o[2]*256+o[3];}
+  function line(label,text){const p=document.createElement('p'),b=document.createElement('b');b.textContent=label+' ';p.append(b,text);return p;}
+  function draw(){
+    const p=Number(pr.value);pv.textContent='/'+p;const n=parse(ipBox.value);
+    if(n===null){bits.replaceChildren();out.replaceChildren(line('Check the address:','use four numbers from 0 to 255.'));return;}
+    const b=n.toString(2).padStart(32,'0');bits.replaceChildren();
+    for(let o=0;o<4;o++){const g=document.createElement('div');g.className='oct';for(let j=0;j<8;j++){const k=o*8+j,i=document.createElement('i');i.className=k<p?'n':'h';i.textContent=b[k];g.append(i);}bits.append(g);}
+    const size=2**(32-p),net=Math.floor(n/size)*size,bc=net+size-1,idx=Math.min(3,Math.floor((p-1)/8)),inOct=p-idx*8,block=2**(8-inOct),maskOct=256-block,val=Math.floor(n/2**(24-idx*8))%256,start=Math.floor(val/block)*block;
+    out.replaceChildren(
+      line('Where the line is:',`${p} bits for the network, ${32-p} bits for hosts.`),
+      line('Block size:',`the split is in octet ${idx+1}, mask value ${maskOct}, so 256 - ${maskOct} = ${block}.`),
+      line('Round down:',`${val} lies in ${start} to ${start+block-1}.`),
+      line('Network (host bits all 0):',fmt(net)),
+      line('Broadcast (host bits all 1):',fmt(bc)),
+      line('Usable range:',`${fmt(net+1)} to ${fmt(bc-1)}`),
+      line('Usable hosts:',`2^${32-p} - 2 = ${(size-2).toLocaleString('en-US')}`));
+  }
+  ipBox.addEventListener('input',draw);pr.addEventListener('input',draw);draw();
+})();
+</script>
+</body>
+</html>
