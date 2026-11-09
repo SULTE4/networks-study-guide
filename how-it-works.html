@@ -45,6 +45,15 @@ p{margin:0 0 10px}ul,ol{margin:0 0 10px;padding-left:1.25em}li{margin:4px 0}
 .out p{margin:4px 0;font-size:14.5px;overflow-wrap:anywhere}.out b{color:var(--head)}
 details.a{border-top:1px solid var(--line);padding:9px 0;font-size:15px}details.a summary{cursor:pointer}details.a p{margin:8px 0 2px}
 .btn{display:inline-block;min-height:44px;padding:11px 16px;background:var(--teal);color:var(--on);font-weight:700;font-size:14px;text-decoration:none}
+.plain{padding:13px 15px;background:var(--soft);margin:10px 0 14px}.plain>:last-child{margin-bottom:0}
+.pl{margin:0 0 5px;font:bold 11px/1.5 var(--sans);letter-spacing:.12em;color:var(--teal)}
+h4{font:700 16px/1.35 var(--sans);color:var(--head);margin:14px 0 5px}
+.eg{padding:14px 16px;background:var(--page);border:1px solid var(--line);border-top:3px solid var(--teal);margin:0 0 14px}.eg>:last-child{margin-bottom:0}
+.eg h4{margin-top:0}.ans{padding:8px 10px;background:var(--soft);font-size:15px;overflow-wrap:anywhere}
+.steps{margin:8px 0 10px;padding-left:1.4em}.steps li{margin:6px 0}
+pre{margin:8px 0 10px;padding:10px 12px;background:var(--code);font:13px/1.6 var(--mono);overflow-x:auto}
+.rnote{display:none;padding:9px 12px;background:var(--soft);border-left:3px solid var(--orange);font-size:14.5px;margin:14px 0 0}
+body.refresh .rnote{display:block}
 body.refresh .detail{display:none}
 body.refresh .lec{padding-bottom:4px}
 @media(max-width:560px){.ctrl{grid-template-columns:minmax(0,1fr)}.bar{padding-left:12px;padding-right:12px}.lec{padding:14px 14px 6px}.oct i{width:14px}}
@@ -59,14 +68,28 @@ body.refresh .lec{padding-bottom:4px}
   <h1>How it works.</h1>
   <p class="lead">Why each thing exists, what job it does, and the few ideas behind every calculation.</p>
   <ol class="how">
-    <li><strong>Today:</strong> read everything once (about 30 minutes), then practice the calculations.</li>
-    <li><strong>Tomorrow morning:</strong> press <em>Morning refresh</em> at the top. Only the key lines and exact facts stay (about 8 minutes).</li>
+    <li><strong>First time:</strong> read slowly from the top (about 1 hour). Every section has an <em>In plain words</em> part, and the calculations have full worked examples. Then practice in the trainer.</li>
+    <li><strong>Just before the exam:</strong> press <em>Morning refresh</em> at the top. Only the key lines and exact facts stay (about 8 minutes).</li>
   </ol>
+  <p class="rnote"><strong>Short mode is on</strong>, so the explanations are hidden. Press <em>Show full</em> at the top to read everything.</p>
 </header>
 
 <section id="roles">
   <p class="eyebrow">START HERE</p>
   <h2>Who does what</h2>
+  <div class="detail">
+  <p class="lead" style="font-size:18px">Think of a network as a postal system. Data is the letter, and each protocol is one worker with one job.</p>
+  <h3>The words everything else uses</h3>
+  <div class="tw"><table><tbody>
+    <tr><td>Host</td><td>Any device with an address: laptop, phone, server.</td></tr>
+    <tr><td>IP address</td><td>The device's postal address. It says which network and which device.</td></tr>
+    <tr><td>MAC address</td><td>The number fixed to the network card. It is used only to reach the next device on the same link.</td></tr>
+    <tr><td>Port</td><td>The number of a program on the device, like an apartment number in a building.</td></tr>
+    <tr><td>Switch</td><td>Connects devices <em>inside</em> one network.</td></tr>
+    <tr><td>Router</td><td>Connects <em>different</em> networks to each other.</td></tr>
+    <tr><td>Protocol</td><td>A set of agreed rules, so two devices understand each other.</td></tr>
+  </tbody></table></div>
+  </div>
   <div class="fix"><strong>TCP and UDP: you have it right.</strong> UDP sends and forgets: no acknowledgment, no resend. TCP confirms what arrived and resends what did not. One addition: UDP is not "bad". It is chosen when speed matters more, because a late video frame is useless anyway.</div>
   <div class="fix wrong"><strong>DHCP: a small correction.</strong> DHCP does not identify who is who. Its job is to <strong>give a device its address</strong>, like reception handing you a room number when you arrive. The "who is who" jobs belong to <strong>DNS</strong> (which IP has this name?) and <strong>ARP</strong> (which MAC has this IP?).</div>
   <div class="tw"><table>
@@ -84,6 +107,20 @@ body.refresh .lec{padding-bottom:4px}
       <tr><td>Report errors, test paths</td><td>ICMP</td><td>Used by ping and traceroute</td></tr>
     </tbody>
   </table></div>
+  <div class="detail">
+  <h3 style="margin-top:18px">Follow one click from start to finish</h3>
+  <p>You connect a laptop to Wi-Fi and open <code>www.example.com</code>. This one story uses almost everything in the course, so read it twice.</p>
+  <ol class="steps">
+    <li><strong>"I have no address."</strong> <b>DHCP</b> gives the laptop an IP (192.168.1.20), a mask, the gateway (192.168.1.1) and a DNS server.</li>
+    <li><strong>"I only know a name."</strong> <b>DNS</b> answers: www.example.com is 203.0.113.10.</li>
+    <li><strong>"Is this address near me?"</strong> The laptop compares the address with its own network using the <b>mask</b>. It is another network, so the data must go to the <b>default gateway</b>.</li>
+    <li><strong>"What is the gateway's MAC?"</strong> <b>ARP</b> shouts on the local network: "who has 192.168.1.1?" The router answers with its MAC.</li>
+    <li><strong>"Are you ready to talk?"</strong> <b>TCP</b> does its handshake with the server on <b>port</b> 443, which means the web server program.</li>
+    <li><strong>"Carry this across the Internet."</strong> Each <b>router</b> reads the destination IP and passes the packet to the next router. The IPs stay the same the whole way, but the MACs are replaced at every router.</li>
+    <li><strong>"Here is the page."</strong> The <b>HTTPS</b> reply comes back to the laptop, the laptop's port number picks the browser, and you see the page.</li>
+  </ol>
+  <p>Every section below is a close look at one step of this story.</p>
+  </div>
   <p class="key"><b>The key idea:</b> IP finds the <em>device</em> across the world. MAC finds the <em>next device</em> on this link. Port finds the <em>program</em>. IP stays the same on the way, and MAC changes at every router.</p>
 </section>
 
@@ -91,6 +128,38 @@ body.refresh .lec{padding-bottom:4px}
   <p class="eyebrow">THE CALCULATION TASKS</p>
   <h2>One idea behind every calculation</h2>
   <p class="role"><b>The whole idea:</b> an IP address is 32 bits with a line drawn through it. Left of the line is the network, right of the line is the host. The prefix (/26) says where the line is. Every task is just finding what that line does.</p>
+  <div class="detail">
+  <h3>Start from zero: the four things you need</h3>
+  <h4>1. Binary in one minute</h4>
+  <p>Each octet (one of the four numbers in an IP) is 8 bits. Each bit position has a fixed value. Add the values where the bit is 1.</p>
+  <div class="tw"><table><thead><tr><th>Position</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th></tr></thead><tbody>
+    <tr><td>Value</td><td>128</td><td>64</td><td>32</td><td>16</td><td>8</td><td>4</td><td>2</td><td>1</td></tr>
+  </tbody></table></div>
+  <p>Example: <code>11100000</code> has the first three bits on, so 128 + 64 + 32 = <strong>224</strong>.</p>
+  <h4>2. What /27 means</h4>
+  <p>It means the first 27 bits are the network and the remaining 5 are hosts. Those 27 bits are written as 1s in the mask, and the rest as 0s. So /27 is the mask <code>255.255.255.224</code>. The two ways of writing it say the same thing.</p>
+  <h4>3. Find the octet where the line falls</h4>
+  <p>Each octet is 8 bits, so take away 8s from the prefix. For /27: 8 + 8 + 8 = 24, and 3 bits are left. So the line is <strong>inside the 4th octet</strong>, 3 bits in. For /21: 8 + 8 = 16, and 5 bits are left, so it is inside the <strong>3rd octet</strong>, 5 bits in.</p>
+  <p style="margin:6px 0 5px"><strong>Learn this one table. It answers most tasks.</strong></p>
+  <div class="tw"><table><thead><tr><th>Bits there</th><th>Mask value</th><th>Block size</th></tr></thead><tbody>
+    <tr><td>1</td><td>128</td><td>128</td></tr>
+    <tr><td>2</td><td>192</td><td>64</td></tr>
+    <tr><td>3</td><td>224</td><td>32</td></tr>
+    <tr><td>4</td><td>240</td><td>16</td></tr>
+    <tr><td>5</td><td>248</td><td>8</td></tr>
+    <tr><td>6</td><td>252</td><td>4</td></tr>
+    <tr><td>7</td><td>254</td><td>2</td></tr>
+    <tr><td>8</td><td>255</td><td>1</td></tr>
+  </tbody></table></div>
+  <h4>4. The method, always the same 4 steps</h4>
+  <ol class="steps">
+    <li>Find the octet where the line falls, and its <strong>block size</strong>.</li>
+    <li>List multiples of the block in that octet, and find the one at or just below your number. That is the <strong>network</strong> value.</li>
+    <li>Add the block and subtract 1. That is the <strong>broadcast</strong> value.</li>
+    <li>Octets <strong>left</strong> of the line are copied. Octets <strong>right</strong> of the line are 0 in the network and 255 in the broadcast.</li>
+  </ol>
+  <h3 style="margin-top:20px">Why the method works</h3>
+  </div>
   <div class="prs">
     <div class="pr"><h3>Why there is a block size</h3><p>The numbers on the left of the line are fixed. Subnets only change by the <strong>last network bit</strong>, so its value is the step between subnets. /26 ends in <code>11000000</code>, and the last 1 has weight 64, so subnets go 0, 64, 128, 192. A quick shortcut gives the same number: <strong>256 - 192 = 64</strong>.</p></div>
     <div class="pr"><h3>Why the network is a multiple of the block</h3><p>The network address means <strong>all host bits are 0</strong>. Clearing the bits on the right is the same as rounding down to a multiple of the block. So 200 with block 32 rounds down to 192.</p></div>
@@ -109,6 +178,77 @@ body.refresh .lec{padding-bottom:4px}
     <div class="out" id="out" aria-live="polite"></div>
   </div>
 
+  <div class="detail">
+  <h3 style="margin-top:22px">Six examples, every step shown</h3>
+  <div class="eg"><h4>Example 1: the line is in the last octet</h4>
+    <p><strong>Task:</strong> find the network, broadcast and usable range of 192.168.1.100 /27.</p>
+    <ol class="steps">
+      <li>27 = 24 + 3, so the line is 3 bits into the 4th octet. From the table: block <strong>32</strong>.</li>
+      <li>Multiples of 32: 0, 32, 64, <strong>96</strong>, 128. The number 100 is between 96 and 128, so the network value is 96.</li>
+      <li>96 + 32 - 1 = <strong>127</strong> is the broadcast value.</li>
+      <li>The first three octets are left of the line, so copy them.</li>
+    </ol>
+    <p class="ans">Network 192.168.1.96, broadcast 192.168.1.127, usable 192.168.1.97 to 192.168.1.126, hosts 2<sup>5</sup> - 2 = 30.</p></div>
+  <div class="eg"><h4>Example 2: the line is in the 3rd octet (the one people get wrong)</h4>
+    <p><strong>Task:</strong> the same, for 10.4.77.200 /21.</p>
+    <ol class="steps">
+      <li>21 = 16 + 5, so the line is 5 bits into the <strong>3rd</strong> octet. Block <strong>8</strong>. Work on the number 77, and ignore the 200 for now.</li>
+      <li>Multiples of 8: ... 64, <strong>72</strong>, 80. So 77 belongs to 72.</li>
+      <li>72 + 8 - 1 = <strong>79</strong>.</li>
+      <li>The 4th octet is right of the line: 0 in the network, 255 in the broadcast. The 200 never matters.</li>
+    </ol>
+    <p class="ans">Network 10.4.72.0, broadcast 10.4.79.255, usable 10.4.72.1 to 10.4.79.254. Host bits = 32 - 21 = 11, so hosts = 2<sup>11</sup> - 2 = 2046.</p></div>
+  <div class="eg"><h4>Example 3: choose a mask for a number of hosts</h4>
+    <p><strong>Task:</strong> smallest subnet for at least 50 hosts.</p>
+    <ol class="steps">
+      <li>Try powers of 2, minus 2. With 5 host bits: 32 - 2 = 30, too few. With 6 host bits: 64 - 2 = <strong>62</strong>, enough.</li>
+      <li>Prefix = 32 - 6 = <strong>/26</strong>. The line is 2 bits into the 4th octet, so the mask value is 192.</li>
+    </ol>
+    <p class="ans">/26, mask 255.255.255.192, 62 usable hosts.</p></div>
+  <div class="eg"><h4>Example 4: split into equal subnets</h4>
+    <p><strong>Task:</strong> divide 192.168.4.0 /24 into 4 equal subnets.</p>
+    <ol class="steps">
+      <li>Borrow bits until 2<sup>H</sup> is enough: 2<sup>2</sup> = 4, so borrow <strong>2</strong>. (If the task said 5 subnets, 2 bits would be too few and you would borrow 3.)</li>
+      <li>New prefix = 24 + 2 = <strong>/26</strong>. Block 64.</li>
+      <li>Start at the original network and keep adding the block.</li>
+    </ol>
+    <div class="tw"><table><thead><tr><th>Subnet</th><th>Network</th><th>Usable</th><th>Broadcast</th></tr></thead><tbody>
+      <tr><td>1</td><td>.0</td><td>.1 to .62</td><td>.63</td></tr>
+      <tr><td>2</td><td>.64</td><td>.65 to .126</td><td>.127</td></tr>
+      <tr><td>3</td><td>.128</td><td>.129 to .190</td><td>.191</td></tr>
+      <tr><td>4</td><td>.192</td><td>.193 to .254</td><td>.255</td></tr>
+    </tbody></table></div>
+    <p class="ans">Each subnet has 6 host bits, so 2<sup>6</sup> - 2 = 62 hosts.</p></div>
+  <div class="eg"><h4>Example 5: VLSM, different sizes</h4>
+    <p><strong>Task:</strong> from 192.168.50.0 /24, give addresses to LAN A (60 hosts), LAN B (25 hosts), LAN C (10 hosts) and one router link.</p>
+    <ol class="steps">
+      <li><strong>Sort</strong> from largest to smallest. The router link is last and always needs 2 addresses.</li>
+      <li><strong>Size</strong> each one with 2<sup>h</sup> - 2, as in Example 3.</li>
+      <li><strong>Place</strong> each one right after the previous one ends.</li>
+    </ol>
+    <div class="tw"><table><thead><tr><th>Need</th><th>Host bits</th><th>Prefix</th><th>Size</th><th>Network</th><th>Broadcast</th></tr></thead><tbody>
+      <tr><td>A: 60</td><td>6 (62)</td><td>/26</td><td>64</td><td>.0</td><td>.63</td></tr>
+      <tr><td>B: 25</td><td>5 (30)</td><td>/27</td><td>32</td><td>.64</td><td>.95</td></tr>
+      <tr><td>C: 10</td><td>4 (14)</td><td>/28</td><td>16</td><td>.96</td><td>.111</td></tr>
+      <tr><td>Link: 2</td><td>2 (2)</td><td>/30</td><td>4</td><td>.112</td><td>.115</td></tr>
+    </tbody></table></div>
+    <p class="ans">Next network = previous network + size: 0, then 64, then 96, then 112. The link's usable addresses are .113 and .114, one for each router.</p></div>
+  <div class="eg"><h4>Example 6: IPv6 subnets</h4>
+    <p><strong>Task:</strong> you get 2001:db8:acad::/48. How many /64 subnets are there, and what are the first few?</p>
+    <ol class="steps">
+      <li>Subnet bits = 64 - 48 = 16, so 2<sup>16</sup> = <strong>65,536 subnets</strong>.</li>
+      <li>16 bits is exactly 4 hex digits, which is the 4th hextet. Just count in it, and remember that after 9 comes a.</li>
+    </ol>
+    <p class="ans">2001:db8:acad:0::/64, then :1::/64, :2::/64 ... :9::/64, :a::/64, :b::/64 and so on.</p></div>
+  <h4>The mistakes that lose marks</h4>
+  <ul>
+    <li>Using the 4th octet when the line is in the 3rd. Always find the octet first.</li>
+    <li>Forgetting - 2 for hosts, or wrongly using - 2 for subnets.</li>
+    <li>Giving the network address or broadcast as a usable address.</li>
+    <li>In VLSM, starting with the small networks. Always largest first.</li>
+    <li>Choosing 2<sup>h</sup> without - 2. A subnet for 30 hosts fits in 5 bits, but one for 31 hosts needs 6.</li>
+  </ul>
+  </div>
   <h3 style="margin-top:22px">Read the question, know the move</h3>
   <div class="tw"><table>
     <thead><tr><th>The question asks</th><th>Your move</th><th>Task</th></tr></thead>
@@ -135,6 +275,15 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>IPv4 addressing</h3>
     <p class="role"><b>Role:</b> give every device a logical address, and group devices into networks.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p>An IP address works like <strong>street + house number</strong>. In 192.168.1.20 /24, the street is 192.168.1 and the house is 20. Houses on one street can reach each other directly. To reach another street, you must go through a router.</p>
+      <p><strong>How a computer does this (ANDing).</strong> Line up the address and the mask. A result bit is 1 only if both bits are 1. For 192.168.1.100 /27, the last octet is:</p>
+      <pre>address  100 = 01100100
+mask     224 = 11100000
+AND          = 01100000 = 96</pre>
+      <p>The result is 96, the same answer the block method gives. Block size is simply the fast way to do ANDing in your head.</p>
+      <p><strong>Why subnet?</strong> Picture 1,000 devices in one network. When any device sends a broadcast, the other 999 must read it. Split them into groups with a router between, and each broadcast stays inside its group.</p>
+      <p><strong>Spot the special addresses.</strong> If a PC shows 169.254.x.x, it asked for DHCP and nobody answered. Private addresses like 192.168.x.x are used inside your home or company, and the router swaps them for a public address when going to the Internet. That swap is NAT.</p></div>
     <div class="detail">
       <p><strong>Why subnet at all?</strong> Broadcasts reach everyone in a network, and too many slow it down. Routers stop broadcasts, so smaller subnets mean less traffic, better security between groups, and fewer devices hit by a problem.</p>
       <p><strong>ANDing</strong> is how a device finds the network part: address AND mask, bit by bit.</p>
@@ -153,6 +302,25 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>IPv6</h3>
     <p class="role"><b>Role:</b> solve the shortage of IPv4 addresses with 128 bits, and remove the need for NAT.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p>IPv4 has about 4.3 billion addresses and the world used them up. IPv6 is the bigger replacement. It is written as 8 groups called <strong>hextets</strong>. Each has 4 hex digits, which is 16 bits, and 8 x 16 = 128.</p>
+      <h4>Shortening, step by step</h4>
+      <pre>Full:      2001:0db8:0000:0000:00a0:0000:0000:0001
+Rule 1:    2001:db8:0:0:a0:0:0:1
+Rule 2:    2001:db8::a0:0:0:1</pre>
+      <p>There are two runs of zeros here, and <code>::</code> may appear only once, or nobody could tell how many zeros each one hides. Use it on the longest run. If they are equal, use the first.</p>
+      <h4>Know the type from the first digits</h4>
+      <p>Starts with <strong>2 or 3</strong>: global (public). <strong>fe80</strong>: link-local. <strong>fc or fd</strong>: unique local (private). <strong>ff</strong>: multicast.</p>
+      <h4>Read one address</h4>
+      <p><code>2001:db8:acad:1::10/64</code> has three parts: <code>2001:db8:acad</code> is the prefix from the ISP (/48), <code>1</code> is your subnet ID, and <code>::10</code> is the interface ID, which is the host.</p>
+      <h4>How a host gets an address</h4>
+      <p>The host asks: "Router, what network is this?" (Router Solicitation). The router replies with a <strong>Router Advertisement</strong> containing the prefix and telling the host which method to use. With <strong>SLAAC</strong>, the host builds its own address from that prefix. Nobody keeps a list. <strong>Stateful DHCPv6</strong> is like DHCP in IPv4: a server gives the address and remembers it.</p>
+      <h4>EUI-64 example</h4>
+      <pre>MAC:          00:1a:2b:3c:4d:5e
+Split, add:   00:1a:2b:ff:fe:3c:4d:5e
+First byte:   00 = 00000000
+Flip 7th bit: 00000010 = 02
+Result:       021a:2bff:fe3c:4d5e</pre></div>
     <div class="detail">
       <p><strong>Living together:</strong> dual stack runs both, tunneling puts IPv6 inside IPv4, and translation (NAT64) converts between them.</p>
       <p><strong>Writing it:</strong> rule 1, drop leading zeros in a hextet. Rule 2, one <code>::</code> replaces one run of zero hextets, used only once.</p>
@@ -172,6 +340,25 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Transport layer</h3>
     <p class="role"><b>Role:</b> deliver data between <em>applications</em>. IP only reaches the device, and it guarantees nothing, so transport is where reliability can be added.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p><strong>TCP is a phone call.</strong> You connect first, the other side confirms what it heard, and you repeat what was missed. <strong>UDP is a postcard.</strong> You send it and hope. Postcards are quicker, and fine when a lost one does not matter.</p>
+      <h4>Ports: one laptop, many conversations</h4>
+      <p>Your laptop opens two tabs on the same site. Both go to server port 443, but the laptop picks a different temporary source port for each one, say 50001 and 50002. Replies come back with the ports swapped, so each reply reaches the right tab. The <strong>socket pair</strong> is the four values together: source IP and port, destination IP and port.</p>
+      <h4>The handshake with numbers</h4>
+      <pre>Client: SYN      seq=100
+Server: SYN-ACK  seq=300  ack=101
+Client: ACK      seq=101  ack=301</pre>
+      <p>Each side picks a starting number, and each side confirms the other's number + 1. Three messages are needed because <em>both</em> directions must be confirmed.</p>
+      <h4>What happens when a segment is lost</h4>
+      <p>The sender sends three segments of 500 bytes each, starting at 1001, 1501 and 2001. The middle one is lost.</p>
+      <ol class="steps">
+        <li>The first arrives, so the receiver says <strong>ACK 1501</strong>: "send me byte 1501 next".</li>
+        <li>The third arrives, but 1501 is still missing, so the receiver keeps saying ACK 1501.</li>
+        <li>The sender resends only the segment at 1501.</li>
+        <li>Now everything up to byte 2500 is here, so the receiver says <strong>ACK 2501</strong>.</li>
+      </ol>
+      <p><strong>Flow control:</strong> the <strong>window size</strong> is how many bytes may be sent before waiting for an ACK. A busy receiver makes the window smaller to slow the sender down.</p>
+      <p><strong>Reading netstat:</strong> SYN_RECEIVED means the server got a SYN and is waiting for the final ACK. In a SYN flood, the attacker never sends that ACK, so thousands pile up.</p></div>
     <div class="detail">
       <p><strong>Its jobs:</strong> track conversations, split data into segments and rebuild it, and identify applications by port.</p>
       <div class="tw"><table><thead><tr><th></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
@@ -191,6 +378,21 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Application layer</h3>
     <p class="role"><b>Role:</b> the services people actually use. Each protocol is one job.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <h4>DHCP as a conversation</h4>
+      <div class="tw"><table><tbody>
+        <tr><td>Discover</td><td>"Any DHCP server there? I have no address." It goes to everyone, because the client does not know who the server is.</td></tr>
+        <tr><td>Offer</td><td>"You can use 192.168.1.20 for 24 hours."</td></tr>
+        <tr><td>Request</td><td>"I accept that one." Also to everyone, so other servers can take back their offers.</td></tr>
+        <tr><td>Ack</td><td>"Confirmed. Here are your mask, gateway and DNS server."</td></tr>
+      </tbody></table></div>
+      <p>The address is only borrowed. Before the <strong>lease</strong> ends, the client renews it. If the client leaves, the address returns to the pool for someone else.</p>
+      <h4>DNS as a chain of questions</h4>
+      <p>You want www.example.com. Your DNS server asks a <strong>root</strong> server, which says "ask the .com servers". The .com server says "ask example.com's name server". That one gives the IP. Your DNS server <strong>caches</strong> the answer, so the next person gets it at once.</p>
+      <h4>Email with two devices</h4>
+      <p>You read mail on a phone and a laptop. With <strong>IMAP</strong>, mail stays on the server, so both show the same inbox. With <strong>POP3</strong>, the first device downloads the mail and removes it, so the other sees nothing. <strong>SMTP</strong> is only for sending.</p>
+      <h4>Ports, grouped so they stick</h4>
+      <p>Web: 80 plain, 443 secure. Remote login: 22 secure, 23 insecure. Email: 25 sends, 110 downloads, 143 syncs. Files: FTP 20 and 21, TFTP 69. Network helpers: DNS 53, DHCP 67 and 68.</p></div>
     <div class="detail">
       <p><strong>Upper layers:</strong> Application, Presentation (format, compress, encrypt) and Session (keep the dialog going) join into one TCP/IP layer.</p>
       <p><strong>DHCP is DORA:</strong> Discover (broadcast, from 0.0.0.0), Offer, Request (broadcast, so other servers know they lost), Ack. The address is a <strong>lease</strong> for a limited time.</p>
@@ -217,6 +419,19 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Network layer</h3>
     <p class="role"><b>Role:</b> move packets from the source device to the destination device, even across many networks.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p>The network layer is the <strong>long-distance</strong> part of the trip. Think of the IP as the final destination on your ticket, and each MAC as just the next bus stop.</p>
+      <h4>Local or remote?</h4>
+      <p>PC 192.168.1.10 /24 wants to reach 192.168.1.50. The street is the same, so it sends directly. To reach 10.0.0.5, the street is different, so it sends to the gateway.</p>
+      <h4>What changes on the way</h4>
+      <p>PC to router R1, to router R2, to the server:</p>
+      <div class="tw"><table><thead><tr><th>Hop</th><th>Source MAC</th><th>Dest MAC</th><th>Source IP</th><th>Dest IP</th></tr></thead><tbody>
+        <tr><td>PC to R1</td><td>PC</td><td>R1</td><td>PC</td><td>Server</td></tr>
+        <tr><td>R1 to R2</td><td>R1</td><td>R2</td><td>PC</td><td>Server</td></tr>
+        <tr><td>R2 to Server</td><td>R2</td><td>Server</td><td>PC</td><td>Server</td></tr>
+      </tbody></table></div>
+      <p>The two IP columns never change. The two MAC columns change on every hop. Exams ask this often.</p>
+      <p><strong>TTL:</strong> a packet starts with a number, and each router subtracts 1. At 0 the router drops it and reports back with ICMP. This stops packets from circling forever, and <code>traceroute</code> uses it to discover each router on the path.</p></div>
     <div class="detail">
       <p><strong>IP is connectionless</strong> (no setup), <strong>best effort</strong> (no guarantee, no resend) and <strong>media independent</strong> (copper, fiber or radio). This is why TCP is needed above it.</p>
       <p><strong>Each host decides:</strong> is the destination local or remote? It compares using its own IP and mask. Local goes direct, remote goes to the default gateway.</p>
@@ -230,6 +445,16 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Data link and switching</h3>
     <p class="role"><b>Role:</b> deliver a frame from one network card to the next on the same link, and reject corrupted frames.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <h4>How a switch learns, in four moments</h4>
+      <ol class="steps">
+        <li>The MAC table is empty. PC A on port 1 sends a frame to PC C.</li>
+        <li>The switch <strong>learns</strong>: "A is on port 1" (it reads the source MAC).</li>
+        <li>It does not know where C is, so it <strong>floods</strong> the frame out of every other port.</li>
+        <li>C replies from port 3. The switch learns "C is on port 3", and from now on A and C go straight to each other.</li>
+      </ol>
+      <p><strong>Half-duplex</strong> is a walkie-talkie: one talks at a time. <strong>Full-duplex</strong> is a phone call: both talk at once. <strong>CSMA</strong> means "listen before you talk". Wired Ethernet /CD notices a collision and retries. Wi-Fi /CA tries to avoid collisions, because a radio cannot hear one while it is sending.</p>
+      <p><strong>FCS</strong> is a check value. The sender calculates it from the frame, and the receiver calculates it again. If the two differ, the frame is thrown away.</p></div>
     <div class="detail">
       <p><strong>Two sublayers:</strong> LLC talks up to the software (802.2). MAC handles encapsulation and access to the media.</p>
       <p><strong>Frame:</strong> 64 to 1518 bytes. Under 64 is a "runt" and is dropped. The FCS trailer detects errors.</p>
@@ -243,6 +468,10 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Physical layer</h3>
     <p class="role"><b>Role:</b> turn a frame into real signals on a cable or in the air.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p>Think of a road. <strong>Bandwidth</strong> is how wide the road is. <strong>Throughput</strong> is the traffic that really passes. <strong>Goodput</strong> counts only the passengers, not the weight of the vehicles. <strong>Latency</strong> is how long the trip takes. For example, a 100 Mb/s link may carry 80 Mb/s in practice, and 70 Mb/s of that is your real data.</p>
+      <p><strong>Three problems of copper:</strong> <em>attenuation</em> is a voice fading with distance. <em>EMI/RFI</em> is noise from nearby machines and radios. <em>Crosstalk</em> is hearing the wire next to you.</p>
+      <p><strong>Choosing a medium in a question:</strong> near heavy electrical noise, or between buildings: fiber. Very long distance: single-mode fiber. A normal office under 100 m: UTP. Moving users: wireless.</p></div>
     <div class="detail">
       <p><strong>Signals:</strong> electrical on copper, light on fiber, radio on wireless. <strong>Encoding</strong> makes the bit pattern, <strong>signaling</strong> represents it physically.</p>
       <p><strong>Speed words:</strong> bandwidth is capacity. Throughput is what actually passes. Goodput is the usable data (throughput - overhead). Latency is delay.</p>
@@ -255,6 +484,15 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Protocols and models</h3>
     <p class="role"><b>Role:</b> protocols are the agreed rules. Layers split one huge problem into small jobs.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p><strong>Encapsulation is an envelope inside an envelope.</strong> Each layer adds its own label and passes the result down. The receiver opens them in reverse.</p>
+      <div class="tw"><table><thead><tr><th>Layer</th><th>Adds</th><th>Result</th><th>Works with</th></tr></thead><tbody>
+        <tr><td>Application</td><td>The message itself</td><td>Data</td><td>Browser, mail</td></tr>
+        <tr><td>Transport</td><td>Ports</td><td>Segment</td><td>TCP, UDP</td></tr>
+        <tr><td>Internet</td><td>IP addresses</td><td>Packet</td><td>Router</td></tr>
+        <tr><td>Network access</td><td>MACs and FCS</td><td>Frame, then bits</td><td>Switch, cable</td></tr>
+      </tbody></table></div>
+      <p>This table links most of the course together: ports belong to transport, IPs to the Internet layer, and MACs to network access.</p></div>
     <div class="detail">
       <p><strong>Every message needs rules for:</strong> encoding, formatting, size, timing (flow control, response timeout, access method) and delivery (unicast, multicast, broadcast).</p>
       <p><strong>Layered models help because</strong> vendors can work together, and a change in one layer does not break the others.</p>
@@ -272,6 +510,17 @@ body.refresh .lec{padding-bottom:4px}
 
   <article class="lec"><h3>Networks and Cisco IOS</h3>
     <p class="role"><b>Role:</b> the vocabulary of networks, and how to talk to a Cisco device.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p><strong>LAN</strong> is the roads inside your neighborhood. <strong>WAN</strong> is the highways between cities. <strong>Packet switching</strong> means data is cut into pieces that can take different roads, so one broken road does not stop the trip. That is fault tolerance.</p>
+      <h4>The Cisco prompt tells you where you are</h4>
+      <pre>Switch&gt;                     can only look
+Switch&gt; enable
+Switch#                     can see everything
+Switch# configure terminal
+Switch(config)#             changes the whole device
+Switch(config)# interface g0/1
+Switch(config-if)#          changes one port</pre>
+      <p><strong>Running-config</strong> is like a document you are typing, and <strong>startup-config</strong> is the saved file. If power goes off, everything unsaved is gone.</p></div>
     <div class="detail">
       <p><strong>Devices:</strong> end devices start or receive data. Intermediary devices (switches, routers, APs, firewalls) connect them and manage the flow.</p>
       <p><strong>Peer-to-peer:</strong> easy and cheap, but not secure or scalable, so only for very small networks.</p>
@@ -293,6 +542,7 @@ body.refresh .lec{padding-bottom:4px}
 
   <h3>Which cable connects what</h3>
   <p class="role"><b>Easy rule:</b> straight-through only when exactly one end is a switch. Everything else is crossover.</p>
+  <p class="detail plain"><strong>Why this rule exists:</strong> a wire pair must connect one side's sending pins to the other side's receiving pins. PCs and routers send on pins 1 and 2. Switches send on pins 3 and 6. So a PC and a switch already match, and a straight cable works. Two devices of the same kind would send into each other, so the wires must cross.</p>
   <div class="tw"><table><thead><tr><th>Straight-through</th><th>Crossover</th></tr></thead><tbody>
     <tr><td>Switch to Router</td><td>Switch to Switch</td></tr>
     <tr><td>Switch to PC</td><td>Router to Router</td></tr>
@@ -359,6 +609,9 @@ body.refresh .lec{padding-bottom:4px}
   <h2>Network security</h2>
   <article class="lec"><h3>Network security</h3>
     <p class="role"><b>Role:</b> keep data private, unchanged and available, by stopping people and programs that should not get in.</p>
+    <div class="detail plain"><p class="pl">IN PLAIN WORDS</p>
+      <p>Take your grades on a student portal. <strong>Confidentiality:</strong> only you can see them. <strong>Integrity:</strong> nobody can change 70 to 30. <strong>Availability:</strong> the portal works when you need it.</p>
+      <p>Take a house. The <strong>threat</strong> is that burglars exist. The <strong>vulnerability</strong> is the unlocked window. The <strong>attack</strong> is the burglar climbing in.</p></div>
     <div class="detail">
       <p><strong>Three goals (CIA):</strong> confidentiality (only the right people can read it), integrity (nobody changed it), availability (it works when needed).</p>
       <p><strong>Three words people mix up:</strong> a <em>threat</em> is what could harm you, a <em>vulnerability</em> is the weak spot, and an <em>attack</em> is someone using it.</p>
