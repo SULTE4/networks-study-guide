@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exam Prep</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23167566%22/%3E%3Ctext x=%229%22 y=%2225%22 font-size=%2224%22 fill=%22%23fff%22%3EE%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:light dark;--paper:#fbf8f1;--page:#fffefb;--ink:#243447;--head:#153e51;--muted:#5d6a72;--blue:#2563a6;--orange:#ad501f;--teal:#167566;--on:#fff;--line:#d9ddd8;--soft:#f1ede2;--code:#e9ede6;--ok:#15704a;--okbg:#dcf3e6;--bad:#a8331f;--badbg:#fbe3dc;--mono:'DejaVu Sans Mono',ui-monospace,Menlo,Consolas,monospace;--sans:'DejaVu Sans',system-ui,Arial,sans-serif;--serif:Georgia,'DejaVu Serif',serif}
+@media(prefers-color-scheme:dark){:root{--paper:#14191f;--page:#1c232b;--ink:#e6e2d8;--head:#f0ead9;--muted:#a3adb4;--blue:#8dbdea;--orange:#e9a77a;--teal:#58bda9;--on:#0e1f1b;--line:#2f3943;--soft:#232b34;--code:#27313a;--ok:#74d6a4;--okbg:#17392a;--bad:#f2a08c;--badbg:#472219}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:62px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans)}
+a{color:var(--blue);text-underline-offset:3px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #9366b4;outline-offset:2px}
+code{font:.9em/1.4 var(--mono);background:var(--code);padding:1px 5px;overflow-wrap:anywhere}
+.bar{position:sticky;top:0;z-index:5;padding:0 max(16px,calc(50% - 440px));background:var(--paper);border-bottom:1px solid var(--line);font-size:14px}
+.bar nav{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none}.bar nav::-webkit-scrollbar{display:none}.bar nav a{white-space:nowrap;text-decoration:none;padding:13px 0}
+main{max-width:880px;margin:0 auto;padding:0 16px 70px}
+.eyebrow{margin:0;font:bold 11px/1.6 var(--sans);letter-spacing:.13em;color:var(--orange)}
+h1,h2{font-family:var(--serif);font-weight:500;color:var(--head);letter-spacing:-.025em}
+h1{font-size:clamp(40px,8vw,60px);line-height:1.05;margin:10px 0 10px}
+header.top{padding:36px 0 22px;border-bottom:2px solid var(--ink)}
+.lead{font:19px/1.45 var(--serif);margin:0 0 14px;color:var(--head)}
+.plan{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.plan li{padding:11px 13px;background:var(--page);border:1px solid var(--line);font-size:14.5px;line-height:1.4}.plan b{display:block;color:var(--head)}.plan span{color:var(--muted);font-size:13px}
+section{padding-top:38px}h2{font-size:clamp(28px,5vw,36px);line-height:1.15;margin:4px 0 8px}
+h3{font:700 16.5px/1.35 var(--sans);color:var(--head);margin:0 0 7px}
+p{margin:0 0 9px}.sub{color:var(--muted);font-size:14.5px;margin-bottom:14px}
+ul,ol{margin:0 0 8px;padding-left:1.2em}li{margin:3px 0}
+.sheet{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{padding:13px 15px;background:var(--page);border:1px solid var(--line);font-size:14.5px;min-width:0}.card>:last-child{margin-bottom:0}
+.card.hot{border-top:3px solid var(--orange)}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.4}th,td{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--soft);color:var(--head)}tr:last-child td{border-bottom:0}td:first-child{font-weight:700}
+.trap{padding:7px 10px;background:var(--soft);font-size:14px;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 12px}
+.chip{min-height:40px;padding:6px 12px;background:var(--page);border:1px solid var(--line);font-size:13.5px}.chip[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:var(--on);font-weight:700}
+.panel{padding:17px;background:var(--page);border:2px solid var(--teal)}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);margin-bottom:9px}
+.progress{height:5px;background:var(--line);margin-bottom:12px}.progress i{display:block;height:100%;background:var(--teal);width:0}
+.qt{font-size:17px;line-height:1.45;color:var(--head);font-weight:600;margin-bottom:12px;overflow-wrap:anywhere}
+.opts{display:grid;gap:7px}
+.opt{display:flex;gap:9px;width:100%;min-height:46px;padding:10px 12px;background:var(--paper);border:1px solid var(--line);text-align:left;line-height:1.4;overflow-wrap:anywhere}
+.opt b{flex:0 0 auto;color:var(--muted)}.opt span{min-width:0}
+.opt.sel{border:2px solid var(--blue);padding:9px 11px}
+.opt.ok{background:var(--okbg);border:2px solid var(--ok);padding:9px 11px}
+.opt.bad{background:var(--badbg);border:2px solid var(--bad);padding:9px 11px}
+.opt:disabled{cursor:default;color:inherit}
+.act{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{min-height:44px;padding:9px 18px;background:var(--teal);color:var(--on);border:0;font-weight:700;font-size:14px}.btn:disabled{opacity:.45;cursor:default}
+.btn.alt{background:transparent;color:var(--blue);border:1px solid var(--line);font-weight:400}
+.fb{margin-top:12px;padding:10px 12px;background:var(--soft);font-size:15px}.fb b.y{color:var(--ok)}.fb b.n{color:var(--bad)}
+.field{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);margin-bottom:9px}
+.field input{min-height:46px;padding:8px 10px;background:var(--paper);border:1px solid var(--line);font:16px var(--mono);width:100%;min-width:0}
+.field input.ok{border:2px solid var(--ok);background:var(--okbg)}.field input.bad{border:2px solid var(--bad);background:var(--badbg)}
+.want{color:var(--bad);font:13px var(--mono);overflow-wrap:anywhere}
+.steps{margin:12px 0 0;padding:11px 12px 11px 2em;background:var(--soft);font-size:15px}.steps li{margin:5px 0;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+.more{font-size:14.5px;margin-top:16px}
+@media(max-width:720px){.sheet{grid-template-columns:minmax(0,1fr)}.plan{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="bar"><nav aria-label="Sections"><a href="#sheet">Must know</a><a href="#quiz">Quiz</a><a href="#calc">Calculations</a><a href="how-it-works.html">How it works</a><a href="networks-juice.html#endterm">Full trainer</a></nav></div>
+<main>
+<header class="top">
+  <p class="eyebrow">ONE PAGE FOR EXAM DAY</p>
+  <h1>Exam prep.</h1>
+  <p class="lead">Addressing, IPv6, transport and application services: the facts to know, then practice in the exam's format.</p>
+  <ol class="plan">
+    <li><b>1. Must know</b>Read each card, then cover it and recall it.<br><span>15 minutes</span></li>
+    <li><b>2. Quiz</b>Read the reason every time you miss one, then retry your misses.<br><span>45 minutes</span></li>
+    <li><b>3. Calculations</b>Solve on paper first. Start with Network and Broadcast.<br><span>All remaining time</span></li>
+  </ol>
+</header>
+
+<section id="sheet">
+  <p class="eyebrow">STEP 1</p>
+  <h2>Must know</h2>
+  <p class="sub">Cards marked in orange are the ones most likely to cost you easy marks.</p>
+  <div class="sheet">
+    <div class="card hot"><h3>Special IPv4 addresses</h3><div class="tw"><table><tbody>
+      <tr><td>Private</td><td>10.0.0.0/8<br>172.16.0.0 to 172.31.255.255<br>192.168.0.0/16</td></tr>
+      <tr><td>Loopback</td><td>127.0.0.1, tests TCP/IP on this host</td></tr>
+      <tr><td>Link-local</td><td>169.254.x.x (APIPA), no DHCP server answered</td></tr>
+      <tr><td>Multicast</td><td>224.0.0.0 to 239.255.255.255</td></tr>
+      <tr><td>Classes</td><td>A 0-127, B 128-191, C 192-223, D multicast, E reserved</td></tr>
+    </tbody></table></div><p class="trap"><strong>Trap:</strong> 172.15.x.x and 172.32.x.x are public. Only 172.16 to 172.31 are private.</p></div>
+
+    <div class="card hot"><h3>Masks: learn this table</h3><div class="tw"><table><thead><tr><th>Prefix</th><th>Last octet</th><th>Block</th><th>Hosts</th></tr></thead><tbody>
+      <tr><td>/24</td><td>0</td><td>256</td><td>254</td></tr>
+      <tr><td>/25</td><td>128</td><td>128</td><td>126</td></tr>
+      <tr><td>/26</td><td>192</td><td>64</td><td>62</td></tr>
+      <tr><td>/27</td><td>224</td><td>32</td><td>30</td></tr>
+      <tr><td>/28</td><td>240</td><td>16</td><td>14</td></tr>
+      <tr><td>/29</td><td>248</td><td>8</td><td>6</td></tr>
+      <tr><td>/30</td><td>252</td><td>4</td><td>2</td></tr>
+    </tbody></table></div></div>
+
+    <div class="card"><h3>IPv4 rules</h3><ul>
+      <li><strong>Subnets</strong> = 2<sup>H</sup>, where H is the bits borrowed.</li>
+      <li><strong>Hosts</strong> = 2<sup>h</sup> - 2, where h is the host bits left.</li>
+      <li>The 2 removed are the <strong>network</strong> (host bits all 0) and <strong>broadcast</strong> (host bits all 1).</li>
+      <li><strong>ANDing</strong> compares address and mask bit by bit.</li>
+      <li><strong>Unicast</strong> is one host, <strong>broadcast</strong> is all on the network, <strong>multicast</strong> is a group.</li>
+      <li>Only a <strong>router</strong> stops broadcasts.</li>
+      <li><strong>VLSM:</strong> largest first, /30 for a router link.</li>
+      <li>IANA gives blocks to 5 RIRs, then ISPs.</li>
+      <li>Clients use DHCP. Servers and printers use static addresses.</li>
+    </ul></div>
+
+    <div class="card hot"><h3>Reading IPv6</h3><ul>
+      <li>128 bits, 8 hextets, each 16 bits. /64 for LANs.</li>
+      <li><strong>Rule 1:</strong> drop leading zeros only.</li>
+      <li><strong>Rule 2:</strong> <code>::</code> replaces one run of zero hextets, once only.</li>
+    </ul><div class="tw"><table><tbody>
+      <tr><td>2 or 3...</td><td>GUA (2000::/3), like public</td></tr>
+      <tr><td>fe80...</td><td>Link-local, one link only, every interface has one</td></tr>
+      <tr><td>fc or fd...</td><td>Unique local, like private</td></tr>
+      <tr><td>ff...</td><td>Multicast. ff02::1 all nodes, ff02::2 all routers</td></tr>
+      <tr><td>::1 / ::</td><td>Loopback / unspecified</td></tr>
+    </tbody></table></div><p class="trap">IPv6 has <strong>no broadcast and no ARP</strong>. ICMPv6 Neighbor Discovery replaces ARP.</p></div>
+
+    <div class="card"><h3>How IPv6 hosts get addresses</h3><p>The router's RA suggests one of three methods. The gateway is always the router's <strong>LLA</strong>.</p><div class="tw"><table><thead><tr><th>Method</th><th>Address</th><th>DNS</th></tr></thead><tbody>
+      <tr><td>SLAAC</td><td>Built from RA</td><td>From RA</td></tr>
+      <tr><td>SLAAC + stateless DHCPv6</td><td>Built from RA</td><td>DHCPv6 server</td></tr>
+      <tr><td>Stateful DHCPv6</td><td>DHCPv6 server</td><td>DHCPv6 server</td></tr>
+    </tbody></table></div><p style="margin-top:8px"><code>ipv6 unicast-routing</code> comes first, or the router sends no RAs.</p></div>
+
+    <div class="card"><h3>EUI-64 and coexistence</h3><ol>
+      <li>Split the MAC in half.</li><li>Insert <code>ff:fe</code> in the middle.</li><li>Flip the 7th bit: 00 becomes 02.</li>
+    </ol><p>No <code>ff:fe</code> in the middle means the ID is random.</p><p><strong>Coexistence:</strong> dual stack runs both. Tunneling puts IPv6 inside IPv4. NAT64 translates.</p></div>
+
+    <div class="card hot"><h3>TCP vs UDP</h3><div class="tw"><table><thead><tr><th></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+      <tr><td>Session</td><td>Handshake first</td><td>None</td></tr>
+      <tr><td>Lost data</td><td>Resent</td><td>Not resent</td></tr>
+      <tr><td>Order</td><td>Sequence numbers</td><td>As received</td></tr>
+      <tr><td>Flow control</td><td>Yes, window size</td><td>No</td></tr>
+      <tr><td>Header</td><td>20 to 60 bytes</td><td>8 bytes, 4 fields</td></tr>
+    </tbody></table></div><p class="trap"><strong>UDP is used for:</strong> live voice and video, simple request and reply (DNS, DHCP), and applications that <strong>handle reliability themselves</strong> (TFTP, SNMP).</p></div>
+
+    <div class="card"><h3>TCP numbers and flags</h3><ul>
+      <li><strong>Open:</strong> SYN, SYN-ACK, ACK. <strong>Close:</strong> FIN, ACK, FIN, ACK.</li>
+      <li><strong>Sequence number:</strong> reassembles data in order.</li>
+      <li><strong>ACK number</strong> = next byte expected = sequence + bytes received.</li>
+      <li><strong>Window:</strong> bytes accepted at one time.</li>
+      <li><strong>RST</strong> resets on error or timeout.</li>
+      <li><strong>MSS 1460</strong> = 1500 MTU - 20 IP - 20 TCP.</li>
+      <li><strong>Socket</strong> = IP + port.</li>
+      <li>Ports: well-known 0-1023, registered 1024-49151, dynamic 49152-65535.</li>
+    </ul></div>
+
+    <div class="card hot"><h3>Ports</h3><div class="tw"><table><thead><tr><th>Service</th><th>Port</th><th>Service</th><th>Port</th></tr></thead><tbody>
+      <tr><td>FTP</td><td>TCP 20, 21</td><td><b>TFTP</b></td><td>UDP 69</td></tr>
+      <tr><td>SSH</td><td>TCP 22</td><td><b>HTTP</b></td><td>TCP 80</td></tr>
+      <tr><td>Telnet</td><td>TCP 23</td><td><b>POP3</b></td><td>TCP 110</td></tr>
+      <tr><td>SMTP</td><td>TCP 25</td><td><b>IMAP</b></td><td>TCP 143</td></tr>
+      <tr><td>DNS</td><td>UDP, TCP 53</td><td><b>SNMP</b></td><td>UDP 161</td></tr>
+      <tr><td>DHCP</td><td>UDP 67, 68</td><td><b>HTTPS</b></td><td>TCP 443</td></tr>
+      <tr><td></td><td></td><td><b>SMB</b></td><td>TCP 445</td></tr>
+    </tbody></table></div></div>
+
+    <div class="card"><h3>netstat states</h3><div class="tw"><table><tbody>
+      <tr><td>LISTENING</td><td>Port is open and waiting</td></tr>
+      <tr><td>ESTABLISHED</td><td>Data is flowing</td></tr>
+      <tr><td>SYN_SENT stuck</td><td>Host down or firewall</td></tr>
+      <tr><td>Many SYN_RECEIVED</td><td>SYN flood attack</td></tr>
+      <tr><td>Many CLOSE_WAIT</td><td>Application bug</td></tr>
+      <tr><td>TIME_WAIT</td><td>Normal after browsing</td></tr>
+    </tbody></table></div><p style="margin-top:8px">Port test: reply SYN-ACK is open, RST is closed, no reply is filtered.</p></div>
+
+    <div class="card"><h3>Upper layers</h3><ul>
+      <li>OSI <strong>application, presentation and session</strong> together form the TCP/IP application layer.</li>
+      <li><strong>Presentation:</strong> formats, compresses, encrypts.</li>
+      <li><strong>Session:</strong> creates and maintains dialogs, restarts interrupted ones.</li>
+    </ul></div>
+
+    <div class="card hot"><h3>DHCP</h3><ul>
+      <li>Gives IP, mask, gateway and DNS server, as a <strong>lease</strong> from a <strong>pool</strong>.</li>
+      <li><strong>Discover:</strong> broadcast from 0.0.0.0 to 255.255.255.255.</li>
+      <li><strong>Offer:</strong> server offers a lease.</li>
+      <li><strong>Request:</strong> broadcast so other servers know they lost.</li>
+      <li><strong>Ack:</strong> confirmed. <strong>NAK</strong> if the offer is no longer valid.</li>
+      <li>Other network: router as <strong>relay</strong>, <code>ip helper-address</code>.</li>
+    </ul></div>
+
+    <div class="card"><h3>DNS</h3><div class="tw"><table><tbody>
+      <tr><td>A</td><td>IPv4 address</td></tr>
+      <tr><td>AAAA</td><td>IPv6 address</td></tr>
+      <tr><td>NS</td><td>Authoritative name server</td></tr>
+      <tr><td>MX</td><td>Mail server</td></tr>
+      <tr><td>CNAME</td><td>Alias</td></tr>
+    </tbody></table></div><p style="margin-top:8px">Order: root, top-level, second-level, host. Answers are <strong>cached</strong>. Test with <code>nslookup</code>.</p></div>
+
+    <div class="card"><h3>Web</h3><ul>
+      <li><strong>HTTP uses TCP</strong> because it needs reliable delivery. It is <strong>stateless</strong>, so sites use cookies.</li>
+      <li>GET requests, POST sends, PUT uploads, DELETE removes.</li>
+      <li>200 OK, 301 moved, 403 denied, 404 not found, 500 server error.</li>
+      <li><strong>HTTPS (TLS):</strong> encryption, authentication with a certificate, integrity.</li>
+    </ul></div>
+
+    <div class="card"><h3>Email</h3><ul>
+      <li><strong>SMTP</strong> sends. If the server is busy, it spools and retries.</li>
+      <li><strong>POP3</strong> downloads, deleted from the server by default. Good for one device.</li>
+      <li><strong>IMAP</strong> stays on the server and syncs. Good for phone + laptop.</li>
+    </ul></div>
+
+    <div class="card hot"><h3>Files and remote access</h3><ul>
+      <li><strong>FTP:</strong> 21 control, 20 data, login needed.</li>
+      <li><strong>TFTP:</strong> no login, no listing, for IOS images and configs.</li>
+      <li><strong>SMB:</strong> file and printer sharing. It starts, authenticates and ends sessions. <strong>The connection stays open</strong>, so remote files look local.</li>
+      <li><strong>SSH</strong> encrypts logins and data. <strong>Telnet</strong> sends them in plain text. Use SSH to manage devices.</li>
+      <li>FTP and TFTP are unencrypted. Use SFTP (over SSH, port 22).</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="quiz">
+  <p class="eyebrow">STEP 2</p>
+  <h2>Quiz in the exam's format</h2>
+  <p class="sub">Multiple choice with "None of the above" and Choose two or three. Your missed questions are remembered on this device.</p>
+  <div class="chips" id="chips"></div>
+  <div class="panel" id="qpanel">
+    <div class="meta"><span id="qmeta"></span><span id="qscore"></span></div>
+    <div class="progress"><i id="qbar"></i></div>
+    <p class="qt" id="qtext"></p>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb" hidden></div>
+    <div class="act"><button class="btn" id="check" type="button" hidden>Check</button><button class="btn" id="next" type="button" hidden>Next</button></div>
+  </div>
+  <div class="panel" id="done" hidden aria-live="polite"></div>
+</section>
+
+<section id="calc">
+  <p class="eyebrow">STEP 3</p>
+  <h2>Calculations</h2>
+  <p class="sub">New numbers every time. Work on paper, type your answer and check it. Every answer shows the steps.</p>
+  <div class="chips" id="dchips"></div>
+  <div class="panel">
+    <p class="qt" id="dtext"></p>
+    <form id="dform" autocomplete="off"><div id="dfields"></div>
+    <div class="act"><button class="btn" type="submit">Check</button><button class="btn alt" id="dshow" type="button">Show steps</button><button class="btn alt" id="dnew" type="button">New numbers</button></div></form>
+    <div class="fb" id="dfb" hidden aria-live="polite"></div>
+    <ol class="steps" id="dsteps" hidden></ol>
+  </div>
+  <p class="more">Longer tasks (dividing networks, VLSM tables, IPv6 plans) are in the <a href="networks-juice.html#endterm">full trainer</a>. Slow explanations are in <a href="how-it-works.html#calc">How it works</a>.</p>
+</section>
+</main>
+<script>
+'use strict';
+(function () {
+  const I = 'ipv4', V = 'ipv6', T = 'tr', A = 'app', NONE = 'None of the above';
+  const NAMES = { ipv4: 'IPv4', ipv6: 'IPv6', tr: 'Transport', app: 'Application' };
+  // [topic, question, correct answers, wrong answers, reason]
+  const QS = [
+    [I, 'Which process compares an IPv4 address with its subnet mask bit by bit to find the network portion?', ['ANDing'], ['VLSM', 'NAT', 'Encapsulation'], 'ANDing keeps a bit only when both the address and the mask have a 1.'],
+    [I, 'What is the prefix length of the mask 255.255.255.240?', ['/28'], ['/26', '/27', '/29'], '240 is 11110000, so 24 + 4 = 28.'],
+    [I, 'Which mask is the same as /29?', ['255.255.255.248'], ['255.255.255.240', '255.255.255.252', '255.255.255.224'], '/29 has 5 bits in the last octet: 128 + 64 + 32 + 16 + 8 = 248.'],
+    [I, 'What is the prefix length of the mask 255.255.255.128?', [NONE], ['/24', '/26', '/27', '/28'], '128 is one bit in the last octet, so the prefix is /25, which is not listed.'],
+    [I, 'How many usable host addresses does a /28 subnet have?', ['14'], ['16', '30', '6'], '4 host bits: 2^4 - 2 = 14.'],
+    [I, 'How many usable host addresses does a /29 subnet have?', ['6'], ['8', '14', '2'], '3 host bits: 2^3 - 2 = 6.'],
+    [I, 'Which three addresses are private? (RFC 1918)', ['10.200.1.1', '172.20.5.9', '192.168.77.3'], ['172.32.1.1', '11.0.0.1', '192.169.1.1'], '172.32 is past the 172.16 to 172.31 range. 11.x and 192.169.x are outside the private blocks.'],
+    [I, 'Which two addresses are public?', ['172.15.8.1', '8.8.4.4'], ['172.16.8.1', '10.1.1.1', '192.168.4.4', '169.254.7.7'], '172.15 is just below the private range. The others are private or link-local.'],
+    [I, 'A host sends a broadcast. Which hosts receive it?', ['All hosts on the local network'], ['One specific host', 'A specially defined group of hosts', 'All hosts on the Internet'], 'A broadcast reaches everyone in the broadcast domain, and routers stop it.'],
+    [I, 'A packet is sent to the address 224.10.20.30. What type of transmission is this?', ['Multicast'], ['Unicast', 'Broadcast', 'Anycast'], '224.0.0.0 to 239.255.255.255 is the IPv4 multicast range.'],
+    [I, 'A technician pings 127.0.0.1 on a PC. What does this test?', ['Whether TCP/IP works on that host'], ['Whether the default gateway is reachable', 'Whether DNS is working', 'Whether a remote server is online'], '127.0.0.1 is loopback, so the packet never leaves the host.'],
+    [I, 'A Windows PC shows the address 169.254.33.7. What is the most likely cause?', ['It could not reach a DHCP server'], ['DNS failed', 'The gateway address is wrong', 'It has a static public address'], '169.254.x.x (APIPA) is self-assigned when no DHCP server answers.'],
+    [I, 'Which device stops broadcasts from spreading?', ['Router'], ['Layer 2 switch', 'Access point', 'Repeater'], 'Switches forward broadcasts out all other ports. Each router interface is its own broadcast domain.'],
+    [I, 'Which three are reasons to subnet a network?', ['It reduces overall traffic and improves performance', 'It allows security policies between subnets', 'It reduces the devices affected by abnormal broadcasts'], ['It makes broadcast domains larger', 'It removes the need for routers', 'It creates more public addresses'], 'Smaller broadcast domains mean less traffic and fewer affected devices.'],
+    [I, 'In the formula for usable hosts, which two addresses are subtracted?', ['The address with all host bits 0', 'The address with all host bits 1'], ['The default gateway', 'The DNS server', 'The loopback address', 'The first usable address'], 'These are the network address and the broadcast address.'],
+    [I, 'Which organization allocates blocks of addresses to the five RIRs?', ['IANA'], ['IEEE', 'ISO', 'ITU'], 'IANA gives blocks to RIRs, which give them to ISPs and organizations.'],
+    [I, 'Which type of address should a company file server normally have?', ['A predictable static address'], ['A dynamic address from DHCP', 'An APIPA address', 'A loopback address'], 'Servers and peripherals need an address that does not change.'],
+    [I, 'What is the network address of the host 192.168.9.201 /27?', ['192.168.9.192'], ['192.168.9.200', '192.168.9.128', '192.168.9.224'], 'Block 32. 201 rounds down to 192.'],
+    [I, 'What is the broadcast address of the subnet containing 10.10.50.6 /22?', ['10.10.51.255'], ['10.10.50.255', '10.10.48.255', '10.10.55.255'], 'Block 4 in the 3rd octet. 50 is in 48 to 51, and the 4th octet becomes 255.'],
+    [I, 'Which address can be assigned to a host in 192.168.30.64 /26?', ['192.168.30.100'], ['192.168.30.64', '192.168.30.127', '192.168.30.128'], 'Block 64: usable is .65 to .126. The .64 is the network, .127 the broadcast, and .128 is the next subnet.'],
+    [I, 'The network 172.16.0.0 /16 is subnetted with a /20 mask. How many subnets are created?', ['16'], ['4', '8', '4094'], 'Borrowed bits = 20 - 16 = 4, and 2^4 = 16. (4094 is the hosts in each.)'],
+    [I, 'What is the main purpose of VLSM?', ['To use different subnet sizes and reduce wasted addresses'], ['To make every subnet the same size', 'To remove the subnet mask', 'To speed up routers'], 'VLSM lets you subnet a subnet, so each segment gets only what it needs.'],
+    [I, 'In VLSM, which prefix is used in the examples for a point-to-point router link?', ['/30'], ['/24', '/27', '/28'], 'A /30 gives exactly 2 usable addresses, one for each router.'],
+    [I, 'The address 130.5.1.1 belonged to which legacy class?', ['Class B'], ['Class A', 'Class C', 'Class D'], 'Class B covered first octets 128 to 191.'],
+
+    [V, 'How many bits are in an IPv6 address?', ['128'], ['32', '48', '64'], 'IPv6 addresses are 128 bits: 8 hextets of 16 bits.'],
+    [V, 'Which three are categories of methods for IPv4 and IPv6 coexistence?', ['Dual stack', 'Tunneling', 'Translation'], ['VLSM', 'ANDing', 'Flooding'], 'Dual stack runs both, tunneling carries IPv6 inside IPv4, and NAT64 translates.'],
+    [V, 'Which technique carries an IPv6 packet inside an IPv4 packet?', ['Tunneling'], ['Dual stack', 'NAT64', 'SLAAC'], 'The IPv6 packet is encapsulated inside IPv4.'],
+    [V, 'Which is the correct compressed form of 2001:0db8:00ab:0000:0000:0000:0050:0001?', ['2001:db8:ab::50:1'], ['2001:db8:ab00::50:1', '2001:db8:ab::5:1', '2001:db8:ab:::50:1'], 'Drop leading zeros only. Trailing zeros stay, so 0050 becomes 50, and :: replaces the zero run.'],
+    [V, 'Which is the full form of 2001:db8:c::34?', ['2001:0db8:000c:0000:0000:0000:0000:0034'], ['2001:0db8:c000:0000:0000:0000:0000:0034', '2001:0db8:000c:0000:0000:0000:0034', '2001:0db8:000c:0000:0000:0000:0000:3400'], 'Restore leading zeros and fill :: so there are 8 hextets.'],
+    [V, 'Which two IPv6 addresses are invalid?', ['2001:db8::1::7', '2001:db8:abcg::1'], ['fe80::1', '2001:db8:0:1::5', '::1', 'ff02::2'], ':: may be used only once, and g is not a hex digit.'],
+    [V, 'How can the hextet 0a00 be written with Rule 1?', ['a00'], ['a', 'a0', '0a'], 'Only leading zeros are removed.'],
+    [V, 'What type of address is fe80::a1b2?', ['Link-local'], ['Global unicast', 'Unique local', 'Multicast'], 'fe80::/10 is link-local and is never routed.'],
+    [V, 'What type of address is fd12:3456:789a::1?', ['Unique local'], ['Global unicast', 'Link-local', 'Anycast'], 'fc00::/7 covers fc and fd, and is like private addresses.'],
+    [V, 'Which address is a global unicast address?', ['2a00:1450:4001::1'], ['fe80::1', 'fd00::1', 'ff02::1'], 'Currently assigned GUAs start with 2 or 3.'],
+    [V, 'What does ff02::1 reach?', ['All nodes on the link'], ['All routers on the link', 'The local host only', 'The nearest server'], 'ff02::1 is all nodes and gives the same result as a broadcast. ff02::2 is all routers.'],
+    [V, 'Which is the IPv6 loopback address?', ['::1'], ['::', 'fe80::1', 'ff02::1'], ':: means unspecified, and ::1 is loopback.'],
+    [V, 'Which two statements about IPv6 are true?', ['IPv6 has no broadcast address', 'Every IPv6 interface must have a link-local address'], ['IPv6 uses ARP to find MAC addresses', 'Link-local addresses are routed on the Internet', ':: may be used many times in one address', 'Global addresses start with fe80'], 'Multicast replaces broadcast, and ICMPv6 Neighbor Discovery replaces ARP.'],
+    [V, 'What is the recommended prefix length for an IPv6 LAN?', ['/64'], ['/24', '/48', '/128'], '/64 leaves a 64-bit interface ID.'],
+    [V, 'Using SLAAC, where does a host get its default gateway address?', ['From the source address of the RA, the router\'s LLA'], ['From a stateful DHCPv6 server', 'From a DNS server', 'From its own MAC address'], 'The RA comes from the router\'s link-local address, which becomes the gateway.'],
+    [V, 'With SLAAC and stateless DHCPv6, where does a host get its DNS server address?', ['From a stateless DHCPv6 server'], ['From ARP', 'From a root server', 'From the EUI-64 process'], 'The host builds its address with SLAAC and gets other information from the server.'],
+    [V, 'Which method gives a host its GUA from a server that keeps track of it?', ['Stateful DHCPv6'], ['SLAAC', 'EUI-64', 'Neighbor Discovery'], 'Stateful DHCPv6 is similar to DHCP for IPv4.'],
+    [V, 'Which command must come first so a Cisco router forwards IPv6 and sends RAs?', ['ipv6 unicast-routing'], ['ip routing', 'ipv6 enable-ra', 'no shutdown'], 'Without it, the router sends no RAs and SLAAC does not work.'],
+    [V, 'What value does EUI-64 insert into the middle of the MAC address?', ['fffe'], ['ffff', 'fe80', '0000'], 'A 16-bit value of fffe goes in the middle, and the 7th bit is flipped.'],
+    [V, 'What is the EUI-64 interface ID for the MAC 40:11:22:33:44:55?', ['4211:22ff:fe33:4455'], ['4011:22ff:fe33:4455', '4211:22fe:ff33:4455', '4211:2233:4455:fffe'], '40 = 01000000. Flipping the 7th bit gives 01000010 = 42.'],
+    [V, 'How many /64 subnets fit in a /56?', ['256'], ['16', '64', '65,536'], '64 - 56 = 8 bits, and 2^8 = 256.'],
+    [V, 'An interface ID has no ff:fe in the middle. How was it most likely created?', ['Randomly generated'], ['By the EUI-64 process', 'By ARP', 'By NAT64'], 'EUI-64 always places ff:fe in the middle.'],
+
+    [T, 'Which layer is responsible for logical communication between applications on different hosts?', ['Transport'], ['Network', 'Data link', 'Physical'], 'The transport layer links applications to the lower layers.'],
+    [T, 'Which TCP header field tells the sender the next byte the receiver expects?', ['Acknowledgment number'], ['Sequence number', 'Window size', 'Checksum'], 'The acknowledgment number confirms data and names the next byte expected.'],
+    [T, 'Which TCP header field indicates how many bytes can be accepted at one time?', ['Window size'], ['Urgent', 'Header length', 'Source port'], 'Window size is used for flow control.'],
+    [T, 'Which two fields are in the UDP header?', ['Length', 'Checksum'], ['Sequence number', 'Acknowledgment number', 'Window size', 'Control bits'], 'UDP has four fields: source port, destination port, length and checksum.'],
+    [T, 'What is the size of a UDP header?', ['8 bytes'], ['4 bytes', '20 bytes', '40 bytes'], 'UDP has four 16-bit fields, so 8 bytes.'],
+    [T, 'Which three statements describe TCP?', ['It establishes a session before sending data', 'It retransmits unacknowledged data', 'It supports flow control'], ['It has an 8-byte header', 'It does not acknowledge data', 'It passes data on in the order received'], 'TCP is connection-oriented and reliable. The wrong options describe UDP.'],
+    [T, 'Which two statements describe UDP?', ['Data is rebuilt in the order it is received', 'Lost datagrams are not resent'], ['It uses a three-way handshake', 'It tracks sequence numbers', 'It adjusts a window size', 'It is connection-oriented'], 'UDP has no session, no acknowledgments and no ordering.'],
+    [T, 'Which three commonly use UDP?', ['A live VoIP call', 'A DNS lookup', 'Getting an address with DHCP'], ['Remote login with SSH', 'Sending email with SMTP', 'Online banking transfers'], 'Live media and simple request and reply use UDP. The others need every byte.'],
+    [T, 'Why must DHCP use UDP?', ['The client has no IP address yet, so no TCP session is possible'], ['UDP encrypts the address', 'UDP guarantees delivery', 'UDP is required by routers'], 'A host with no address cannot complete a handshake.'],
+    [T, 'If an application over UDP needs error recovery, what must provide it?', ['The application itself'], ['The IP protocol', 'The switch', 'The UDP window'], 'UDP leaves reliability to applications such as TFTP.'],
+    [T, 'Which application needs TCP so that a file is not corrupted?', ['Downloading a PDF document'], ['A live video stream', 'An online game position update', 'A DNS lookup'], 'A file with one missing byte is broken.'],
+    [T, 'Which range contains dynamic (ephemeral) ports?', ['49152 to 65535'], ['0 to 1023', '1024 to 49151', '1 to 512'], 'The client OS picks these temporary source ports.'],
+    [T, 'A client opens a web connection. Which ports does it normally use?', ['A dynamic source port and a well-known destination port'], ['A well-known source port and a dynamic destination port', 'The same well-known port on both sides', 'No port numbers'], 'The server listens on a well-known port, and the client picks a temporary one.'],
+    [T, 'What makes up a socket?', ['An IP address and a port number'], ['A MAC address and a port number', 'An IP address and a MAC address', 'A sequence and acknowledgment number'], 'A socket pair is the two sockets of a conversation.'],
+    [T, 'What is the order of the TCP three-way handshake?', ['SYN, SYN-ACK, ACK'], ['SYN, ACK, FIN', 'ACK, SYN, SYN-ACK', 'FIN, ACK, SYN'], 'The client requests, the server acknowledges and requests, and the client acknowledges.'],
+    [T, 'Which three are functions of the three-way handshake?', ['It establishes that the destination is present', 'It verifies the destination has an active service on that port', 'It informs the destination a session is intended'], ['It encrypts the data', 'It assigns the client an IP address', 'It finds the MAC of the gateway'], 'The handshake checks that the other side exists and is ready.'],
+    [T, 'Which TCP flag means the sender has no more data?', ['FIN'], ['SYN', 'URG', 'PSH'], 'FIN is used in session termination.'],
+    [T, 'Which TCP flag resets a connection after an error or timeout?', ['RST'], ['ACK', 'SYN', 'FIN'], 'A closed port also replies with RST.'],
+    [T, 'A segment has sequence number 5000 and carries 1200 bytes. What acknowledgment number confirms it?', ['6200'], ['5001', '6201', '1200'], '5000 + 1200 = 6200, the next byte expected.'],
+    [T, 'What is a common TCP MSS over IPv4 on Ethernet?', ['1460 bytes'], ['1500 bytes', '1480 bytes', '65535 bytes'], '1500 - 20 (IP) - 20 (TCP) = 1460.'],
+    [T, 'How many header bytes do IPv4 and UDP add together, at minimum?', ['28'], ['8', '20', '40'], '20 + 8 = 28. With TCP it would be 40.'],
+    [T, 'A server shows thousands of connections in SYN_RECEIVED. What is the most likely cause?', ['A SYN flood attack'], ['A normal browsing session', 'A bug that leaves CLOSE_WAIT', 'A DNS failure'], 'The final ACK never arrives, so half-open connections pile up.'],
+    [T, 'What does the LISTENING state in netstat mean?', ['A server application is waiting for connections on that port'], ['The connection is closing', 'Data is flowing', 'The client sent a SYN'], 'LISTENING means the port is open.'],
+    [T, 'While testing a TCP port there is no reply at all. How is the port described?', ['Filtered'], ['Open', 'Closed', 'Established'], 'Open replies SYN-ACK, closed replies RST, and filtered gives no reply.'],
+
+    [A, 'Which OSI layer formats, compresses and encrypts data?', ['Presentation'], ['Session', 'Transport', 'Network'], 'Examples are JPEG and MPEG.'],
+    [A, 'Which OSI layer creates and maintains dialogs and restarts interrupted ones?', ['Session'], ['Presentation', 'Transport', 'Physical'], 'The session layer manages conversations between applications.'],
+    [A, 'Which TCP/IP layer includes the functions of the OSI session and presentation layers?', ['Application'], ['Transport', 'Internet', 'Network access'], 'TCP/IP has no separate session or presentation layer.'],
+    [A, 'What is the order of the DHCP messages?', ['Discover, Offer, Request, Ack'], ['Offer, Discover, Ack, Request', 'Request, Offer, Discover, Ack', 'Discover, Request, Offer, Ack'], 'Remember DORA.'],
+    [A, 'What are the source and destination of a DHCP Discover?', ['From 0.0.0.0 to 255.255.255.255'], ['From 127.0.0.1 to 224.0.0.1', 'From 169.254.0.1 to the gateway', 'From the gateway to 0.0.0.0'], 'The client has no address and does not know the server.'],
+    [A, 'Why is a DHCP Request broadcast?', ['So other DHCP servers know their offers were declined'], ['So the router can learn the MAC', 'Because TCP needs it', 'So DNS can register the name'], 'Several servers may have made offers.'],
+    [A, 'Which three items can a DHCP server provide to a client?', ['An IPv4 address', 'A default gateway', 'A DNS server address'], ['The client\'s MAC address', 'A list of root servers', 'The client\'s port numbers'], 'DHCP also gives the subnet mask.'],
+    [A, 'What does a DHCP server send if an offer is no longer valid?', ['DHCPNAK'], ['DHCPDISCOVER', 'DHCPOFFER', 'DHCPRELEASE'], 'DHCPACK confirms, and DHCPNAK refuses.'],
+    [A, 'How can a client reach a DHCP server in another network?', ['A router is configured as a relay agent with ip helper-address'], ['Routers forward all broadcasts by default', 'The client uses DNS to find the server', 'The switch tunnels the request'], 'Routers do not forward broadcasts without this.'],
+    [A, 'Which port does a DHCP server use?', ['UDP 67'], ['UDP 68', 'TCP 67', 'TCP 53'], 'The server uses 67 and the client uses 68.'],
+    [A, 'Which DNS record holds the IPv6 address of a host?', ['AAAA'], ['A', 'NS', 'MX'], 'Quad-A records are for IPv6.'],
+    [A, 'Which DNS record holds the IPv4 address of a host?', [NONE], ['AAAA', 'MX', 'NS', 'CNAME'], 'That is the A record, which is not listed.'],
+    [A, 'Which DNS record is an alias for another name?', ['CNAME'], ['MX', 'NS', 'AAAA'], 'CNAME means canonical name.'],
+    [A, 'Which is the order of the DNS hierarchy from the top?', ['Root, top-level domain, second-level domain, host'], ['Host, root, second-level domain, top-level domain', 'Top-level domain, root, host, second-level domain', 'Second-level domain, top-level domain, root, host'], 'Each server handles its own zone.'],
+    [A, 'Which command queries DNS servers to troubleshoot name resolution?', ['nslookup'], ['netstat', 'ping', 'ipconfig /renew'], 'It first shows the default DNS server.'],
+    [A, 'Why does a DNS server cache answers?', ['So the next query for the same name is faster'], ['To encrypt the query', 'To assign IP addresses', 'To replace the root servers'], 'Cached answers do not need another search.'],
+    [A, 'Which HTTP method sends form data to a server?', ['POST'], ['GET', 'DELETE', 'HEAD'], 'GET requests data and POST sends it.'],
+    [A, 'Which status code means the resource does not exist?', ['404'], ['200', '301', '403'], '403 means access is denied.'],
+    [A, 'HTTP is stateless. What do sites use to remember a user?', ['Cookies'], ['Port numbers', 'MAC addresses', 'TTL values'], 'Stateless means each request stands alone.'],
+    [A, 'Which three does HTTPS add to HTTP?', ['Encryption', 'Authentication of the server', 'Integrity of the data'], ['Faster page loading', 'Transport over UDP 80', 'Automatic IP addressing'], 'TLS provides all three, with a certificate proving identity.'],
+    [A, 'Which port does HTTPS use by default?', [NONE], ['TCP 80', 'TCP 8080', 'TCP 110', 'TCP 25'], 'HTTPS uses TCP 443, which is not listed.'],
+    [A, 'Why does a web browser use TCP to get a page?', ['HTTP requires reliable delivery'], ['TCP is the fastest protocol', 'Web data can tolerate errors', 'HTTP has no port number'], 'A page must arrive complete and in order.'],
+    [A, 'What does SMTP do if the destination mail server is busy?', ['Spools the message and tries again later'], ['Deletes the message', 'Switches to POP3', 'Sends it with UDP'], 'Email is store-and-forward.'],
+    [A, 'A user has one offline PC and little mail server space. Which protocol fits best?', ['POP3'], ['IMAP', 'SMTP', 'TFTP'], 'POP3 downloads messages and removes them from the server by default.'],
+    [A, 'A user deletes an email in IMAP on a phone. What happens?', ['It is deleted on every device'], ['It stays on the laptop', 'It moves to POP3', 'It is sent again'], 'The server synchronizes every change.'],
+    [A, 'Which two ports does FTP use?', ['TCP 20', 'TCP 21'], ['UDP 69', 'TCP 22', 'TCP 110', 'TCP 445'], '21 is control and 20 is data.'],
+    [A, 'An engineer copies an IOS image to a router with no login. Which protocol is used?', ['TFTP'], ['SMTP', 'SMB', 'IMAP'], 'TFTP uses UDP 69, with no login and no directory listing.'],
+    [A, 'Which two statements describe SMB?', ['It starts, authenticates and ends sessions', 'Its connection stays open, so remote files look local'], ['It uses UDP port 69', 'It is used only to send email', 'It runs over FTP', 'It cannot control access to files'], 'SMB shares files and printers over TCP 445.'],
+    [A, 'A user opens a shared department folder as a network drive. Which protocol is used?', ['SMB'], ['TFTP', 'DHCP', 'SMTP'], 'SMB is for sharing files and printers.'],
+    [A, 'Why should an administrator avoid Telnet for managing routers?', ['Logins and data are sent in plain text'], ['It cannot use TCP', 'It only works on a console cable', 'It requires DHCP'], 'SSH encrypts them and uses TCP 22.'],
+    [A, 'Which protocol is a secure replacement for FTP?', ['SFTP'], ['TFTP', 'Telnet', 'POP3'], 'SFTP runs over SSH on TCP 22.']
+  ].map((r, i) => ({ id: i, topic: r[0], q: r[1], right: r[2], wrong: r[3], why: r[4] }));
+
+  const $ = id => document.getElementById(id);
+  const shuffle = list => { const a = list.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const KEY = 'cn-prep-missed';
+  let missed = new Set();
+  try { missed = new Set(JSON.parse(localStorage.getItem(KEY) || '[]').filter(n => QS[n])); } catch (e) { missed = new Set(); }
+  const saveMissed = () => { try { localStorage.setItem(KEY, JSON.stringify([...missed])); } catch (e) { /* progress is optional */ } };
+
+  const SETS = [
+    ['all', () => 'All (' + QS.length + ')', () => shuffle(QS)],
+    ['q15', () => 'Quick 15', () => shuffle(QS).slice(0, 15)],
+    [I, () => 'IPv4', () => shuffle(QS.filter(q => q.topic === I))],
+    [V, () => 'IPv6', () => shuffle(QS.filter(q => q.topic === V))],
+    [T, () => 'Transport', () => shuffle(QS.filter(q => q.topic === T))],
+    [A, () => 'Application', () => shuffle(QS.filter(q => q.topic === A))],
+    ['miss', () => 'My missed (' + missed.size + ')', () => shuffle(QS.filter(q => missed.has(q.id)))]
+  ];
+  let queue = [], pos = 0, score = 0, active = 'all', roundMissed = [], chosen = new Set(), current = null, buttons = [];
+
+  function drawChips() {
+    $('chips').replaceChildren(...SETS.map(([id, label, build]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = label(); b.setAttribute('aria-pressed', String(id === active));
+      b.addEventListener('click', () => { active = id; start(build()); });
+      return b;
+    }));
+  }
+
+  function start(list) { queue = list; pos = 0; score = 0; roundMissed = []; $('done').hidden = true; $('qpanel').hidden = false; drawChips(); if (!queue.length) { finishEmpty(); return; } show(); }
+  function finishEmpty() { $('qpanel').hidden = true; const d = $('done'); d.hidden = false; const p = document.createElement('p'); p.textContent = 'Nothing missed yet. Do some questions first.'; d.replaceChildren(p); }
+
+  function show() {
+    current = queue[pos]; chosen = new Set();
+    const many = current.right.length > 1;
+    let opts = shuffle(current.right.concat(current.wrong).filter(o => o !== NONE));
+    if (!many) opts.push(NONE);
+    $('qmeta').textContent = NAMES[current.topic] + ' - question ' + (pos + 1) + ' of ' + queue.length;
+    $('qscore').textContent = score + ' correct';
+    $('qbar').style.width = (pos / queue.length * 100) + '%';
+    $('qtext').textContent = current.q + (many ? ' (Choose ' + (current.right.length === 2 ? 'two' : 'three') + '.)' : '');
+    $('fb').hidden = true; $('next').hidden = true; $('check').hidden = !many; $('check').disabled = true;
+    buttons = opts.map((text, i) => {
+      const b = document.createElement('button'), l = document.createElement('b'), s = document.createElement('span');
+      b.type = 'button'; b.className = 'opt'; l.textContent = 'ABCDEF'[i] + '.'; s.textContent = text; b.append(l, s); b.dataset.value = text;
+      b.addEventListener('click', () => pick(b, many));
+      return b;
+    });
+    $('opts').replaceChildren(...buttons);
+  }
+
+  function pick(b, many) {
+    if (!many) { chosen = new Set([b.dataset.value]); grade(); return; }
+    const v = b.dataset.value;
+    if (chosen.has(v)) { chosen.delete(v); b.classList.remove('sel'); }
+    else if (chosen.size < current.right.length) { chosen.add(v); b.classList.add('sel'); }
+    $('check').disabled = chosen.size !== current.right.length;
+  }
+
+  function grade() {
+    const ok = current.right.length === chosen.size && current.right.every(r => chosen.has(r));
+    buttons.forEach(b => { b.disabled = true; b.classList.remove('sel'); if (current.right.includes(b.dataset.value)) b.classList.add('ok'); else if (chosen.has(b.dataset.value)) b.classList.add('bad'); });
+    if (ok) { score++; missed.delete(current.id); } else { missed.add(current.id); roundMissed.push(current); }
+    saveMissed();
+    const mark = document.createElement('b'); mark.className = ok ? 'y' : 'n'; mark.textContent = ok ? 'Correct. ' : 'Not quite. ';
+    $('fb').replaceChildren(mark, current.why); $('fb').hidden = false;
+    $('qscore').textContent = score + ' correct';
+    $('check').hidden = true; $('next').hidden = false; $('next').textContent = pos + 1 < queue.length ? 'Next' : 'See result'; $('next').focus({ preventScroll: true });
+    drawChips();
+  }
+
+  function finish() {
+    $('qpanel').hidden = true; const d = $('done'); d.hidden = false;
+    const h = document.createElement('h3'), p = document.createElement('p');
+    h.textContent = score + ' of ' + queue.length + ' correct (' + Math.round(score / queue.length * 100) + '%)';
+    const worst = {}; roundMissed.forEach(q => { worst[q.topic] = (worst[q.topic] || 0) + 1; });
+    const parts = Object.keys(worst).sort((a, b) => worst[b] - worst[a]).map(t => NAMES[t] + ': ' + worst[t]);
+    p.textContent = parts.length ? 'Missed by topic. ' + parts.join(', ') + '.' : 'No misses in this round.';
+    const act = document.createElement('div'); act.className = 'act';
+    if (roundMissed.length) { const r = document.createElement('button'); r.type = 'button'; r.className = 'btn'; r.textContent = 'Retry the ' + roundMissed.length + ' I missed'; const again = shuffle(roundMissed); r.addEventListener('click', () => start(again)); act.append(r); }
+    const n = document.createElement('button'); n.type = 'button'; n.className = 'btn alt'; n.textContent = 'Quick 15'; n.addEventListener('click', () => { active = 'q15'; start(SETS[1][2]()); }); act.append(n);
+    d.replaceChildren(h, p, act); drawChips();
+  }
+
+  $('check').addEventListener('click', grade);
+  $('next').addEventListener('click', () => { pos++; if (pos < queue.length) show(); else finish(); });
+
+  // ---------- Calculations ----------
+  const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const toInt = o => o[0] * 16777216 + o[1] * 65536 + o[2] * 256 + o[3];
+  const fmt = n => [16777216, 65536, 256, 1].map(d => Math.floor(n / d) % 256).join('.');
+  const maskOf = p => [0, 1, 2, 3].map(i => 256 - 2 ** (8 - Math.min(8, Math.max(0, p - 8 * i)))).join('.');
+  function randIp() { const kind = R(0, 2); return kind === 0 ? [10, R(0, 255), R(0, 255), R(1, 254)] : kind === 1 ? [172, R(16, 31), R(0, 255), R(1, 254)] : [192, 168, R(0, 255), R(1, 254)]; }
+  function solve(ip, p) {
+    const idx = Math.floor((p - 1) / 8), inOct = p - idx * 8, block = 2 ** (8 - inOct), val = ip[idx], start = Math.floor(val / block) * block, size = 2 ** (32 - p), net = Math.floor(toInt(ip) / size) * size;
+    return { idx, inOct, block, val, start, end: start + block - 1, net, bc: net + size - 1 };
+  }
+  const lineStep = (p, s) => '/' + p + ' = ' + (s.idx * 8) + ' + ' + s.inOct + ', so the line is ' + s.inOct + ' bit' + (s.inOct > 1 ? 's' : '') + ' into octet ' + (s.idx + 1) + '. Block size = ' + s.block + '.';
+  const roundStep = s => 'In octet ' + (s.idx + 1) + ', ' + s.val + ' falls in the block ' + s.start + ' to ' + s.end + '.';
+  const groups = [
+    ['network', 'Network', () => { const ip = randIp(), p = R(17, 30), s = solve(ip, p); return { data: { ip: ip.join('.'), p }, text: 'What is the network address of ' + ip.join('.') + ' /' + p + '?', fields: [['Network address', fmt(s.net)]], steps: [lineStep(p, s), roundStep(s), 'Copy octets left of the line, use ' + s.start + ' in octet ' + (s.idx + 1) + ', and 0 in any octet to the right.'] }; }],
+    ['broadcast', 'Broadcast', () => { const ip = randIp(), p = R(17, 30), s = solve(ip, p); return { data: { ip: ip.join('.'), p }, text: 'What is the broadcast address of the subnet containing ' + ip.join('.') + ' /' + p + '?', fields: [['Broadcast address', fmt(s.bc)]], steps: [lineStep(p, s), roundStep(s), 'Copy octets left of the line, use ' + s.end + ' in octet ' + (s.idx + 1) + ', and 255 in any octet to the right.'] }; }],
+    ['range', 'Usable range', () => { const ip = randIp(), p = R(17, 30), s = solve(ip, p); return { data: { ip: ip.join('.'), p }, text: 'What is the usable address range for ' + ip.join('.') + ' /' + p + '?', fields: [['First usable', fmt(s.net + 1)], ['Last usable', fmt(s.bc - 1)]], steps: [lineStep(p, s), roundStep(s), 'Network is ' + fmt(s.net) + ' and broadcast is ' + fmt(s.bc) + '.', 'First usable = network + 1. Last usable = broadcast - 1.'] }; }],
+    ['hosts', 'Hosts', () => { const p = R(18, 30), h = 32 - p; return { data: { p }, text: 'How many usable hosts does a /' + p + ' subnet have?', fields: [['Usable hosts', String(2 ** h - 2)]], steps: ['Host bits = 32 - ' + p + ' = ' + h + '.', '2^' + h + ' - 2 = ' + (2 ** h - 2) + '.'] }; }],
+    ['mask', 'Mask', () => { const p = R(17, 30), toMask = R(0, 1) === 0, m = maskOf(p); const inOct = p - Math.floor((p - 1) / 8) * 8, oct = Math.floor((p - 1) / 8) + 1, value = 256 - 2 ** (8 - inOct); const steps = ['/' + p + ' = ' + ((oct - 1) * 8) + ' + ' + inOct + ', so octet ' + oct + ' has ' + inOct + ' network bit' + (inOct > 1 ? 's' : '') + '.', inOct + ' bit' + (inOct > 1 ? 's' : '') + ' in one octet has the value ' + value + '. Octets before it are 255, and octets after it are 0.', m + ' is /' + p + '.']; return toMask ? { data: { p }, text: 'Write /' + p + ' as a subnet mask.', fields: [['Subnet mask', m]], steps } : { data: { p }, text: 'What is the prefix length of ' + m + '?', fields: [['Prefix', '/' + p]], steps }; }],
+    ['need', 'Mask for N hosts', () => { const n = R(3, 2000); let h = 2; while (2 ** h - 2 < n) h++; return { data: { n }, text: 'Which prefix gives the smallest subnet for at least ' + n + ' hosts?', fields: [['Prefix', '/' + (32 - h)]], steps: ['2^' + (h - 1) + ' - 2 = ' + (2 ** (h - 1) - 2) + ' is too few.', '2^' + h + ' - 2 = ' + (2 ** h - 2) + ' is enough, so ' + h + ' host bits.', 'Prefix = 32 - ' + h + ' = ' + (32 - h) + '.'] }; }],
+    ['subnets', 'Subnets', () => { const p1 = [16, 20, 22, 24][R(0, 3)], p2 = p1 + R(2, 6); return { data: { p1, p2 }, text: 'A /' + p1 + ' network is subnetted with a /' + p2 + ' mask. How many subnets are created?', fields: [['Subnets', String(2 ** (p2 - p1))]], steps: ['Borrowed bits = ' + p2 + ' - ' + p1 + ' = ' + (p2 - p1) + '.', '2^' + (p2 - p1) + ' = ' + (2 ** (p2 - p1)) + '. There is no minus 2 for subnets.'] }; }],
+    ['v6', 'IPv6 subnets', () => { const p = [48, 52, 56, 60][R(0, 3)]; return { data: { p }, text: 'How many /64 subnets fit in a /' + p + '?', fields: [['Subnets', String(2 ** (64 - p))]], steps: ['Subnet bits = 64 - ' + p + ' = ' + (64 - p) + '.', '2^' + (64 - p) + ' = ' + (2 ** (64 - p)).toLocaleString('en-US') + '.'] }; }],
+    ['ack', 'TCP ACK', () => { const seq = R(1, 90) * 100 + 1, bytes = R(2, 14) * 100; return { data: { seq, bytes }, text: 'A TCP segment has sequence number ' + seq + ' and carries ' + bytes + ' bytes. What is the acknowledgment number?', fields: [['ACK number', String(seq + bytes)]], steps: ['ACK = sequence + bytes received.', seq + ' + ' + bytes + ' = ' + (seq + bytes) + ', the next byte expected.'] }; }]
+  ];
+  const clean = v => v.trim().toLowerCase().replace(/[\s,]/g, '').replace(/^\//, '');
+  let drillKind = 'network', drill = null, inputs = [];
+
+  function drawDrillChips() {
+    $('dchips').replaceChildren(...groups.map(([id, label]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = label; b.setAttribute('aria-pressed', String(id === drillKind));
+      b.addEventListener('click', () => { drillKind = id; drawDrillChips(); newDrill(); });
+      return b;
+    }));
+  }
+  function newDrill() {
+    drill = groups.find(g => g[0] === drillKind)[2]();
+    $('dtext').textContent = drill.text; $('dfb').hidden = true; $('dsteps').hidden = true;
+    inputs = drill.fields.map(([label]) => { const i = document.createElement('input'); i.type = 'text'; i.spellcheck = false; i.setAttribute('autocapitalize', 'off'); i.setAttribute('aria-label', label); return i; });
+    $('dfields').replaceChildren(...inputs.map((input, n) => { const l = document.createElement('label'), s = document.createElement('span'); l.className = 'field'; s.textContent = drill.fields[n][0]; l.append(s, input); return l; }));
+  }
+  function showSteps() { $('dsteps').replaceChildren(...drill.steps.map(t => { const li = document.createElement('li'); li.textContent = t; return li; })); $('dsteps').hidden = false; }
+  $('dform').addEventListener('submit', e => {
+    e.preventDefault();
+    let good = 0; const wanted = [];
+    inputs.forEach((input, n) => { const ans = drill.fields[n][1], ok = clean(input.value) === clean(ans); input.classList.toggle('ok', ok); input.classList.toggle('bad', !ok); if (ok) good++; else wanted.push(drill.fields[n][0] + ': ' + ans); });
+    const m = document.createElement('b'), all = good === inputs.length; m.className = all ? 'y' : 'n'; m.textContent = all ? 'Correct. ' : 'Answer. ';
+    $('dfb').replaceChildren(m, all ? 'Press New numbers and do another.' : wanted.join(', ')); $('dfb').hidden = false; showSteps();
+  });
+  $('dshow').addEventListener('click', showSteps);
+  $('dnew').addEventListener('click', newDrill);
+
+  window.ExamPrep = { QS, groups, NONE };
+  drawChips(); start(shuffle(QS)); drawDrillChips(); newDrill();
+})();
+</script>
+</body>
+</html>
